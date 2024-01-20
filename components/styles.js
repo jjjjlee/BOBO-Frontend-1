@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { View, Image,Text } from 'react-native';
+import { View, Image,Text,TextInput, TouchableOpacity } from 'react-native';
 import Constants from 'expo-constants';
 
 const StatusBarHeight = Constants.statusBarHeight;
@@ -7,13 +7,14 @@ const StatusBarHeight = Constants.statusBarHeight;
 //colors
 export const Colors = {
     primary:'#ffffff',
-    secondary: 'E5E7EB',
+    secondary: '#E5E7EB',
     tertiary:'#eb4034',
-    darklight:'#34c6eb',
+    darklight:'#332d2c',
     brand:'#eb8934',
     orange:'#eb8934',
     green:'#34eb65',
     red:'#eb3434',
+    holderwords : '#6b6b69'
 };
 
 const {primary, secondary, tertiary,darklight, brand, orange, green, red} = Colors;
@@ -37,9 +38,67 @@ export const PageLogo = styled.Image`
 `
 
 export const PageTitle = styled.Text`
-    font-size :30px;
+    font-size :60px;
     text-align : center;
     font-weight : bold;
     color : ${brand};
     padding : 10px;
+`
+export const SubTitle = styled.Text`
+    padding : 15px;
+    font-size : 20px;
+    text-align : center;
+    font-weight : bold;
+    color : ${darklight};
+`
+
+export const StyledFormArea = styled.View`
+    width:90%;
+`
+
+export const StyledTextInput = styled.TextInput`
+    background-color : ${secondary};
+    padding : 15px;
+    padding-left : 70px;
+    padding-right : 55px;
+    border-radius : 10px;
+    font-size : 16px;
+    height : 60px;
+    margin-vertical:3px;
+    margin-bottom : 10px;
+    color : ${darklight};
+`
+
+export const StyledInputLabel = styled.Text`
+    color : ${darklight};
+    font-size : 13px;
+    text-align : left;
+`
+
+export const LeftIcon = styled.View`
+    left : 15px;
+    top : 33px;
+    position : absolute;
+    z-index : 1;
+`
+
+export const RightIcon = styled.TouchableOpacity`
+    left : 15px;
+    top : 38px;
+    position : absolute;
+    z-index : 1;
+`
+
+export const StyledButton = styled.TouchableOpacity`
+    padding : 15px;
+    background-color : ${brand};
+    justify-content : center;
+    border-radius : 5px;
+    margin-vertical: 5px;
+    height : 69px;
+`
+
+export const ButtonText = styled.Text`
+    color : ${primary};
+    font-size : 16px;
 `
