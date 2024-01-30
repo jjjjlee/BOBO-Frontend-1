@@ -11,49 +11,95 @@ export const Colors = {
     tertiary:'#eb4034',
     darklight:'#332d2c',
     brand:'#eb8934',
-    orange:'#eb8934',
+    orange:"rgba(255, 107, 0, 1)",
     green:'#34eb65',
     red:'#eb3434',
-    holderwords : '#6b6b69'
+    holderwords : '#6b6b69',
+    white:'#ffffff',
+    transparent :'rgba(0, 0, 0, 0)',
+    mainbackground : "#FEFCFA"
 };
 
-const {primary, secondary, tertiary,darklight, brand, orange, green, red} = Colors;
+const {primary, secondary, tertiary,darklight, brand, orange, green, red,mainbackground} = Colors;
 
-export const StyledContainer = styled.View`
+// Welcome Page
+export const WelcomeLogoContainer = styled.View`
     flex: 1;
-    padding: 25px;
-    padding-top:${StatusBarHeight + 20}px;
-    backgrouund-color:${primary};
+    padding-top:${StatusBarHeight + 35}px;
+`
+export const WelcomeTextContainer = styled.View`
+    flex: 1;
+`
+export const WelcomeTitleBig = styled.Text`
+    font-size :30px;
+    text-align : center;
+    font-weight : bold;
+    color : ${primary};
+    padding : 10px;
+`
+export const WelcomeTitleSmall = styled.Text`
+    font-size :15px;
+    text-align : center;
+    font-weight : bold;
+    color : ${primary};
+    padding : 0px;
+`
+export const WelcomeButtonContainer = styled.View`
+    flex :5;
+    justifyContent: flex-end;
+    padding-bottom :60px;
 `
 
-export const InnerContainer = styled.View`
-    flex : 1;
-    width:100%;
+
+// Login Page
+export const LoginContainer = styled.View`
+    flex: 1;
+    padding-top:${StatusBarHeight + 35}px;
     align-items : center;
 `
 
-export const PageLogo = styled.Image`
-    width:70px;
-    height:70px;
+export const LoginLogoContainer = styled.View`
+    flex: 1;
+    align-items : center;
+    margin-top : 30px;
 `
 
-export const PageTitle = styled.Text`
-    font-size :60px;
+export const LoginFormContainer = styled.View`
+    flex : 2.5;
+    width:100%;
+    align-items : center;
+    justifyContent: flex-top;
+`
+
+export const PageLogo = styled.Image   `
+    width:70px;
+    height:70px;
+    transform : scale(1.6);
+`
+
+export const LoginTitle = styled.Text`
+    font-size :30px;
     text-align : center;
     font-weight : bold;
-    color : ${brand};
-    padding : 10px;
+    color : ${darklight};
+    padding : 5px;
+    margin-top : 40px;
 `
-export const SubTitle = styled.Text`
-    padding : 15px;
+export const LoginSubTitle = styled.Text`
+    padding : 0px;
     font-size : 20px;
     text-align : center;
     font-weight : bold;
     color : ${darklight};
 `
+export const LoginButtonContainer = styled.View`
+    flex : 1;
+    width : 80%;
+    margin-top:30;
+`
 
 export const StyledFormArea = styled.View`
-    width:90%;
+    width:80%;
 `
 
 export const StyledTextInput = styled.TextInput`
@@ -64,7 +110,7 @@ export const StyledTextInput = styled.TextInput`
     border-radius : 10px;
     font-size : 16px;
     height : 60px;
-    margin-vertical:3px;
+    margin-vertical:20px;
     margin-bottom : 10px;
     color : ${darklight};
 `
