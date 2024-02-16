@@ -7,6 +7,7 @@ export const navOptions = (nav)=>{
         headerStyle:{
             backgroundColor : '#0f172a'
         },
+        /*
         headerRight: () => (
             <Ionicons
                 name = "menu"
@@ -18,5 +19,6 @@ export const navOptions = (nav)=>{
         headerLeft: () => (
             <Text style = {{color:'white', paddingLeft:5}}>Logo</Text>
         )
+        */
     }
 }
