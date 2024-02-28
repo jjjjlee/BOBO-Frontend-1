@@ -1,11 +1,12 @@
 import { FlatList, RefreshControl, Text, View } from "react-native";
-import DoglistItem from "./doglist-item";
+import CandidateListItem from "./candidatelist-item";
 
-const DogList = ({data,type,user}) => {
+
+const CandidateList = ({data,type}) => {
     const renderItem =({item}) =>{
-        return <DoglistItem id = {item.id} name={item.name} headimg = {item.headimg} age = {item.age} species = {item.species} 
-        weight = {item.weight} vaccined = {item.vaccined} currentloc = {item.currentloc} description={item.description} adoptloc={item.adoptloc} 
-        adoptdate={item.adoptdate} likecount={item.likecount} update_status = {item.update_status} type={type} user={user}/>
+        return <CandidateListItem id = {item.id} name={item.name} headimg = {item.headimg} age = {item.age}  currentloc = {item.currentloc} 
+        description={item.description} currentloc_detail={item.currentloc_detail} email = {item.email} warning={item.warning} type={type}
+        phone = {item.phone} rating={item.rating} refund_status = {item.refund_status}/>
     }
     return(
         <View>
@@ -25,4 +26,4 @@ const DogList = ({data,type,user}) => {
     );
 }
 
-export default DogList;
+export default CandidateList;
