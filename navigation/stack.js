@@ -1,6 +1,11 @@
 // Import Screens
 import Welcome from '../screens/welcom';
 import Login from '../screens/login';
+import Register from '../screens/register';
+import PostScreen from '../screens/postscreen';
+import Setting from '../screens/usersetting';
+import Adoptformik from '../screens/adoption';
+import Report from '../screens/report';
 import CandidateScreen from '../screens/candidatescreen';
 import RefundPreviewScreen from '../screens/refund-preview-screen';
 import TrackPreviewScreen from '../screens/track-preview-screen';
@@ -31,6 +36,11 @@ export const InitialStack = ()=>{
         <Stack.Navigator screenOptions={navOptions}>
             <Stack.Screen name = "Welcome" component ={Welcome} options={{headerShown:false}}/>
             <Stack.Screen name = "Login" component = {Login}/>
+            <Stack.Screen name = "PostScreen" component = {PostScreen}/>   
+            <Stack.Screen name = 'Register' component={Register}/>         
+            <Stack.Screen name = 'Setting' component={Setting}/>
+            <Stack.Screen name = 'Adoptformik' component={Adoptformik}/>
+            <Stack.Screen name = 'Report' component={Report}/>
             <Stack.Screen name = "PostTab" component = {PostTab}/>
             <Stack.Screen name = "Candidates" component = {CandidateScreen}/>
             <Stack.Screen name = "RefundPreview" component = {RefundPreviewScreen}/>
