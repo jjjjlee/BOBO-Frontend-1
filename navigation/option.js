@@ -1,24 +1,28 @@
 import { Ionicons } from "@expo/vector-icons"
-import { Text } from "react-native"
+import { Image, Text, View } from "react-native"
 
+//screenOptions={{headerTitleAlign: 'left', shadowColor: 'transparent', headerStyle: {height: 200}}}
 export const navOptions = (nav)=>{
     return{
-        headerTintColor : '#cbd5e1',
+        headerTintColor : '#000000',
+        
         headerStyle:{
-            backgroundColor : '#0f172a'
-        },
-        /*
+            backgroundColor : '#fff',
+            height:80
+        }
+    }
+}
+
+export const TinderNavOption = (nav)=>{
+    return{
         headerRight: () => (
             <Ionicons
-                name = "menu"
+                name = "heart"
                 size = {32}
-                color = "white"
-                onPress = {() =>nav.toggleDrawer()}
+                color = "#ED7422"
+                onPress = {() =>nav.navigate("UserLike")}
             />
         ),
-        headerLeft: () => (
-            <Text style = {{color:'white', paddingLeft:5}}>Logo</Text>
-        )
-        */
-    }
+        headerTitle:()=><View style = {{left:-42,top:-3,transform: [{scale:0.025}]}}><Image  resizeMode="contain" source={require('./../assets/bobo_logo3.png')}/></View>
+        }
 }
