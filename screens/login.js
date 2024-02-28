@@ -1,7 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Text, View, StyleSheet } from 'react-native';
-
 // formik
 import { Formik } from 'formik';
 
@@ -27,18 +26,20 @@ import {
 
 //Buttons
 import { LongThinButton,CircleButton } from '../components/buttons';
+import { useNavigation } from '@react-navigation/native';
 
 //colors
 const {brand, darklight,holderwords, primary, orange} = Colors;
 
 const Login = ()=>{
+    const navigation = useNavigation();
     return (
         <LoginContainer>
             <LoginLogoContainer>
-            <StatusBar style='dark'/>
-            <PageLogo resizeMode = 'cover' source={require('./../assets/bobo-logo2.png')}/>
-            <LoginTitle>歡迎回來</LoginTitle>
-            <LoginSubTitle>輸入您的資訊以繼續</LoginSubTitle>
+              <StatusBar style='dark'/>
+              <PageLogo resizeMode = 'cover' source={require('./../assets/bobo-logo2.png')}/>
+              <LoginTitle>歡迎回來</LoginTitle>
+              <LoginSubTitle>輸入您的資訊以繼續</LoginSubTitle>
             </LoginLogoContainer>
             <LoginFormContainer>
                 <Formik
@@ -93,9 +94,9 @@ const Login = ()=>{
                         <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
                     </View>
                     <View style={styles.rowContainer}>
-                        <CircleButton onPress={()=>{}} logoName = "logo-google" color = "orange"/>
-                        <CircleButton onPress={()=>{}} logoName = "logo-apple" color = "orange"/>
-                        <CircleButton onPress={()=>{}} logoName = "logo-facebook" color = "orange"/>
+                        <CircleButton onPress={()=>navigation.navigate("Tinder")} logoName = "logo-google" color = "orange"/>
+                        <CircleButton onPress={()=>navigation.navigate("UserTrack")} logoName = "logo-apple" color = "orange"/>
+                        <CircleButton onPress={()=>navigation.navigate("TrackPreview")} logoName = "logo-facebook" color = "orange"/>
                     </View>
                 </LoginButtonContainer>
             </LoginFormContainer>

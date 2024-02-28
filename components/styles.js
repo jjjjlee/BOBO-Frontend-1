@@ -62,7 +62,7 @@ export const LoginContainer = styled.View`
 export const LoginLogoContainer = styled.View`
     flex: 1;
     align-items : center;
-    margin-top : 30px;
+    margin-top : 0px;
 `
 
 export const LoginFormContainer = styled.View`
