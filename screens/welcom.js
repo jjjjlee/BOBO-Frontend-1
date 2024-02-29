@@ -37,6 +37,7 @@ const Welcome = ()=>{
             <WelcomeButtonContainer>
                 <LongThinButton onPress={()=>navigation.navigate("Login")} title="註冊新帳號" backgroundColor = {orange}/>
                 <LongThinButton onPress={()=>navigation.navigate("HomeTab")} title="我已經有帳號" backgroundColor = {transparent}/>
+
             </WelcomeButtonContainer>
         </ImageBackground>
     );

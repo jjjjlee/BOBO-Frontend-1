@@ -17,7 +17,8 @@ export const Colors = {
     holderwords : '#6b6b69',
     white:'#ffffff',
     transparent :'rgba(0, 0, 0, 0)',
-    mainbackground : "#FEFCFA"
+    mainbackground : "#FEFCFA",
+    gray:'#F5F5F5',
 };
 
 const {primary, secondary, tertiary,darklight, brand, orange, green, red,mainbackground} = Colors;
@@ -95,7 +96,7 @@ export const LoginSubTitle = styled.Text`
 export const LoginButtonContainer = styled.View`
     flex : 1;
     width : 80%;
-    margin-top:30;
+    margin-top:30px;
 `
 
 export const StyledFormArea = styled.View`
@@ -147,4 +148,124 @@ export const StyledButton = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
     color : ${primary};
     font-size : 16px;
+`
+//個人資訊大容器
+export const UserSettingContainer = styled.View`
+    flex : 1 ;
+    align-items : center;
+    justifyContent: flex-top;
+`
+
+
+//使用者介面的橘色文字
+export const Lefttextorange = styled.Text`
+    color : ${orange};
+    font-size : 18px;
+    font-weight: bold;
+    text-align : left;
+    padding: 15px;
+    position: absolute;
+    
+`
+//個人資訊容器
+export const UserContainer = styled.View`
+    flex : 4;
+    width:100%;
+    align-items : center;
+    justifyContent: flex-top;
+`
+
+//圖片and小聲公
+export const ImageContainer = styled.View`
+    flex : 1;
+    width:100%;
+    align-items : center;
+    justifyContent: flex-top;
+`
+
+//使用者圖片
+export const  Headsticker= styled.Image   `
+    width:110px;
+    height:110px;
+    justify-content : center;
+    margin-vertical: 20px
+
+`
+//使用者介面的橘色文字
+export const UpperLefttextorange = styled.Text`
+    color : ${orange};
+    font-size : 14px;
+    text-align : left;
+    padding: 12px;
+    position: absolute;
+    
+    bottom: 0;
+`
+
+
+
+
+//個人資訊
+export const UserTextInput = styled.TextInput`
+    background-color : ${'white'};
+    padding-left : 60px;
+    padding-right : 20px;
+    text-align:right;
+    font-size : 18px;
+    color : ${'gray'};   
+    
+`
+export const UserFormArea = styled.View`
+    flex:1;
+    left:7%;
+    bottom:8%;
+    justify-content : center;
+`
+
+
+export const Labeltext= styled.Text`
+    font-size : 18px;
+    text-align : left;
+    padding: 8px;
+    border-bottom-width:0.5px;
+    border-bottom-color:gray;
+    background-color : ${'white'};
+`
+export const TOPLabeltext= styled.Text`
+    font-size : 18px;
+    text-align : center;
+    padding: 8px;
+   
+    border-bottom-width:0.5px;
+    border-bottom-color:gray;
+    borderTopLeftRadius: 10px;
+    background-color : ${'white'};
+`
+
+export const BottomLabeltext= styled.Text`
+    font-size : 18px;
+    text-align : left;
+    padding: 8px;
+    
+    borderBottomLeftRadius: 10px;
+    background-color : ${'white'};
+`
+
+//個人資訊
+export const UserBottomTextInput = styled.TextInput`
+    background-color : ${'white'};
+    padding-left : 60px;
+    padding-right : 20px;
+    text-align:right;
+    font-size : 18px;
+    color : ${'gray'};   
+`
+
+
+export const UpperLefttext = styled.Text`
+    font-size : 14px;
+    text-align : left;
+    padding: 12px;
+    position: absolute;
+    bottom: 0;
 `

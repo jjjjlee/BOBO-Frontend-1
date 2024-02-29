@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+
 // formik
 import { Formik } from 'formik';
 
@@ -18,32 +19,35 @@ import {
     LoginSubTitle,
     StyledFormArea,
     LeftIcon,
-    StyledInputLabel,
+    
     StyledTextInput,
-    RightIcon,
+    
     Colors,
 } from './../components/styles'
 
 //Buttons
 import { LongThinButton,CircleButton } from '../components/buttons';
+import { navOptions } from '../navigation/option';
+
+// Import Navigation
 import { useNavigation } from '@react-navigation/native';
 
 //colors
 const {brand, darklight,holderwords, primary, orange} = Colors;
 
-const Login = ()=>{
+const Register = ()=>{
     const navigation = useNavigation();
     return (
         <LoginContainer>
             <LoginLogoContainer>
-              <StatusBar style='dark'/>
-              <PageLogo resizeMode = 'cover' source={require('./../assets/bobo-logo2.png')}/>
-              <LoginTitle>歡迎回來</LoginTitle>
-              <LoginSubTitle>輸入您的資訊以繼續</LoginSubTitle>
+            <StatusBar style='dark'/>
+            <PageLogo resizeMode = 'cover' source={require('./../assets/bobo-logo2.png')}/>
+            <LoginTitle>歡迎加入</LoginTitle>
+            <LoginSubTitle>輸入您的資訊以繼續</LoginSubTitle>
             </LoginLogoContainer>
             <LoginFormContainer>
                 <Formik
-                  initialValues={{email: '', password: ''}}
+                  initialValues={{email: '', password: '',passwordagain:''}}
                   validate = {values => {
                     const errors = {};
                     if (!values.email) {
@@ -76,27 +80,35 @@ const Login = ()=>{
                         onChangeText = {handleChange('password')}
                         onBlur = {handleBlur('password')}
                         value = {values.password}
-                        keyboardType = 'email-address'
+                        
                     />
-                    
+                    <MyTextInput 
+                        label = 'Password'
+                        icon = 'lock'
+                        placeholder ='確認密碼'
+                        placeholderTextColor = {holderwords}
+                        onChangeText = {handleChange('passwordagain')}
+                        onBlur = {handleBlur('passwordagain')}
+                        value = {values.passwordagain}
+                        
+                    />
                   </StyledFormArea>)}
                 </Formik>
-                <View style = {{width:"80%",alignItems : 'flex-end'}}>
-                    <Button onPress = {()=>{}} title = "忘記密碼?"  color = {orange} />
-                </View>
+                
                 <LoginButtonContainer>
-                    <LongThinButton onPress = {()=>{}} title = "登入" backgroundColor = {orange}/>
+                    <LongThinButton onPress = {()=>{}} title = "註冊" backgroundColor = {orange}/>
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop:20}}>
-                        <View style={{flex: 1, height: 2, backgroundColor:'black'}} />
+                        <View style={{flex: 1, height: 2, backgroundColor:'orange'}} />
                         <View>
-                            <Text style={{textAlign: 'center', paddingHorizontal:8}}>或使用其他方式登入</Text>
+                            <Text style={{textAlign: 'center', paddingHorizontal:8,color:'orange'}}>或使用其他方式註冊</Text>
                         </View>
-                        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+                        <View style={{flex: 1, height: 2, backgroundColor: 'orange'}} />
                     </View>
                     <View style={styles.rowContainer}>
-                        <CircleButton onPress={()=>navigation.navigate("Report")} logoName = "logo-google" color = "orange"/>
-                        <CircleButton onPress={()=>navigation.navigate("Setting")} logoName = "logo-apple" color = "orange"/>
-                        <CircleButton onPress={()=>navigation.navigate("Candidates")} logoName = "logo-facebook" color = "orange"/>
+                        <CircleButton onPress={()=>navigation.navigate("Setting")} logoName = "logo-google" color = "orange"/>
+
+                        <CircleButton onPress={()=>navigation.navigate("Adoptformik")} logoName = "logo-apple" color = "orange"/>
+                        <CircleButton onPress={()=>navigation.navigate("Report")} logoName = "logo-facebook" color = "orange"/>
                     </View>
                 </LoginButtonContainer>
             </LoginFormContainer>
@@ -126,4 +138,4 @@ const styles = StyleSheet.create({
 
 
 
-export default Login;
+export default Register;
