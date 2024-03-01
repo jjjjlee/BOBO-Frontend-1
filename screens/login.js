@@ -1,6 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, StyleSheet } from 'react-native';
+import { Button, Text, View, StyleSheet ,KeyboardAvoidingView,ScrollView} from 'react-native';
 
 // formik
 import { Formik } from 'formik';
@@ -33,6 +33,8 @@ const {brand, darklight,holderwords, primary, orange} = Colors;
 
 const Login = ()=>{
     return (
+      
+        <ScrollView style={{flex:1}}>
         <LoginContainer>
             <LoginLogoContainer>
             <StatusBar style='dark'/>
@@ -86,11 +88,11 @@ const Login = ()=>{
                 <LoginButtonContainer>
                     <LongThinButton onPress = {()=>{}} title = "登入" backgroundColor = {orange}/>
                     <View style={{flexDirection: 'row', alignItems: 'center', marginTop:20}}>
-                        <View style={{flex: 1, height: 2, backgroundColor:'black'}} />
+                        <View style={{flex: 1, height: 2, backgroundColor:orange}} />
                         <View>
-                            <Text style={{textAlign: 'center', paddingHorizontal:8}}>或使用其他方式登入</Text>
+                            <Text style={{textAlign: 'center', paddingHorizontal:8,color:orange}}>或使用其他方式登入</Text>
                         </View>
-                        <View style={{flex: 1, height: 2, backgroundColor: 'black'}} />
+                        <View style={{flex: 1, height: 2, backgroundColor: orange}} />
                     </View>
                     <View style={styles.rowContainer}>
                         <CircleButton onPress={()=>{}} logoName = "logo-google" color = "orange"/>
@@ -100,6 +102,8 @@ const Login = ()=>{
                 </LoginButtonContainer>
             </LoginFormContainer>
         </LoginContainer>
+        </ScrollView>
+        
 
     );
 }
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       paddingHorizontal: 20, 
-      marginTop: 40, 
+      marginTop: 30, 
     },
   });
 

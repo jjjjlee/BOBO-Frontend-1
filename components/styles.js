@@ -165,6 +165,7 @@ export const Lefttextorange = styled.Text`
     text-align : left;
     padding: 15px;
     position: absolute;
+    bottom:0;
     
 `
 //個人資訊容器
