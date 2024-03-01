@@ -1,6 +1,6 @@
 import React,{useState,useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View , TouchableOpacity, SafeAreaView,ScrollView, Dimensions,Modal,TextInput} from 'react-native';
+import { Text, View , TouchableOpacity, SafeAreaView,Image,ScrollView, Dimensions,Modal,TextInput} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
@@ -136,12 +136,12 @@ const Adoptformik = ()=>{
     const handleSaveText7 = () => {handleCloseModal7();}; //API
 
 
-
+    
 
 
     return(
         <SafeAreaView style={{ flex: 1 }} behavior="padding">
-            <ScrollView contentContainerStyle={{ flexGrow: 1, height: '200%'}}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, height: '205%'}}>
 
             <View style={{ width:'100%', height: calculateAbsoluteheight(12),backgroundColor:orange,flexDirection:'row',flexDirection:'row',justifyContent:'space-between'}}>
                 <View style={{justifyContent:'center'}}>
@@ -165,10 +165,10 @@ const Adoptformik = ()=>{
                 <StatusBar style='dark'/>                                              
                 <Headsticker resizeMode = 'cover' source={require('./../assets/Frame1.png')}/>
             </ImageContainer>
-
-            <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(30),left:'5%'}}>生日</Text>
+            <View style={{flex:10}}>
+            <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(1)}}>生日</Text>
             
-                <View style={{flexDirection:'row',justifyContent: 'center',bottom:calculateAbsoluteheight(40),left:'3%'}}>
+                <View style={{flexDirection:'row',justifyContent: 'center',left:'3%',top:calculateAbsoluteheight(5)}}>
                     <TouchableOpacity 
                         style={{
                             backgroundColor:'#fff',
@@ -192,8 +192,8 @@ const Adoptformik = ()=>{
                     </TouchableOpacity>
                 </View>
 
-                <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(40),left:'5%'}}>住房狀況</Text>
-                <View style={{flexDirection:'row',justifyContent: 'center',bottom:calculateAbsoluteheight(36),left:'3%',zIndex:999}}>
+                <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(11.5)}}>住房狀況</Text>
+                <View style={{flexDirection:'row',justifyContent: 'center',left:'3%',top:calculateAbsoluteheight(9),zIndex:999}}>
                     <TouchableOpacity 
                         style={{
                             backgroundColor:'#fff',
@@ -221,8 +221,8 @@ const Adoptformik = ()=>{
                     </TouchableOpacity>             
                 </View>
 
-                <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(50),left:'5%'}}>家庭成員數量</Text>
-                <View style={{flexDirection:'row',justifyContent: 'center',bottom:calculateAbsoluteheight(32),left:'3%',zIndex:500}}>
+                <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(21.5)}}>家庭成員數量</Text>
+                <View style={{flexDirection:'row',justifyContent: 'center',left:'3%',top:calculateAbsoluteheight(13.5),zIndex:500}}>
                     <TouchableOpacity 
                         style={{
                             backgroundColor:'#fff',
@@ -248,8 +248,8 @@ const Adoptformik = ()=>{
                     </TouchableOpacity>               
                 </View>
 
-                <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(60),left:'5%'}}>預算</Text>
-                <View style={{flexDirection:'row',justifyContent: 'center',bottom:calculateAbsoluteheight(28),left:'3%',zIndex:300}}>
+                <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(31.5)}}>預算</Text>
+                <View style={{flexDirection:'row',justifyContent: 'center',left:'3%',top:calculateAbsoluteheight(17.5),zIndex:300}}>
                     <TouchableOpacity 
                         style={{
                             backgroundColor:'#fff',
@@ -277,8 +277,8 @@ const Adoptformik = ()=>{
                     </TouchableOpacity>
                 </View>
                             
-                <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(70),left:'5%'}}>生活方式</Text>
-                <TouchableOpacity onPress={handleOpenModal} style={{ padding: 20, backgroundColor: '#fff',bottom:calculateAbsoluteheight(24),width:'80%',height:calculateAbsoluteheight(12),left:'11.5%',borderRadius:20}}>
+                <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(41.5)}}>生活方式</Text>
+                <TouchableOpacity onPress={handleOpenModal} style={{ padding: 20, backgroundColor: '#fff',width:'80%',top:calculateAbsoluteheight(21.5),height:calculateAbsoluteheight(12),left:'11.5%',borderRadius:20}}>
                     <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text}</Text>
                 </TouchableOpacity>
       
@@ -303,8 +303,8 @@ const Adoptformik = ()=>{
                     </View>
                 </Modal>
 
-      <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(86),left:'5%'}}>寵物經驗</Text>
-      <TouchableOpacity onPress={handleOpenModal2} style={{ padding: 20, backgroundColor: '#fff',bottom:calculateAbsoluteheight(20),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
+      <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(58)}}>寵物經驗</Text>
+      <TouchableOpacity onPress={handleOpenModal2} style={{ padding: 20, backgroundColor: '#fff',top:calculateAbsoluteheight(26),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
             <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text2}</Text>
       </TouchableOpacity>
       
@@ -329,8 +329,8 @@ const Adoptformik = ()=>{
         </View>
       </Modal>
 
-      <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(102),left:'5%'}}>照顧計畫</Text>
-      <TouchableOpacity onPress={handleOpenModal3} style={{ padding: 20, backgroundColor: '#fff',bottom:calculateAbsoluteheight(16),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
+      <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(74.5)}}>照顧計畫</Text>
+      <TouchableOpacity onPress={handleOpenModal3} style={{ padding: 20, backgroundColor: '#fff',top:calculateAbsoluteheight(30.5),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
         <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text3}</Text>
       </TouchableOpacity>
       
@@ -355,8 +355,8 @@ const Adoptformik = ()=>{
         </View>
       </Modal>
 
-      <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(118),left:'5%'}}>領養目的</Text>
-      <TouchableOpacity onPress={handleOpenModal4} style={{ padding: 20, backgroundColor:'#fff',bottom:calculateAbsoluteheight(12),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
+      <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(91)}}>領養目的</Text>
+      <TouchableOpacity onPress={handleOpenModal4} style={{ padding: 20, backgroundColor:'#fff',top:calculateAbsoluteheight(35),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
         <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text4}</Text>
       </TouchableOpacity>
       
@@ -381,8 +381,8 @@ const Adoptformik = ()=>{
         </View>
       </Modal>
 
-      <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(134),left:'5%'}}>應急計畫</Text>
-      <TouchableOpacity onPress={handleOpenModal5} style={{ padding: 20, backgroundColor: '#fff',bottom:calculateAbsoluteheight(8),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
+      <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(107)}}>應急計畫</Text>
+      <TouchableOpacity onPress={handleOpenModal5} style={{ padding: 20, backgroundColor: '#fff',top:calculateAbsoluteheight(39),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
         <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text5}</Text>
       </TouchableOpacity>
       <Modal
@@ -406,8 +406,8 @@ const Adoptformik = ()=>{
         </View>
       </Modal>
 
-      <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(150),left:'5%'}}>經濟能力</Text>
-      <TouchableOpacity onPress={handleOpenModal6} style={{ padding: 20, backgroundColor: '#fff',bottom:calculateAbsoluteheight(4),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
+      <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(123)}}>經濟能力</Text>
+      <TouchableOpacity onPress={handleOpenModal6} style={{ padding: 20, backgroundColor: '#fff',top:calculateAbsoluteheight(43),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
         <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text6}</Text>
       </TouchableOpacity>
       <Modal
@@ -431,8 +431,8 @@ const Adoptformik = ()=>{
         </View>
       </Modal>
 
-        <Text style={{fontSize:20,textAlign:'left',position:'absolute',top:calculateAbsoluteheight(166),left:'5%'}}>經濟狀況</Text>
-            <TouchableOpacity onPress={handleOpenModal7} style={{ padding: 20, backgroundColor: '#fff',bottom:calculateAbsoluteheight(0),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
+        <Text style={{fontSize:20,textAlign:'left',position:'absolute',left:'5%',top:calculateAbsoluteheight(139)}}>經濟狀況</Text>
+            <TouchableOpacity onPress={handleOpenModal7} style={{ padding: 20, backgroundColor: '#fff',top:calculateAbsoluteheight(47),height:calculateAbsoluteheight(12),width:'80%',left:'11.5%',borderRadius:20}}>
                 <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text7}</Text>
             </TouchableOpacity>
 
@@ -456,6 +456,7 @@ const Adoptformik = ()=>{
                     </View>
                 </View>
             </Modal>
+            </View>
 
         </ScrollView>
         </SafeAreaView>
