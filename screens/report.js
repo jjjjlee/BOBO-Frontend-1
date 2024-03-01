@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import { Text, View , TouchableOpacity, Image,Modal,TextInput, Platform } from 'react-native';
+import { Text, View , TouchableOpacity, Image,Modal,TextInput, Platform ,TouchableWithoutFeedback, Keyboard } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
 
@@ -20,6 +20,10 @@ const {holderwords,orange,white} = Colors;
      
     
 const Reporttest = ()=>{
+
+    const handlePressOutside = () => {
+        Keyboard.dismiss(); 
+      };
 
     const [images, setImages] = useState([]);
   
@@ -73,6 +77,9 @@ const Reporttest = ()=>{
                     visible={modalVisible}
                     onRequestClose={handleCloseModal}
                     >
+                    <TouchableWithoutFeedback onPress={handlePressOutside}>
+                    
+                  
                     <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
                         <View style={{ width:'100%', height:'10%',backgroundColor:orange,flexDirection:'row',justifyContent:'center',flexDirection:'row',borderTopLeftRadius:30,borderTopRightRadius:30,top:'30%'}}
                             >
@@ -125,6 +132,7 @@ const Reporttest = ()=>{
 
                         </View>
                     </View>
+                    </TouchableWithoutFeedback>
                 </Modal>
 
 
@@ -134,6 +142,7 @@ const Reporttest = ()=>{
                     visible={modalVisible2}
                     onRequestClose={handleCloseModal2}
                     >
+                    <TouchableWithoutFeedback onPress={handlePressOutside}>
                     <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
                         <View style={{ width:'100%', height:'8%',backgroundColor:orange,flexDirection:'row',justifyContent:'center',flexDirection:'row',borderTopLeftRadius:30,borderTopRightRadius:30,top:'43%'}}
                             >
@@ -178,8 +187,11 @@ const Reporttest = ()=>{
                             
 
                         </View>
+                        
                     </View>
+                    </TouchableWithoutFeedback>
                 </Modal>
+                
         </View>
 
         

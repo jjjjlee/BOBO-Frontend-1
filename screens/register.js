@@ -31,6 +31,7 @@ import { navOptions } from '../navigation/option';
 
 // Import Navigation
 import { useNavigation } from '@react-navigation/native';
+import { ScrollView } from 'react-native-gesture-handler';
 
 //colors
 const {brand, darklight,holderwords, primary, orange} = Colors;
@@ -38,6 +39,9 @@ const {brand, darklight,holderwords, primary, orange} = Colors;
 const Register = ()=>{
     const navigation = useNavigation();
     return (
+      <ScrollView style={{flex:1}}>
+
+      
         <LoginContainer>
             <LoginLogoContainer>
             <StatusBar style='dark'/>
@@ -113,6 +117,7 @@ const Register = ()=>{
                 </LoginButtonContainer>
             </LoginFormContainer>
         </LoginContainer>
+        </ScrollView>
 
     );
 }
@@ -132,7 +137,8 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-between',
       paddingHorizontal: 20, 
-      marginTop: 40, 
+      top:10,
+      
     },
   });
 
