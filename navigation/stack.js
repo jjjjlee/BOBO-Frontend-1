@@ -31,7 +31,7 @@ import { HomeTab } from './bottom-tab';
 const Stack = createStackNavigator();
 
 export const InitialStack = ()=>{
-    
+    const navigation = useNavigation();
     return(
         <Stack.Navigator screenOptions={navOptions}>
             <Stack.Screen name = "Welcome" component ={Welcome} options={{headerShown:false}}/>
