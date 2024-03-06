@@ -18,6 +18,10 @@
     "production": {}
   },
   "submit": {
-    "production": {}
+    "production": {
+      "ios":{
+        "appleID": "r2338229@gmail.com"
+      }
+    }
   }
 }

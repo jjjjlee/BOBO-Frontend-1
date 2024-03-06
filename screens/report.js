@@ -13,12 +13,6 @@ import {
 //colors
 const {holderwords,orange,white} = Colors;
 
-
-
-    
-
-     
-    
 const Reporttest = ()=>{
 
     const handlePressOutside = () => {
@@ -65,10 +59,9 @@ const Reporttest = ()=>{
     const handleSaveText2 = () => {handleCloseModal2();};   //API
 
     return (
-        <View style={{backgroundColor:white,height:'100%',width:'100%'}}>
-            
-                <TouchableOpacity onPress={handleOpenModal} style={{padding: 10, backgroundColor:orange,width:'24%',height:'7%',top:'90%',left:'37%',borderRadius:30}}>
-                    <Text style={{fontSize:18,textAlign:'center',color:white}}>回報</Text>
+        <View style={{position:"absolute",height:'6%',width:'110%',top:"75%"}}>
+                <TouchableOpacity onPress={handleOpenModal} style={{position:"absolute", backgroundColor:orange,width:'24%',height:'100%',top:'0%',left:'37%',borderRadius:30}}>
+                    <Text style={{fontSize:16,textAlign:'center',color:white,marginTop:"15%"}}>回報</Text>
                 </TouchableOpacity>
       
                 <Modal

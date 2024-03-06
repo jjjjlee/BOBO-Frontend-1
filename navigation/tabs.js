@@ -21,24 +21,24 @@ const DUMMY_DATA = [
     id : 1,
     track_item_arr : [
         {
-            id:1,
+            id:"1",
             imgs_arr:[
-                "http://192.168.1.102:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-                "http://192.168.1.102:8000/media/dogs/Jackrussel.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg"
+                "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
+                "http://192.168.1.100:8000/media/dogs/Jackrussel.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg"
             ],
             update_date:"2019-4-4",
             update_text:"Hello this is the first text."
         },
         {
-            id:2,
+            id:"2",
             imgs_arr:[
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg"
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg"
             ],
             update_date:"2019-3-4",
             update_text:"我是影分身之數柴犬"
@@ -46,7 +46,7 @@ const DUMMY_DATA = [
     ],
     dog_info:{
         name:"Alan",
-        headimg:"http://192.168.1.102:8000/media/dogs/golden-retriever1_OzehIoc.jpg",
+        headimg:"http://192.168.1.100:8000/media/dogs/golden-retriever1_OzehIoc.jpg",
         age:'2',
         species:"黃金獵犬",
         weight:"60",
@@ -63,24 +63,24 @@ const DUMMY_DATA = [
     id : 2,
     track_item_arr : [
         {
-            id:1,
+            id:"1",
             imgs_arr:[
-                "http://192.168.1.102:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-                "http://192.168.1.102:8000/media/dogs/Jackrussel.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg"
+                "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
+                "http://192.168.1.100:8000/media/dogs/Jackrussel.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg"
             ],
             update_date:"2020-2-8",
             update_text:"Hello this is the first text."
         },
         {
-            id:2,
+            id:"2",
             imgs_arr:[
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg",
-                "http://192.168.1.102:8000/media/dogs/images.jpg"
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg",
+                "http://192.168.1.100:8000/media/dogs/images.jpg"
             ],
             update_date:"2020-1-8",
             update_text:"我是影分身之數柴犬"
@@ -88,7 +88,7 @@ const DUMMY_DATA = [
     ],
     dog_info:{
         name:"Evan",
-        headimg:"http://192.168.1.102:8000/media/dogs/golden-retriever.jpg",
+        headimg:"http://192.168.1.100:8000/media/dogs/golden-retriever.jpg",
         age:'5',
         species:"黃金獵犬",
         weight:"50",

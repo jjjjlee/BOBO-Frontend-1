@@ -3,7 +3,7 @@ import { View, ImageBackground, Text, StyleSheet, TouchableOpacity } from 'react
 import { Icon } from 'react-native-elements';
 
 
-const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adoptloc, description})=>{
+const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adoptloc, description,matching_status})=>{
 
     return(
         <View style = {styles.baseframe}>
@@ -36,9 +36,8 @@ const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adopt
                     <Text style = {styles.description_text}>{description}</Text>
                 </View>
             </View>
-
             <View style={styles.action}>
-                <TouchableOpacity style={styles.adopt_button}><Text style={styles.adopt_button_text}>我要認養</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.adopt_button}><Text style={styles.adopt_button_text}>{matching_status === "成功" ? "確定認養" : matching_status === "失敗"? "有緣相會" : matching_status === "審查中"? "審查中": "我要認養" }</Text></TouchableOpacity>
             </View>
             <View style={styles.header_frame}>
                 <View style={styles.header_content}>

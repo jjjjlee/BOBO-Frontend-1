@@ -38,31 +38,42 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-const Login = ()=>{
+const Login2 = ()=>{
     const navigation = useNavigation();
     const [authMail, setauthMail] = useState("");
     const [authPassword, setauthPassword] = useState("");
     // fetchData function
-    const fetchData = async ()=>{
-      AsyncStorage.getItem("RegisterData"
-      ).then(data=>{return(JSON.parse(data));}
-      ).then(data=>{
-        setauthMail(data.email);
-        console.log("authMail Set!")
-        setauthPassword(data.password);
-        console.log('authPassword Set!')}
-      ).catch(e=>{console.log(e);});
+    const getToken = async (values)=>{
+        fetch("api",{
+            method:"POST",
+            headers: {},
+            body:{
+                "email":values.email,
+                "password":values.password
+            },
+        }).then(res=>{
+            const data = res.json();
+            if(/* the token exist */ true){
+                /* 
+                Save the token to asyn-storage 
+                removeLikeCaredLocalStorage();
+                navigate to the HomeTab
+                */console.log("Get Token")
+            }else{
+                console.log("Get Token Failed")
+                /*
+                Alert.alert('Message','You enter the wrong email or password') -->Let user press button and repeate
+                */}
+        })
     }
 
+
+    // Clean the local storage
     const removeLikeCardsLocalStorage = async ()=>{
       await AsyncStorage.removeItem("LikeCards")
       return true;
     }
     
-
-    useEffect(()=>{
-      fetchData();
-    },[])
 
     return (
         <KeyboardAwareScrollView style={{flex:1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false}>
@@ -84,8 +95,8 @@ const Login = ()=>{
                     return errors;
                   }}
                   onSubmit={(values)=>{
-                    removeLikeCardsLocalStorage();
-                    navigation.navigate("HomeTab");}}
+                    getToken(values);
+                    }}
                 >
                   {({handleChange, handleBlur, handleSubmit, values,errors})=>(<StyledFormArea>
                     <MyTextInput 
@@ -112,7 +123,7 @@ const Login = ()=>{
                       <Text style={styles.errtxt}>{errors.password}</Text>
                     )}
                     <View style = {{width:"100%",alignItems : 'flex-end'}}>
-                      <Button onPress = {()=>{navigation.navigate("Register")}} title = "點此註冊"  color = {orange} />
+                      <Button onPress = {()=>{}} title = "忘記密碼?"  color = {orange} />
                     </View>
                     <View style = {{marginTop:20}}>
                       <LongThinButton onPress = {handleSubmit} title = "登入" backgroundColor = {orange}/>
@@ -136,8 +147,6 @@ const Login = ()=>{
             </LoginFormContainer>
         </LoginContainer>
         </KeyboardAwareScrollView>
-        
-
     );
 }
 
@@ -166,4 +175,4 @@ const styles = StyleSheet.create({
 
 
 
-export default Login;
+export default Login2;
