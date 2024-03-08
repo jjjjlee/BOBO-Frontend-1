@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, StyleSheet ,ScrollView} from 'react-native';
+import { Button, Text, View, StyleSheet } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // formik
 import { Formik } from 'formik';

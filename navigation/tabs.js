@@ -2,6 +2,7 @@ import Login from "../screens/login";
 import PostScreen from "../screens/postscreen";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import UserTrackScreen from "../screens/user-track-screen";
+import { useEffect, useState } from "react";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -105,9 +106,48 @@ const DUMMY_DATA = [
 ];
 
 export const UserTrackTab = ()=>{
+    const initialData = { 
+        id : 0,
+        track_item_arr : [
+            {
+                id:"",
+                imgs_arr:[],
+                update_date:"",
+                update_text:""
+            }],
+        dog_info:{
+            name:"加載中.....",
+            headimg:"",
+            age:'',
+            species:"",
+            weight:"",
+            vaccined:"",
+            adoptloc:"",
+            adoptdate:"",
+            currentloc:"",
+            history_days:"",
+            description: ""
+        }
+      }
+    
+    const [data, setData] = useState([initialData]);
+
+    // Function
+    const fetchAPI = async ()=>{
+        // Write the fetching method here
+       setTimeout(()=>{
+        setData(DUMMY_DATA);
+       },1000)
+    };
+
+    // Hooks
+    useEffect(()=>{
+        fetchAPI();
+    },[])
+
   return(
     <Tab.Navigator>
-        {DUMMY_DATA.map((item,i)=>(<Tab.Screen key= {i} name={item.dog_info.name} component = {UserTrackScreen} initialParams={item} />))}
+        {data.map((item,i)=>(<Tab.Screen key= {i} name={item.dog_info.name} component = {UserTrackScreen} initialParams={item} />))}
     </Tab.Navigator>
   );
 }

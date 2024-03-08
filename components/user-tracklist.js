@@ -1,11 +1,10 @@
-import { FlatList, RefreshControl, Text, View, StyleSheet } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import UserTracklistItem from "./user-tracklist-item";
-import { Line, Svg } from "react-native-svg";
 
 
 const UserTracklist = ({data}) => {
     const renderItem =({item}) =>{
-        return <UserTracklistItem imgs_arr={item.imgs_arr} update_date={item.update_date} update_text={item.update_text}/>
+        return <UserTracklistItem id = {item.id} imgs_arr={item.imgs_arr} update_date={item.update_date} update_text={item.update_text}/>
     }
     return(
         <View style = {{width : "100%",height:"100%"}}>
