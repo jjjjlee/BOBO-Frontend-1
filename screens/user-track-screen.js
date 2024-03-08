@@ -1,10 +1,8 @@
 import {StyleSheet, View, Text, TextInput} from "react-native"
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {Colors} from './../components/styles'
 import UserTracklist from "../components/user-tracklist";
-import { Line, Svg } from "react-native-svg";
 import DoglistItem from "../components/doglist-item";
 import Reporttest from "./report";
 const { orange} = Colors;
@@ -14,26 +12,8 @@ const { orange} = Colors;
 
 const UserTrackScreen = (input_data)=>{
     const dog_info = input_data.route.params.dog_info;
-    const [data, setData] = useState(input_data.route.params.track_item_arr);
+    const track_item_arr = input_data.route.params.track_item_arr;
     const navigation = useNavigation();
-    /*
-    // useEffect hooks
-    useEffect(()=>{
-        fetchData();
-    },[])
-    */
-
-
-    // functions
-    const fetchData = async()=>{
-        fetch("http://192.168.50.101:8000/api/dogpreview/",{
-            method: "GET"
-        }).then(res=>{return(res.json());
-        }).then(res=>{
-            setData(res);
-            console.log(res);
-        }).catch(err=>{console.log(err);})
-    }
 
     return(
         <View style = {styles.baseframe}>
@@ -43,7 +23,7 @@ const UserTrackScreen = (input_data)=>{
                     你們已經一起經歷 {<Text style = {{color:orange}}>{dog_info.history_days}</Text>} 天了
                 </Text>
                 <StatusBar style='dark'/>
-                <UserTracklist data = {data}/>
+                <UserTracklist data = {track_item_arr}/>
             </View>
             <Reporttest/>
         </View>
