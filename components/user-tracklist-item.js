@@ -2,7 +2,7 @@ import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, ImageBackground, View} from "react-native";
 import { Svg, Line, Circle } from 'react-native-svg';
 
-const UserTracklistItem = ({imgs_arr,update_date,update_text})=>{
+const UserTracklistItem = ({id,imgs_arr,update_date,update_text})=>{
     return(
         <View style={styles.baseframe}>
             <View style={styles.date_frame}>

@@ -16,7 +16,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.heartbeaz.BOBOFrontend"
+      "bundleIdentifier": "com.BOBO.MemberAPP"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,8 +30,17 @@
     },
     "extra": {
       "eas": {
-        "projectId": "1467ef6f-8c08-4f89-aa2c-efbeacb20277"
+        "projectId": "a1a4c9b6-56a2-46f0-9e21-5834baa9a296"
       }
-    }
+    },
+    "plugins":[
+      [
+        "expo-build-properties",
+        {
+          "android":{"compileSdkVersion": 31,"targetSdkVersion": 31,"buildToolsVersion": "31.0.0"},
+          "ios":{"deploymentTarget": "13.4"}
+        }
+      ]
+    ]
   }
 }

@@ -1,136 +1,171 @@
 // Import neccessary libraries
-import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native"
+import {StyleSheet, View, Text, TouchableOpacity} from "react-native"
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {Colors} from '../components/styles'
 
-// Import Doglist 
+// Import Doglist and report button 
 import DogList from "../components/doglist";
-const {brand, darklight,holderwords, primary, orange} = Colors;
 
-// Import Select List
-import { SelectList } from 'react-native-dropdown-select-list'
+
+// Colors
+const { orange} = Colors;
+
+// Import AsyncStorage
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
 
 // DUMMY DATA
 const DUMMY_DATA = [
     {
-     id:"1",
-     name: "Joy",
-     headimg : "http://192.168.1.102:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-     age:"20",
-     currentloc: "台北市中正區",
-     species: "邊境牧羊犬",
-     species_general:"貓",
-     weight:"50",
-     vaccined : "已注射疫苗",
-     adoptdate:"2024-02-24",
-     adoptloc: "台北市信義區",
-     likecount : "13",
-     date:"2024-02-16",
-     description:"Hello",
-     matching_status:"成功"
+        "id": 1,
+        "pet": {
+            "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+            "species": "貓",
+            "species_general": "猫",
+            "name": "Refuse",
+            "age": 25,
+            "weight": 60.0,
+            "vaccined": true,
+            "currentloc": "新莊2",
+            "description": "25",
+            "headimg": "…",
+            "updated_at": "2024-02-27T05:49:27.158796Z",
+            "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+        },
+        "updated_at": "2024-03-02 14:30:08",
+        "status": "機構審查拒絕"
     },
     {
-    id:"2",
-    name: "Jason",
-    headimg : "http://192.168.1.102:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-    age:"20",
-    currentloc: "台北市中正區",
-    species: "邊境牧羊犬",
-    species_general:"狗",
-    weight:"50",
-    vaccined : "已注射疫苗",
-    adoptdate:"2024-02-24",
-    adoptloc: "台北市信義區",
-    likecount : "13",
-    date:"2024-02-16",
-    description:"Hello",
-    matching_status:"審查中"
-   },
+        "id": 2,
+        "pet": {
+            "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+            "species": "貓",
+            "species_general": "猫",
+            "name": "Run",
+            "age": 25,
+            "weight": 60.0,
+            "vaccined": true,
+            "currentloc": "新莊2",
+            "description": "25",
+            "headimg": "…",
+            "updated_at": "2024-02-27T05:49:27.158796Z",
+            "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+        },
+        "updated_at": "2024-03-02 14:30:08",
+        "status": "機構審查(中)",
+    },
    {
-    id:"3",
-    name: "Andrew",
-    headimg : "http://192.168.1.102:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-    age:"20",
-    currentloc: "台北市中正區",
-    species: "邊境牧羊犬",
-    species_general:"狗",
-    weight:"50",
-    vaccined : "已注射疫苗",
-    adoptdate:"2024-02-24",
-    adoptloc: "台北市信義區",
-    likecount : "13",
-    date:"2024-02-16",
-    description:"Hello",
-    matching_status:"失敗"
-   }
+    "id": 3,
+    "pet": {
+        "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+        "species": "貓",
+        "species_general": "猫",
+        "name": "Pass",
+        "age": 25,
+        "weight": 60.0,
+        "vaccined": true,
+        "currentloc": "新莊2",
+        "description": "25",
+        "headimg": "…",
+        "updated_at": "2024-02-27T05:49:27.158796Z",
+        "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+    },
+    "updated_at": "2024-03-02 14:30:08",
+    "status": '機構審查批准',
+}
+
 ]
 
 
 
 const UserLikeScreen = ()=>{
 
-    const [isPass, setIsPass] = useState(true);
-    const [isFail, setIsFail] = useState(true);
-    const [isRun, setIsRun] = useState(true);
-    const [buttonStyle1, setButtonStyle1] = useState("Press_Style");
-    const [buttonStyle2, setButtonStyle2] = useState("Press_Style");
-    const [buttonStyle3, setButtonStyle3] = useState("Press_Style");
-    const [data, setData] = useState(DUMMY_DATA);
-    const [filterData, setFilterData] = useState(DUMMY_DATA);
-    const navigation = useNavigation();
+    // State Variables
+    const [isPass, setIsPass] = useState(false);
+    const [isFail, setIsFail] = useState(false);
+    const [isRun, setIsRun] = useState(false);
+    const [data, setData] = useState([]);
+    const [filterData, setFilterData] = useState([]);
 
-    // useEffect hooks
-    /*
+    // Hooks
+
     useEffect(()=>{
-        fetchData();
+        fetchAPIData();
+        fetchLocalData();
     },[])
-    */
-   useEffect(()=>{
-        handleFiltering();
-   },[isPass, isFail, isRun]);
 
 
+    useEffect(()=>{
+            handleFiltering();
+    },[isPass, isFail, isRun]);
+    
 
-    // functions
-    const fetchData = async()=>{
+
+    // Fetching Data
+    const fetchAPIData = async()=>{
+        // First fetch the submited dog
         fetch("http://192.168.50.101:8000/api/dogpreview/",{
             method: "GET"
         }).then(res=>{return(res.json());
         }).then(res=>{
-            setData(res);
-            setFilterData(res);
+            setData(data.concat(res));
+            setFilterData(data.concat(res));
             console.log(res);
         }).catch(err=>{console.log(err);})
     }
-
+    const fetchLocalData = async()=>{
+        AsyncStorage.getItem("LikeCards")
+        .then(res=>{return(JSON.parse(res))})
+        .then(res=>{
+            setData(data.concat(res));
+            setFilterData(data.concat(res));
+        })
+    }
+    
     // Handle button click style
     const handleButtonClick1 = ()=>{
-        setIsPass(isPass? false:true);
-        setButtonStyle1(buttonStyle1 === "UnPress_Style" ? "Press_Style" : "UnPress_Style");
+        if (isPass){
+            setIsPass(false);
+            
+        }else{
+            setIsPass(true);
+            setIsFail(false);
+            setIsRun(false);
+            
+        }
     }
     const handleButtonClick2 = ()=>{
-        setIsFail(isFail? false:true);
-        setButtonStyle2(buttonStyle2 === "UnPress_Style" ? "Press_Style" : "UnPress_Style");
+        if (isFail){
+            setIsFail(false);
+        }else{
+            setIsPass(false);
+            setIsFail(true);
+            setIsRun(false);
+        }
     }
     const handleButtonClick3 = ()=>{
-        setIsRun(isRun? false:true);
-        setButtonStyle3(buttonStyle3 === "UnPress_Style" ? "Press_Style" : "UnPress_Style");
+        if (isRun){
+            setIsRun(false);
+        }else{
+            setIsPass(false);
+            setIsFail(false);
+            setIsRun(true);
+        }
     }
 
-    // Filtering function
-    const handleFiltering = async ()=>{
+    // Filtering 
+    const handleFiltering = ()=>{
         let newData = [];
         if(isPass){
-            newData = newData.concat(data.filter((item)=>{return(item.matching_status ==="成功");}));
-        }
-        if(isFail){
-            newData = newData.concat(data.filter((item)=>{return(item.matching_status ==="失敗");}));
-        }
-        if(isRun){
-            newData = newData.concat(data.filter((item)=>{return(item.matching_status ==="審查中");}));
-        }
+            newData = newData.concat(data.filter((item)=>{return(item.status ==="機構審查批准");}));
+        }else if(isFail){
+            newData = newData.concat(data.filter((item)=>{return(item.status ==="機構審查拒絕");}));
+        }else if(isRun){
+            newData = newData.concat(data.filter((item)=>{return(item.status ==="機構審查(中)");}));
+        }else {newData = newData.concat(data);}
         setFilterData(newData);
         
     }
@@ -138,18 +173,18 @@ const UserLikeScreen = ()=>{
     return(
         <View style = {styles.screen} >
             <View style={styles.button_frame}>
-                <TouchableOpacity activeOpacity={1} style = {[styles.button_unpress,buttonStyle1 === "Press_Style"? styles.button_press:styles.button_unpress]} onPress={handleButtonClick1}>
-                    <Text style = {[styles.button_text_unpress,buttonStyle1 === "Press_Style"? styles.button_text_press:styles.button_text_unpress]} >配對成功</Text>
+                <TouchableOpacity activeOpacity={1} style = {[styles.button_unpress, isPass ? styles.button_press:styles.button_unpress]} onPress={handleButtonClick1}>
+                    <Text style = {[styles.button_text_unpress, isPass? styles.button_text_press:styles.button_text_unpress]} >配對成功</Text>
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={1} style = {[styles.button_unpress,buttonStyle2 === "Press_Style"? styles.button_press:styles.button_unpress]} onPress={handleButtonClick2}>
-                    <Text style = {[styles.button_text_unpress,buttonStyle2 === "Press_Style"? styles.button_text_press:styles.button_text_unpress]} >配對失敗</Text>
+                <TouchableOpacity activeOpacity={1} style = {[styles.button_unpress, isFail ? styles.button_press:styles.button_unpress]} onPress={handleButtonClick2}>
+                    <Text style = {[styles.button_text_unpress, isFail? styles.button_text_press:styles.button_text_unpress]} >配對失敗</Text>
                 </TouchableOpacity>
-                <TouchableOpacity activeOpacity={1} style = {[styles.button_unpress,buttonStyle3 === "Press_Style"? styles.button_press:styles.button_unpress]} onPress={handleButtonClick3}>
-                    <Text style = {[styles.button_text_unpress,buttonStyle3 === "Press_Style"? styles.button_text_press:styles.button_text_unpress]} >審查中</Text>
+                <TouchableOpacity activeOpacity={1} style = {[styles.button_unpress,isRun? styles.button_press:styles.button_unpress]} onPress={handleButtonClick3}>
+                    <Text style = {[styles.button_text_unpress, isRun? styles.button_text_press:styles.button_text_unpress]} >審查中</Text>
                 </TouchableOpacity>
             </View>
             <StatusBar style='dark'/>
-            <DogList data = {filterData} type = "forPost"/>
+            <DogList data = {filterData} type = "forPost" canShowDetail = {true}/>
         </View>
     )
 }

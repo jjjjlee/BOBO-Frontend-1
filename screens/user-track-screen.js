@@ -6,8 +6,8 @@ import {Colors} from './../components/styles'
 import UserTracklist from "../components/user-tracklist";
 import { Line, Svg } from "react-native-svg";
 import DoglistItem from "../components/doglist-item";
-
-const {brand, darklight,holderwords, primary, orange} = Colors;
+import Reporttest from "./report";
+const { orange} = Colors;
 
 
 
@@ -37,7 +37,7 @@ const UserTrackScreen = (input_data)=>{
 
     return(
         <View style = {styles.baseframe}>
-            <DoglistItem name = {dog_info.name} headimg={dog_info.headimg} age = {dog_info.age} species = {dog_info.species} weight={dog_info.weight} vaccined={dog_info.vaccined} adoptloc={dog_info.adoptloc} adoptdate = {dog_info.adoptdate} currentloc={dog_info.currentloc} type={"forPost"} description={dog_info.description} update_status = {""} />
+            <DoglistItem id = {dog_info.id} name = {dog_info.name} headimg={dog_info.headimg} age = {dog_info.age} species = {dog_info.species} weight={dog_info.weight} vaccined={dog_info.vaccined} adoptloc={dog_info.adoptloc} adoptdate = {dog_info.adoptdate} currentloc={dog_info.currentloc} type={"forPost"} description={dog_info.description} update_status = {""} isadopted={true} />
             <View style = {styles.tracklist} >
                 <Text style={styles.history_days_text}>
                     你們已經一起經歷 {<Text style = {{color:orange}}>{dog_info.history_days}</Text>} 天了
@@ -45,6 +45,7 @@ const UserTrackScreen = (input_data)=>{
                 <StatusBar style='dark'/>
                 <UserTracklist data = {data}/>
             </View>
+            <Reporttest/>
         </View>
     )
 

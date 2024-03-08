@@ -1,13 +1,21 @@
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, Text, TouchableOpacity, ImageBackground, View} from "react-native";
+import { useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, ImageBackground, View, Modal} from "react-native";
 import { Icon } from "react-native-elements";
+import TinderDetailScreen from "../screens/tinder-detail-screen";
 
-// Titleframe 在figma中是包含所有的 Text components,到自我介紹的部分,這裡面需要一個conditional rendering
-
-const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,description,adoptloc,adoptdate,likecount,type,user,update_status})=>{
+const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,description,adoptloc,adoptdate,likecount,type,user,update_status,canShowDetail,matching_status})=>{
     const navigation = useNavigation()
+    const [modalVisible, setModalVisible] = useState(false)
+    const handleOnPress = ()=>{
+        if(user !== "institute" & type === "forPost" & canShowDetail){
+            setModalVisible(true)
+        }
+    }
+
+
     return(
-        <TouchableOpacity style = {styles.card} onPress = {()=>navigation.navigate("DogCard")}>
+        <TouchableOpacity style = {styles.card} onPress = {()=>{handleOnPress();}}>
             <View style = {styles.baseframe}>
                 {(type === 'forTrack') & (update_status === "正常") ?
                         <View style = {styles.warning}>
@@ -37,7 +45,7 @@ const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,de
                             <Text style={styles.tagitemtext}>{weight} 公斤</Text>
                         </View>
                         <View style={styles.tagitem}>
-                            <Text style={styles.tagitemtext}>{vaccined}</Text>
+                            <Text style={styles.tagitemtext}>{vaccined?"已施打疫苗":"未施打疫苗"}</Text>
                         </View>
                     </View>                    
                     <View style={styles.location}>
@@ -75,8 +83,12 @@ const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,de
                         </View>:null
                     }
                 </View>
-  
             </View>
+            <Modal animationType="slide" transparent={false} visible={modalVisible}>
+                <TinderDetailScreen headimg={headimg} species={species} weight={weight}
+                    vaccined={vaccined?"已施打疫苗":"未施打疫苗"} adoptloc={adoptloc} description={description} name = {name} age = {age} matching_status = {matching_status}/>
+                <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity> 
+            </Modal>
         </TouchableOpacity>
 
     );
@@ -268,6 +280,18 @@ const styles = StyleSheet.create({
         width: 32,
         alignItems: "flex-start",
         rowGap: 0
+    },
+    goback_frame:{
+        position:"absolute", 
+        top:55, 
+        right:5,
+      },
+    goback_text:{
+        color: "#808080",
+        fontFamily: "PingFang TC",
+        fontSize: 20,
+        fontWeight: "600",
+        letterSpacing: 0
     }
 })
 

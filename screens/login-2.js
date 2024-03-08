@@ -38,58 +38,42 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-const Login = ()=>{
+const Login2 = ()=>{
     const navigation = useNavigation();
     const [authMail, setauthMail] = useState("");
     const [authPassword, setauthPassword] = useState("");
-    
-    // API function
-    const fetchData = async ()=>{
-      AsyncStorage.getItem("RegisterData"
-      ).then(data=>{return(JSON.parse(data));}
-      ).then(data=>{
-        setauthMail(data.email);
-        console.log("authMail Set!")
-        setauthPassword(data.password);
-        console.log('authPassword Set!')}
-      ).catch(e=>{console.log(e);});
+    // fetchData function
+    const getToken = async (values)=>{
+        fetch("api",{
+            method:"POST",
+            headers: {},
+            body:{
+                "email":values.email,
+                "password":values.password
+            },
+        }).then(res=>{
+            const data = res.json();
+            if(/* the token exist */ true){
+                /* 
+                Save the token to asyn-storage 
+                removeLikeCaredLocalStorage();
+                navigate to the HomeTab
+                */console.log("Get Token")
+            }else{
+                console.log("Get Token Failed")
+                /*
+                Alert.alert('Message','You enter the wrong email or password') -->Let user press button and repeate
+                */}
+        })
     }
 
-    const patchData = async (userid, petid)=>{
-      //Change the code here to patch the data
-      setTimeout(function() {
-        console.log(userid+petid);
-      },1000)
-    }
 
-    const removeLikeCardsLocalStorage = async () => {
-      await AsyncStorage.removeItem("LikeCards");
-      console.log("Delete!");
-      return true
-    }
-
-    const patchLikeCardsLocalStorage = async ()=>{
-      const data = await AsyncStorage.getItem("LikeCards")
-      let obj_arr = JSON.parse(data);
-      // Remove the safecard
-      obj_arr.shift();
-      // For each card, patch the status using pathData async function
-      for(let i=0; i<obj_arr.length; i++){
-        let data = await AsyncStorage.getItem("RegisterData");
-        data = JSON.parse(data);
-        await patchData(data.email,obj_arr[i].pet.uuid);
-      }
+    // Clean the local storage
+    const removeLikeCardsLocalStorage = async ()=>{
+      await AsyncStorage.removeItem("LikeCards")
+      return true;
     }
     
-    const handleSubmit = async ()=>{
-      await patchLikeCardsLocalStorage();
-      await removeLikeCardsLocalStorage();
-      navigation.navigate("HomeTab");
-    }
-
-    useEffect(()=>{
-      fetchData();
-    },[])
 
     return (
         <KeyboardAwareScrollView style={{flex:1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false}>
@@ -111,7 +95,7 @@ const Login = ()=>{
                     return errors;
                   }}
                   onSubmit={(values)=>{
-                    handleSubmit();
+                    getToken(values);
                     }}
                 >
                   {({handleChange, handleBlur, handleSubmit, values,errors})=>(<StyledFormArea>
@@ -139,7 +123,7 @@ const Login = ()=>{
                       <Text style={styles.errtxt}>{errors.password}</Text>
                     )}
                     <View style = {{width:"100%",alignItems : 'flex-end'}}>
-                      <Button onPress = {()=>{navigation.navigate("Register")}} title = "點此註冊"  color = {orange} />
+                      <Button onPress = {()=>{}} title = "忘記密碼?"  color = {orange} />
                     </View>
                     <View style = {{marginTop:20}}>
                       <LongThinButton onPress = {handleSubmit} title = "登入" backgroundColor = {orange}/>
@@ -163,8 +147,6 @@ const Login = ()=>{
             </LoginFormContainer>
         </LoginContainer>
         </KeyboardAwareScrollView>
-        
-
     );
 }
 
@@ -193,4 +175,4 @@ const styles = StyleSheet.create({
 
 
 
-export default Login;
+export default Login2;
