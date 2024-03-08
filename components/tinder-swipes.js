@@ -7,146 +7,125 @@ import TinderDetailScreen from '../screens/tinder-detail-screen';
 
 
 // DUMMY DATA
-const DUMMY_DATA1 = [
+const DUMMY_DATA1 =  [
   {
-   id:"1",
-   name: "Joy",
-   headimg : "http://192.168.1.100:8000/media/dogs/Jackrussel.jpg",
-   age:"20",
-   currentloc: "台北市中正區",
-   species: "JackRussel",
-   species_general:"狗",
-   weight:"50",
-   vaccined : "已注射疫苗",
-   adoptdate:"2024-02-24",
-   adoptloc: "台北市信義區",
-   likecount : "13",
-   date:"2024-02-16",
-   description:"Hello",
-   matching_status:"成功"
+      "id": 1,
+      "pet": {
+          "uuid": "s8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+          "species": "貓",
+          "species_general": "猫",
+          "name": "Refuse",
+          "age": 25,
+          "weight": 60.0,
+          "vaccined": true,
+          "currentloc": "新莊2",
+          "description": "25",
+          "headimg": "…",
+          "updated_at": "2024-02-27T05:49:27.158796Z",
+          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+      },
+      "updated_at": "2024-03-02 14:30:08",
+      "status": "機構審查拒絕"
   },
   {
-  id:"2",
-  name: "Jason",
-  headimg : "http://192.168.1.100:8000/media/dogs/images.jpg",
-  age:"20",
-  currentloc: "台北市中正區",
-  species: "柴犬",
-  species_general:"狗",
-  weight:"50",
-  vaccined : "已注射疫苗",
-  adoptdate:"2024-02-24",
-  adoptloc: "台北市信義區",
-  likecount : "13",
-  date:"2024-02-16",
-  description:"Hello",
-  matching_status:"審查中"
- },
+      "id": 2,
+      "pet": {
+          "uuid": "k8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+          "species": "貓",
+          "species_general": "猫",
+          "name": "Run",
+          "age": 25,
+          "weight": 60.0,
+          "vaccined": true,
+          "currentloc": "新莊2",
+          "description": "25",
+          "headimg": "…",
+          "updated_at": "2024-02-27T05:49:27.158796Z",
+          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+      },
+      "updated_at": "2024-03-02 14:30:08",
+      "status": "機構審查(中)",
+  },
  {
-  id:"3",
-  name: "Andrew",
-  headimg : "http://192.168.1.100:8000/media/dogs/golden-retriever1_OzehIoc.jpg",
-  age:"20",
-  currentloc: "台北市中正區",
-  species: "黃金獵犬",
-  species_general:"狗",
-  weight:"50",
-  vaccined : "已注射疫苗",
-  adoptdate:"2024-02-24",
-  adoptloc: "台北市信義區",
-  likecount : "13",
-  date:"2024-02-16",
-  description:"Hello",
-  matching_status:"失敗"
- },
- {
-  id:"4",
-  name: "Gogoro",
-  headimg : "http://192.168.1.100:8000/media/dogs/golden-retriever.jpg",
-  age:"20",
-  currentloc: "台北市中正區",
-  species: "黃金獵犬",
-  species_general:"狗",
-  weight:"50",
-  vaccined : "已注射疫苗",
-  adoptdate:"2024-02-24",
-  adoptloc: "台北市信義區",
-  likecount : "13",
-  date:"2024-02-16",
-  description:"Hello",
-  matching_status:"失敗"
- }
+  "id": 3,
+  "pet": {
+      "uuid": "h8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+      "species": "貓",
+      "species_general": "猫",
+      "name": "Pass",
+      "age": 25,
+      "weight": 60.0,
+      "vaccined": true,
+      "currentloc": "新莊2",
+      "description": "25",
+      "headimg": "…",
+      "updated_at": "2024-02-27T05:49:27.158796Z",
+      "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+  },
+  "updated_at": "2024-03-02 14:30:08",
+  "status": '機構審查批准',
+}
+
 ]
 
 const DUMMY_DATA2 = [
   {
-   id:"5",
-   name: "Joy",
-   headimg : "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-   age:"20",
-   currentloc: "台北市中正區",
-   species: "邊境牧羊犬",
-   species_general:"貓",
-   weight:"50",
-   vaccined : "已注射疫苗",
-   adoptdate:"2024-02-24",
-   adoptloc: "台北市信義區",
-   likecount : "13",
-   date:"2024-02-16",
-   description:"Hello",
-   matching_status:"成功"
+      "id": 4,
+      "pet": {
+          "uuid": "g8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+          "species": "貓",
+          "species_general": "猫",
+          "name": "Refuse1",
+          "age": 25,
+          "weight": 60.0,
+          "vaccined": true,
+          "currentloc": "新莊2",
+          "description": "25",
+          "headimg": "…",
+          "updated_at": "2024-02-27T05:49:27.158796Z",
+          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+      },
+      "updated_at": "2024-03-02 14:30:08",
+      "status": "機構審查拒絕"
   },
   {
-  id:"6",
-  name: "Jason",
-  headimg : "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-  age:"20",
-  currentloc: "台北市中正區",
-  species: "邊境牧羊犬",
-  species_general:"狗",
-  weight:"50",
-  vaccined : "已注射疫苗",
-  adoptdate:"2024-02-24",
-  adoptloc: "台北市信義區",
-  likecount : "13",
-  date:"2024-02-16",
-  description:"Hello",
-  matching_status:"審查中"
- },
+      "id": 5,
+      "pet": {
+          "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+          "species": "貓",
+          "species_general": "猫",
+          "name": "Run2",
+          "age": 25,
+          "weight": 60.0,
+          "vaccined": true,
+          "currentloc": "新莊2",
+          "description": "25",
+          "headimg": "…",
+          "updated_at": "2024-02-27T05:49:27.158796Z",
+          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+      },
+      "updated_at": "2024-03-02 14:30:08",
+      "status": "機構審查(中)",
+  },
  {
-  id:"7",
-  name: "Andrew",
-  headimg : "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-  age:"20",
-  currentloc: "台北市中正區",
-  species: "邊境牧羊犬",
-  species_general:"狗",
-  weight:"50",
-  vaccined : "已注射疫苗",
-  adoptdate:"2024-02-24",
-  adoptloc: "台北市信義區",
-  likecount : "13",
-  date:"2024-02-16",
-  description:"Hello",
-  matching_status:"失敗"
- },
- {
-  id:"8",
-  name: "Gogoro",
-  headimg : "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-  age:"20",
-  currentloc: "台北市中正區",
-  species: "邊境牧羊犬",
-  species_general:"狗",
-  weight:"50",
-  vaccined : "已注射疫苗",
-  adoptdate:"2024-02-24",
-  adoptloc: "台北市信義區",
-  likecount : "13",
-  date:"2024-02-16",
-  description:"Hello",
-  matching_status:"失敗"
- }
+  "id": 6,
+  "pet": {
+      "uuid": "e8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+      "species": "貓",
+      "species_general": "猫",
+      "name": "Pass3",
+      "age": 25,
+      "weight": 60.0,
+      "vaccined": true,
+      "currentloc": "新莊2",
+      "description": "25",
+      "headimg": "…",
+      "updated_at": "2024-02-27T05:49:27.158796Z",
+      "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+  },
+  "updated_at": "2024-03-02 14:30:08",
+  "status": '機構審查批准',
+}
 ]
 
 
@@ -154,25 +133,23 @@ const Swipes = ({currentIndex,swipesRef})=>{
     [modalVisible,setModalVisible] = useState(false);
     [Data, setData] = useState(DUMMY_DATA1);
     [tapData, setTapData] = useState(Data[0]);
-    [newCard, setNewCard] = useState({});
     [key, setKey] = useState(0);
-    const safecard = {     
-      id:"0",
-      name: "我是志工狗狗",
-      headimg : "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-      age:"1",
-      currentloc: "汪汪星球",
-      species: "邊境牧羊犬",
-      species_general:"狗",
-      weight:"50",
-      vaccined : "已注射疫苗",
-      adoptdate:"2024-03-04",
-      adoptloc: "福爾摩沙島",
-      likecount : "13",
-      date:"2024-02-16",
-      description:"快去主頁面認識更多我的朋友吧",
-      matching_status:""
-    }
+    const safecard =   {
+      "id": 3141592654,
+      "pet": {
+          "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+          "species": "貓",
+          "species_general": "猫",
+          "name": "我是志工狗狗",
+          "age": 1,
+          "weight": 60.0,
+          "vaccined": true,
+          "currentloc": "汪汪星球",
+          "description": "快去認識更多我的夥伴吧",
+          "headimg": "…",
+      },
+      "status": ""
+  }
 
     // Fethcing data
     const fetchData = async () =>{
@@ -184,34 +161,67 @@ const Swipes = ({currentIndex,swipesRef})=>{
     }
 
     // Functions
-    const saveLikeCard = async()=>{
-      AsyncStorage.getItem("LikeCards")
-                  .then(res=>{
-                    const arr = res? JSON.parse(res) : [];
-                    arr.push(newCard);
-                    AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
-                  })
+    const saveLikeCard = async(idx)=>{    
+      if(idx === null){
+        AsyncStorage.getItem("LikeCards")
+        .then(res=>{
+          const arr = res? JSON.parse(res) : [];
+          arr.push(safecard);
+          AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
+        })
+      }else if(idx<Data.length-1){
+        AsyncStorage.getItem("LikeCards")
+        .then(res=>{
+          const arr = res? JSON.parse(res) : [];
+          if(! containsObject(Data[idx],arr)){
+            arr.push(Data[idx]);
+            AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
+          }
+        })
+      }
     }
     
-    const handleRightSwipe = (idx)=>{
-      setNewCard(Data[idx]);
-      saveLikeCard();
+    const handleRightSwipe = async (idx)=>{
+      saveLikeCard(idx);
     }
 
-    const handleSwipeAll = ()=>{
+    const handleSwipeAll = async()=>{
       //fetchData();
-      setData(DUMMY_DATA2)
-      setKey(key+0.01);
+      AsyncStorage.getItem("LikeCards")
+        .then(res=>{
+          const arr = res? JSON.parse(res) : [];
+          if(!containsObject(Data[Data.length-1],arr)){
+            arr.push(Data[Data.length-1]);
+            AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
+            // Then fetch data here and set the data
+            setData(DUMMY_DATA2);
+            setKey(key+0.01);
+          }else{
+            // Then fetch data here and set the data
+            setData(DUMMY_DATA2);
+            setKey(key+0.01);
+          }
+        })
     }
 
     const handleOnTap = (idx)=>{
       setTapData(Data[idx]);
       setModalVisible(true);
     }
+
+    const containsObject=(obj, list)=>{
+      var i;
+      for (i = 0; i < list.length; i++) {
+
+          if (list[i].pet.uuid === obj.pet.uuid) {
+              return true;
+          }
+      }
+      return false;
+  }
     // UseEffect
     useEffect(()=>{
-      setNewCard(safecard);
-      saveLikeCard();
+      saveLikeCard(null);
       console.log("A card is saved")
     },[])
     
@@ -224,35 +234,35 @@ const Swipes = ({currentIndex,swipesRef})=>{
             renderCard={(card) => {
                 return (
                     <View style = {styles.card}>
-                        <Image source={{ uri: card.headimg }} style={styles.photo} />
+                        <Image source={{ uri: card.pet.headimg }} style={styles.photo} />
                         <View style={styles.textContainer}>
                             <View style={styles.title_frame}>
                                 <View style={styles.title}>
-                                        <Text style={styles.title_name}>{card.name}</Text>
-                                        <Text style={styles.title_age}>{card.age}</Text>
+                                        <Text style={styles.title_name}>{card.pet.name}</Text>
+                                        <Text style={styles.title_age}>{card.pet.age}</Text>
                                 </View>
                             </View>
 
                             <View style={styles.detail_frame}>
                                 <View style={styles.tags}>
                                     <View style={styles.tag}>
-                                        <Text style={styles.tag_text}>{card.species}</Text>
+                                        <Text style={styles.tag_text}>{card.pet.species}</Text>
                                     </View>
                                     <View style={styles.tag}>
-                                        <Text style={styles.tag_text}>{card.weight}</Text>
+                                        <Text style={styles.tag_text}>{card.pet.weight}</Text>
                                     </View>
                                     <View style={styles.tag}>
-                                        <Text style={styles.tag_text}>{card.vaccined}</Text>
+                                        <Text style={styles.tag_text}>{card.pet.vaccined?"已注射疫苗":"未注射疫苗"}</Text>
                                     </View>
                                 </View>
                                 <View style = {styles.location}>
                                     <Icon name='location' type='ionicon' color='white'/>
-                                    <Text style={styles.loc_text}>{card.currentloc}</Text>
+                                    <Text style={styles.loc_text}>{card.pet.currentloc}</Text>
                                 </View>
                             </View>
 
                             <View style={styles.description_frame}>
-                                <Text style={styles.description_text}>{card.description.substring(0,22)}...</Text>
+                                <Text style={styles.description_text}>{card.pet.description.substring(0,22)}...</Text>
                             </View>
                         </View>
                     </View>
@@ -273,8 +283,8 @@ const Swipes = ({currentIndex,swipesRef})=>{
             stackSize= {3}>
             </Swiper>
             <Modal animationType="slide" transparent={false} visible={modalVisible}>
-                <TinderDetailScreen headimg={tapData.headimg} species={tapData.species} weight={tapData.weight}
-                    vaccined={tapData.vaccined} adoptloc={tapData.adoptloc} description={tapData.description} name = {tapData.name} age = {tapData.age} matching_status={tapData.matching_status}/>
+                <TinderDetailScreen headimg={tapData.pet.headimg} species={tapData.pet.species} weight={tapData.pet.weight}
+                    vaccined={tapData.pet.vaccined} adoptloc={tapData.pet.adoptloc} description={tapData.pet.description} name = {tapData.pet.name} age = {tapData.pet.age} matching_status={tapData.status}/>
                 <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity> 
             </Modal>
         </View>

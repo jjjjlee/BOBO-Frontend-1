@@ -4,11 +4,11 @@ import { StyleSheet, Text, TouchableOpacity, ImageBackground, View, Modal} from 
 import { Icon } from "react-native-elements";
 import TinderDetailScreen from "../screens/tinder-detail-screen";
 
-const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,description,adoptloc,adoptdate,likecount,type,user,update_status,isadopted,matching_status})=>{
+const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,description,adoptloc,adoptdate,likecount,type,user,update_status,canShowDetail,matching_status})=>{
     const navigation = useNavigation()
     const [modalVisible, setModalVisible] = useState(false)
     const handleOnPress = ()=>{
-        if(user !== "institute" & type === "forPost" & !isadopted){
+        if(user !== "institute" & type === "forPost" & canShowDetail){
             setModalVisible(true)
         }
     }
@@ -45,7 +45,7 @@ const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,de
                             <Text style={styles.tagitemtext}>{weight} 公斤</Text>
                         </View>
                         <View style={styles.tagitem}>
-                            <Text style={styles.tagitemtext}>{vaccined}</Text>
+                            <Text style={styles.tagitemtext}>{vaccined?"已施打疫苗":"未施打疫苗"}</Text>
                         </View>
                     </View>                    
                     <View style={styles.location}>
@@ -86,7 +86,7 @@ const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,de
             </View>
             <Modal animationType="slide" transparent={false} visible={modalVisible}>
                 <TinderDetailScreen headimg={headimg} species={species} weight={weight}
-                    vaccined={vaccined} adoptloc={adoptloc} description={description} name = {name} age = {age} matching_status = {matching_status}/>
+                    vaccined={vaccined?"已施打疫苗":"未施打疫苗"} adoptloc={adoptloc} description={description} name = {name} age = {age} matching_status = {matching_status}/>
                 <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity> 
             </Modal>
         </TouchableOpacity>

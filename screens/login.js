@@ -42,7 +42,8 @@ const Login = ()=>{
     const navigation = useNavigation();
     const [authMail, setauthMail] = useState("");
     const [authPassword, setauthPassword] = useState("");
-    // fetchData function
+    
+    // API function
     const fetchData = async ()=>{
       AsyncStorage.getItem("RegisterData"
       ).then(data=>{return(JSON.parse(data));}
@@ -54,11 +55,37 @@ const Login = ()=>{
       ).catch(e=>{console.log(e);});
     }
 
-    const removeLikeCardsLocalStorage = async ()=>{
-      await AsyncStorage.removeItem("LikeCards")
-      return true;
+    const patchData = async (userid, petid)=>{
+      //Change the code here to patch the data
+      setTimeout(function() {
+        console.log(userid+petid);
+      },1000)
+    }
+
+    const removeLikeCardsLocalStorage = async () => {
+      await AsyncStorage.removeItem("LikeCards");
+      console.log("Delete!");
+      return true
+    }
+
+    const patchLikeCardsLocalStorage = async ()=>{
+      const data = await AsyncStorage.getItem("LikeCards")
+      let obj_arr = JSON.parse(data);
+      // Remove the safecard
+      obj_arr.shift();
+      // For each card, patch the status using pathData async function
+      for(let i=0; i<obj_arr.length; i++){
+        let data = await AsyncStorage.getItem("RegisterData");
+        data = JSON.parse(data);
+        await patchData(data.email,obj_arr[i].pet.uuid);
+      }
     }
     
+    const handleSubmit = async ()=>{
+      await patchLikeCardsLocalStorage();
+      await removeLikeCardsLocalStorage();
+      navigation.navigate("HomeTab");
+    }
 
     useEffect(()=>{
       fetchData();
@@ -84,8 +111,8 @@ const Login = ()=>{
                     return errors;
                   }}
                   onSubmit={(values)=>{
-                    removeLikeCardsLocalStorage();
-                    navigation.navigate("HomeTab");}}
+                    handleSubmit();
+                    }}
                 >
                   {({handleChange, handleBlur, handleSubmit, values,errors})=>(<StyledFormArea>
                     <MyTextInput 
