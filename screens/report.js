@@ -61,7 +61,7 @@ const Reporttest = ()=>{
     return (
         <View style={{position:"absolute",height:'6%',width:'110%',top:"75%"}}>
                 <TouchableOpacity onPress={handleOpenModal} style={{position:"absolute", backgroundColor:orange,width:'24%',height:'100%',top:'0%',left:'37%',borderRadius:30}}>
-                    <Text style={{fontSize:16,textAlign:'center',color:white,marginTop:"15%"}}>回報</Text>
+                    <Text style={{fontSize:16,textAlign:'center',color:white,marginTop:"10%"}}>回報</Text>
                 </TouchableOpacity>
       
                 <Modal
