@@ -82,11 +82,10 @@ const Setting = ()=>{
   };
 
   useEffect(() => {
-    retrieveData();
-    
+    retrieveData1();
 }, []);
 
-const saveData = async () => {
+const saveData1 = async () => {
     try {
         await AsyncStorage.setItem('text1', text1);
         await AsyncStorage.setItem('selectedFrequency', selectedFrequency);
@@ -97,7 +96,7 @@ const saveData = async () => {
     }
 };
 
-const retrieveData = async () => {
+const retrieveData1 = async () => {
     try {
         const savedText1 = await AsyncStorage.getItem('text1');
         if (savedText1) setText1(savedText1);
@@ -114,31 +113,106 @@ const retrieveData = async () => {
         console.error('Error retrieving data: ', error);
     }
 };
-
-
-const [initialFormValues, setInitialFormValues] = useState({
-    name: '', userid: '',Houseaddress:'', Correspondenceaddress:'',Phonenumber:'',Intro:''
-});
 useEffect(() => {
-    saveData();
-    const loadStoredFormValues = async () => {
-        try {
-          const storedFormValues = await AsyncStorage.getItem('formValues');
-          if (storedFormValues) {
-            setInitialFormValues(JSON.parse(storedFormValues));
-          }
-        } catch (error) {
-          console.error('Error loading stored form data:', error);
-        }
-      };
-  
-      loadStoredFormValues();
-}, [text1, selectedFrequency, date, images]);
+    saveData1();
+}, [text1, selectedFrequency, date, images,initialFormValues]);
+
+
+const [name, setname] = useState('');
+const [id, setid] = useState('');
+const [Houseaddress, setHouseaddress] = useState('');
+const [Correspondenceaddress, setCorrespondenceaddress] = useState('');
+const [Phonenumbers, setPhonenumbers] = useState('');
+const [initialFormValues, setInitialFormValues] = useState({
+    name: '',Houseaddress:'', Correspondenceaddress:'',Phonenumber:'',id:''
+});
+
+const saveData = async (key, value) => {
+    try {
+      await AsyncStorage.setItem(key, value);
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+
+  const retrieveData = async (key) => {
+    try {
+      const savedValue = await AsyncStorage.getItem(key);
+      if (savedValue !== null) {
+        return savedValue;
+      }
+    } catch (error) {
+      console.error('Error retrieving data:', error);
+    }
+    return null;
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const savedName = await retrieveData('name');
+      if (savedName) {
+        setname(savedName);
+        setInitialFormValues({ ...initialFormValues, name: savedName });
+      }
+      const saveid = await retrieveData('id');
+      if (saveid) {
+        setid(saveid);
+        setInitialFormValues({ ...initialFormValues, id: saveid });
+      }
+      const saveHouseaddress = await retrieveData('Houseaddress');
+      if (saveHouseaddress) {
+        setHouseaddress(saveHouseaddress);
+        setInitialFormValues({ ...initialFormValues, Houseaddress: saveHouseaddress });
+      }
+      const saveCorrespondenceaddress = await retrieveData('Correspondenceaddress');
+      if (saveCorrespondenceaddress) {
+        setCorrespondenceaddress(saveCorrespondenceaddress);
+        setInitialFormValues({ ...initialFormValues, Correspondenceaddress: saveCorrespondenceaddress });
+      }
+      const savePhonenumbers = await retrieveData('Phonenumbers');
+      if (savePhonenumbers) {
+        setPhonenumbers(savePhonenumbers);
+        setInitialFormValues({ ...initialFormValues, Phonenumbers: savePhonenumbers });
+      }
+    };
+    fetchData();
+  }, []); // Empty dependency array means this effect runs once after the initial render
+
+  const handleNameChange = (value) => {
+    setname(value);
+    saveData('name', value);
+  };
+  const handleidChange = (value) => {
+    setid(value);
+    saveData('id', value);
+  };
+  const handleHouseaddressChange = (value) => {
+    setHouseaddress(value);
+    saveData('Houseaddress', value);
+  };
+  const handleCorrespondenceaddressChange = (value) => {
+    setCorrespondenceaddress(value);
+    saveData('Correspondenceaddress', value);
+  };
+  const handlePhonenumbersChange = (value) => {
+    setPhonenumbers(value);
+    saveData('Phonenumbers', value);
+  };
+
+
+  const handleSubmit = () => {
+    // Handle form submission here
+    console.log('Form submitted with name:', name);
+    console.log('Form submitted with id:', id);
+    console.log('Form submitted with Houseaddress:',Houseaddress);
+    console.log('Form submitted with Correspondenceaddress:', Correspondenceaddress);
+    console.log('Form submitted with Phonenumbers:',Phonenumbers);
+  };
+
 
     return (
-
         <KeyboardAwareScrollView style={{flex:1 }} contentContainerStyle={{ flexGrow: 1,height:'120%'}} keyboardShouldPersistTaps="handled">
-            
+
             <View style={{flex:1.0,backgroundColor: 'white'}}>
                 <Lefttextorange>吳執行長</Lefttextorange>    
             </View>
@@ -193,28 +267,21 @@ useEffect(() => {
                         
                 <View style={{ height: 10 }}></View>
                 
-                <Formik
-                     initialValues={initialFormValues}
-                    onSubmit={async (values) => {
-                        try {
-                          await AsyncStorage.setItem('formValues', JSON.stringify(values));
-                          console.log('Form submitted:', values);
-                        } catch (error) {
-                          console.error('Error saving form data:', error);
-                        }
-                      }}>
+                
+      
+      
+         
+                     
                     
-                    {({ handleChange, handleBlur, handleSubmit, values }) => (
-                        
+                    
                         <View style={{flex:8,flexDirection:'column',alignItems:'center'}}>
-                        <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: '#fff', borderTopLeftRadius:10, borderTopRightRadius: 10, flexDirection: 'row',height:60, justifyContent:'center', alignItems: 'center', width: '80%'}}>
-                        <Text style={{ fontSize: 18,left:10 }}>姓名</Text>
+                        <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: '#fff', flexDirection: 'row', height: 60, justifyContent: 'center', alignItems: 'center', width: '80%',borderTopLeftRadius:10,borderTopRightRadius:10 }}>
+                        <Text style={{ fontSize: 18, left: 10 }}>姓名</Text>
                         <TextInput
-                            onChangeText={handleChange('name')}
-                            onBlur={handleBlur('name')}
-                            value={values.name}
-                            placeholder="請輸入您的姓名"
-                            style={{ flex: 1, fontSize: 17, color: holderwords ,textAlign:'right',right:10}}
+                        onChangeText={handleNameChange}
+                        value={name}
+                        placeholder="請輸入您的姓名"
+                        style={{ flex: 1, fontSize: 17, textAlign: 'right', paddingRight: 10 }}
                         />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={showDatepicker} style={{ backgroundColor: '#fff',  flexDirection: 'row', justifyContent:'space-between', alignItems: 'center',height:60, width: '80%'}}>
@@ -229,24 +296,21 @@ useEffect(() => {
                         )}
                         
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: '#fff',  flexDirection: 'row', justifyContent:'center', alignItems: 'center',height:60, width: '80%'}}>
+                         <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: '#fff',  flexDirection: 'row', justifyContent:'center', alignItems: 'center',height:60, width: '80%'}}>
                         <Text style={{ fontSize: 18,left:10  }}>身分證</Text>
                         <TextInput
-                            onChangeText={handleChange('id')}
-                            onBlur={handleBlur('id')}
-                            value={values.id}
+                            onChangeText={handleidChange}
+                            value={id}
                             placeholder="請輸入您的身分證"
                             style={{ flex: 1, fontSize: 17, color: holderwords ,textAlign:'right',right:10}}
-                            
                         />
                         </TouchableOpacity>
                         <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: '#fff',  flexDirection: 'row', justifyContent:'center', alignItems: 'center',height:60, width: '80%'}}>
                         <Text style={{ fontSize: 18,left:10  }}>戶籍地址</Text>
                         <View style={{width:80}}></View>
                         <TextInput
-                            onChangeText={handleChange('address')}
-                            onBlur={handleBlur('address')}
-                            value={values.address}
+                            onChangeText={handleHouseaddressChange}
+                            value={Houseaddress}
                             multiline={false}
                             placeholder="請輸入您的戶籍地址"
                             style={{ flex: 1, fontSize: 17, color: holderwords ,textAlign:'right',right:10}}
@@ -256,9 +320,8 @@ useEffect(() => {
                         <Text style={{ fontSize: 18,left:10  }}>通訊地址</Text>
                         <View style={{width:80}}></View>
                         <TextInput
-                            onChangeText={handleChange('address2')}
-                            onBlur={handleBlur('address2')}
-                            value={values.address2}
+                            onChangeText={handleCorrespondenceaddressChange}
+                            value={Correspondenceaddress}
                             placeholder="請輸入您的通訊地址"
                             multiline={false}
                             style={{ flex: 1, fontSize: 17, color: holderwords ,textAlign:'right',right:10}}
@@ -268,21 +331,19 @@ useEffect(() => {
                         <Text style={{ fontSize: 18,left:10  }}>手機</Text>
                         <TextInput
                         
-                            onChangeText={handleChange('phone')}
-                            onBlur={handleBlur('phone')}
-                            value={values.phone}
+                            onChangeText={handlePhonenumbersChange}
+                            value={Phonenumbers}
                             placeholder="請輸入您的手機號碼"
                             style={{ flex: 1, fontSize: 17, color: holderwords ,textAlign:'right',right:10}}
                             keyboardType="numeric"
                         />
-                        </TouchableOpacity>
+                        </TouchableOpacity> 
                         
                         
 
                         </View> 
-                    )}
-                 </Formik>
-                 
+                    
+                
                 
                 
                  {/* <Text  style={{fontSize:20,left:20,color:orange}}>自我介紹</Text>
