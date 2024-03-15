@@ -10,18 +10,9 @@
     "preview": {
       "distribution": "internal"
     },
-    "simulator":{
-      "ios":{
-        "simulator":true
-      }
-    },
     "production": {}
   },
   "submit": {
-    "production": {
-      "ios":{
-        "appleID": "r2338229@gmail.com"
-      }
-    }
+    "production": {}
   }
 }

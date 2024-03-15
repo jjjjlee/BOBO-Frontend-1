@@ -38,11 +38,17 @@ const Reporttest = ()=>{
       });
   
       if (!result.canceled) {
-        const newImages = result.assets.map(asset => asset.uri);
+        const newImages = result.assets.filter(asset => {
+          const today = new Date();
+          const assetDate = new Date(asset.creationTime);
+          const diffTime = Math.abs(today - assetDate);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          return diffDays <= 30;
+        }).map(asset => asset.uri);
+    
         setImages([...images, ...newImages]);
       }
     };
-
     
 
     const [text, setText] = useState('毛孩有甚麼異常狀況嗎'); 
@@ -52,16 +58,46 @@ const Reporttest = ()=>{
     const [modalVisible, setModalVisible] = useState(false);
     const handleOpenModal = () => {setModalVisible(true);};
     const handleCloseModal = () => {setModalVisible(false);};
-    const handleSaveText = () => {handleCloseModal();};   //API
+    const handleSaveText = async() => {
+        try {
+            const response = await fetch('https://api.example.com/saveData', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ data: text }), //
+            });
+            const data = await response.json();
+            console.log('Save response:', data);
+            handleCloseModal();
+          } catch (error) {
+            console.error('Error saving data:', error);
+          }
+        }; 
     const [modalVisible2, setModalVisible2] = useState(false);
     const handleOpenModal2 = () => {setModalVisible2(true);};
     const handleCloseModal2 = () => {setModalVisible2(false);};
-    const handleSaveText2 = () => {handleCloseModal2();};   //API
+    const handleSaveText2 =  async() => {
+        try {
+            const response = await fetch('https://api.example.com/saveData2', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ data: text2 }), 
+            });
+            const data = await response.json();
+            console.log('Save response:', data);
+            handleCloseModal2();
+          } catch (error) {
+            console.error('Error saving data:', error);
+          }
+    };   //API
 
     return (
         <View style={{position:"absolute",height:'6%',width:'110%',top:"75%"}}>
                 <TouchableOpacity onPress={handleOpenModal} style={{position:"absolute", backgroundColor:orange,width:'24%',height:'100%',top:'0%',left:'37%',borderRadius:30}}>
-                    <Text style={{fontSize:16,textAlign:'center',color:white,marginTop:"15%"}}>回報</Text>
+                    <Text style={{fontSize:16,textAlign:'center',color:white,marginTop:"10%"}}>回報</Text>
                 </TouchableOpacity>
       
                 <Modal

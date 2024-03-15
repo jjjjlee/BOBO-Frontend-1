@@ -90,9 +90,9 @@ const Login = ()=>{
     useEffect(()=>{
       fetchData();
     },[])
-
+    
     return (
-        <KeyboardAwareScrollView style={{flex:1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false}>
+        <KeyboardAwareScrollView style={{flex:1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false} >
         <LoginContainer>
             <LoginLogoContainer>
               <StatusBar style='dark'/>
