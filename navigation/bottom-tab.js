@@ -21,7 +21,7 @@ export const HomeTab = ()=>{
         tabBarInactiveTintColor:'grey',
         tabBarIcon : ({focused,color,size})=>{
           let iconName;
-          if (route.name === 'Hometab'){
+          if (route.name === 'TinderScreen'){
             iconName = focused ? 'home' : 'home-outline'
           }
           else if (route.name === 'UserTrack'){
@@ -32,7 +32,7 @@ export const HomeTab = ()=>{
         }
       })}
     >
-      <Tab.Screen name="Hometab" component={TinderScreen} />
+      <Tab.Screen name="TinderScreen" component={TinderScreen} />
       <Tab.Screen name="UserTrack" component={UserTrackTab} />
     </Tab.Navigator>
   );
