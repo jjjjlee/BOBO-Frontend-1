@@ -38,11 +38,17 @@ const Reporttest = ()=>{
       });
   
       if (!result.canceled) {
-        const newImages = result.assets.map(asset => asset.uri);
+        const newImages = result.assets.filter(asset => {
+          const today = new Date();
+          const assetDate = new Date(asset.creationTime);
+          const diffTime = Math.abs(today - assetDate);
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          return diffDays <= 30;
+        }).map(asset => asset.uri);
+    
         setImages([...images, ...newImages]);
       }
     };
-
     
 
     const [text, setText] = useState('毛孩有甚麼異常狀況嗎'); 
