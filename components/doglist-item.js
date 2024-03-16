@@ -12,7 +12,12 @@ const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,de
             setModalVisible(true)
         }
     }
-
+    const handleAdoption = ()=>{
+        if(matching_status !== "機構審查拒絕" & matching_status !=="機構審查(中)" & matching_status !=="機構審查批准"){
+            setModalVisible(false);
+            navigation.navigate("Adoptformik");
+          }
+      };
 
     return(
         <TouchableOpacity style = {styles.card} onPress = {()=>{handleOnPress();}}>
@@ -87,7 +92,10 @@ const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,de
             <Modal animationType="slide" transparent={false} visible={modalVisible}>
                 <TinderDetailScreen headimg={headimg} species={species} weight={weight}
                     vaccined={vaccined?"已施打疫苗":"未施打疫苗"} adoptloc={adoptloc} description={description} name = {name} age = {age} matching_status = {matching_status}/>
-                <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity> 
+                <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity>
+                <View style = {styles.action}>
+                  <TouchableOpacity  style={styles.adopt_button} onPress={handleAdoption} ><Text style={styles.adopt_button_text}>{matching_status === '機構審查批准'? "確定認養" : matching_status === '機構審查拒絕'? "機構拒絕" : matching_status === '機構審查(中)'? "審查中": "我要認養"}</Text></TouchableOpacity>
+                </View>   
             </Modal>
         </TouchableOpacity>
 
@@ -292,7 +300,38 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "600",
         letterSpacing: 0
-    }
+    },
+    adopt_button_text: {
+        flexShrink: 0,
+        textAlign: "left",
+        color: "rgba(255, 255, 255, 1)",
+        fontFamily: "PingFang TC",
+        fontSize: 20,
+        fontWeight: "600",
+        letterSpacing: 1
+    },
+    adopt_button:{
+        flexShrink: 0,
+        backgroundColor: "rgba(237, 116, 34, 1)",
+        shadowRadius: 16,
+        shadowColor: "rgb(0, 0, 0)",
+        shadowOpacity: 0.25,
+        flexDirection: "row",
+        alignItems: "center",
+        columnGap: 10,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        borderRadius: 40
+    },
+    action:{
+      position: "absolute",
+      bottom: 32,
+      left: "35%",
+      
+      flexDirection: "row",
+      alignItems: "flex-start",
+      columnGap: 21
+  }
 })
 
 export default DoglistItem;

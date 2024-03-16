@@ -1,7 +1,8 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button,Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+
 // Formik and Yup for managing form
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -41,14 +42,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const {brand,holderwords, orange} = Colors;
 
 const Register = ({route})=>{
+
     const navigation = useNavigation();
-    const storeData = async (name,value) =>{
-      try{
-        await AsyncStorage.setItem(name,value);
-      }catch(e){
-        console.log(e);
-      }
-    };
+    
     const RegisterSchema = Yup.object().shape({
       password: Yup.string()
         .min(10, '太短!')
@@ -58,9 +54,39 @@ const Register = ({route})=>{
         .min(10)
         .oneOf([Yup.ref('password')], "輸入錯誤")
         .required('請再次確認您的密碼'),
-      email: Yup.string().email('Invalid email').required('Required'),
+      phone: Yup.string().min(10,"請輸入10碼手機號碼").max(10,"請輸入10碼手機號碼").required('Required'),
     });
-   
+    
+    const handleSubmit = async (values) =>{
+      values.name = "emptyname";
+      values.email = "emptymail@gmail.com"
+      const jsonValue = JSON.stringify(values);
+      // Pushing data
+      try{
+        const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_sign_up/",{
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: jsonValue
+        });
+
+        if (response.ok){
+          const message = await response.json();
+          console.log(message);
+          Alert.alert('成功', '您已註冊成功');
+          navigation.navigate("Login");
+        } else{
+          const message = await response.json();
+          console.log(message);
+          Alert.alert('錯誤', '此資料已被註冊過');
+        }
+      }catch(err){
+        console.log("未知錯誤");
+        Alert.alert('錯誤', "未知錯誤，請聯繫BOBO人員");
+      }
+    };
+
     return (
       <KeyboardAwareScrollView  keyboardShouldPersistTaps={'never'}
         style={{flex:1}}
@@ -74,27 +100,24 @@ const Register = ({route})=>{
             </LoginLogoContainer>
             <LoginFormContainer>
                 <Formik
-                  initialValues={{email: '', password: '',passwordagain:''}}
+                  initialValues={{phone: '', password: '',passwordagain:''}}
                   validationSchema={RegisterSchema}
-                  onSubmit={values=>{
-                    const jsonValue = JSON.stringify(values);
-                    storeData("RegisterData",jsonValue);
-                    navigation.navigate("Login");
-                    }} 
+                  onSubmit={(values)=>{
+                    handleSubmit(values)
+                  }}
                 >
                   {({values, errors, touched, handleChange, setFieldTouched, isValid ,handleSubmit})=>(<StyledFormArea>
                     <MyTextInput 
-                        label = 'Email Address'
-                        icon = 'mail'
-                        placeholder ='輸入信箱地址'
+                        label = 'Phone Number'
+                        icon = 'device-mobile'
+                        placeholder ='輸入手機號碼'
                         placeholderTextColor = {holderwords}
-                        onChangeText = {handleChange('email')}
-                        onBlur = {()=>{setFieldTouched('email')}}
-                        value = {values.email}
-                        keyboardType = 'email-address'
+                        onChangeText = {handleChange('phone')}
+                        onBlur = {()=>{setFieldTouched('phone')}}
+                        value = {values.phone}
                     />
-                    {touched.email && errors.email && (
-                      <Text style={styles.errtxt}>{errors.email}</Text>
+                    {touched.phone && errors.phone && (
+                      <Text style={styles.errtxt}>{errors.phone}</Text>
                     )}
                     <MyTextInput 
                         label = 'Password'
@@ -140,10 +163,10 @@ const Register = ({route})=>{
                         <View style={{flex: 1, height: 2, backgroundColor: 'orange'}} />
                     </View>
                     <View style={styles.rowContainer}>
-                        <CircleButton onPress={()=>navigation.navigate("Setting")} logoName = "logo-google" color = "orange"/>
+                        <CircleButton onPress={()=>{}} logoName = "logo-google" color = "orange"/>
 
-                        <CircleButton onPress={()=>navigation.navigate("Adoptformik")} logoName = "logo-apple" color = "orange"/>
-                        <CircleButton onPress={()=>navigation.navigate("Report")} logoName = "logo-facebook" color = "orange"/>
+                        <CircleButton onPress={()=>{}} logoName = "logo-apple" color = "orange"/>
+                        <CircleButton onPress={()=>{}} logoName = "logo-facebook" color = "orange"/>
                     </View>
                 </LoginButtonContainer>
             </LoginFormContainer>

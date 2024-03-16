@@ -1,11 +1,9 @@
-import React from 'react';
-import { View, ImageBackground, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, ImageBackground, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
 
+const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adoptloc, description})=>{
 
-const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adoptloc, description,matching_status})=>{
-    const navigation = useNavigation();
     return(
         <View style = {styles.baseframe}>
             <View style={styles.content}>
@@ -36,9 +34,6 @@ const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adopt
                     <Text style = {styles.description_title}>關於我</Text>
                     <Text style = {styles.description_text}>{description}</Text>
                 </View>
-            </View>
-            <View style={styles.action}>
-                <TouchableOpacity  style={styles.adopt_button}  ><Text style={styles.adopt_button_text}>{matching_status === '機構審查批准'? "確定認養" : matching_status === '機構審查拒絕'? "機構拒絕" : matching_status === '機構審查(中)'? "審查中": "我要認養"}</Text></TouchableOpacity>
             </View>
             <View style={styles.header_frame}>
                 <View style={styles.header_content}>

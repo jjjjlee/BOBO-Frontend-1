@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Button, Text, View, StyleSheet } from 'react-native';
+import { Button, Text, View, StyleSheet, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 // formik
 import { Formik } from 'formik';
@@ -40,56 +40,105 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ()=>{
     const navigation = useNavigation();
-    const [authMail, setauthMail] = useState("");
-    const [authPassword, setauthPassword] = useState("");
     
     // API function
-    const fetchData = async ()=>{
-      AsyncStorage.getItem("RegisterData"
-      ).then(data=>{return(JSON.parse(data));}
-      ).then(data=>{
-        setauthMail(data.email);
-        console.log("authMail Set!")
-        setauthPassword(data.password);
-        console.log('authPassword Set!')}
-      ).catch(e=>{console.log(e);});
-    }
 
-    const patchData = async (userid, petid)=>{
-      //Change the code here to patch the data
-      setTimeout(function() {
-        console.log(userid+petid);
-      },1000)
+    const postData = async (return_obj)=>{
+      // Convert to JSON
+      const return_json = JSON.stringify(return_obj);
+      console.log(return_json);
+      // Post API
+      if(return_obj.pet_uuid_list.length > 0){
+        try{
+          const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_pet_status/post/",{
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body : return_json
+          })
+          if(response.ok){
+            console.log("Successfully posted")
+          }else{
+            const message = await response.json();
+            console.log("Post failed:"+ message);
+          }
+        }catch(err){
+          console.log(err);
+        }
+      }else{
+        console.log("No LikeCards need to update")
+      }
     }
 
     const removeLikeCardsLocalStorage = async () => {
       await AsyncStorage.removeItem("LikeCards");
-      console.log("Delete!");
+      console.log("Clear the LikeCards Storage!");
       return true
     }
 
-    const patchLikeCardsLocalStorage = async ()=>{
+    const postLikeCardsLocalStorage = async (member_uuid)=>{
       const data = await AsyncStorage.getItem("LikeCards")
-      let obj_arr = JSON.parse(data);
-      // Remove the safecard
-      obj_arr.shift();
-      // For each card, patch the status using pathData async function
-      for(let i=0; i<obj_arr.length; i++){
-        let data = await AsyncStorage.getItem("RegisterData");
-        data = JSON.parse(data);
-        await patchData(data.email,obj_arr[i].pet.uuid);
+      let return_obj = {
+        "member_uuid" : member_uuid,
+        "status" : "0",
+        "pet_uuid_list" :[]
       }
+      let data_arr = JSON.parse(data);
+      // Remove the safecard
+      if(data_arr.length !== 0){
+        data_arr.shift();
+      }
+      // Create array in the return_obj
+      for(let i=0; i<data_arr.length; i++){
+        return_obj.pet_uuid_list.push(data_arr[i].pet.uuid);
+      }
+      await postData(return_obj);
+      return true;
     }
     
-    const handleSubmit = async ()=>{
-      await patchLikeCardsLocalStorage();
-      await removeLikeCardsLocalStorage();
-      navigation.navigate("HomeTab");
+    const checkLocalStorage = async () =>{
+      // Check if LikeCards return a null item
+      const response = await AsyncStorage.getItem("LikeCards");
+      if(!response){
+        AsyncStorage.setItem("LikeCards", JSON.stringify([])
+        ).then(()=>{console.log("Create a new LikeCard storage!")});
+      }else{
+        return true;
+      }
     }
 
-    useEffect(()=>{
-      fetchData();
-    },[])
+    const handleSubmit = async (values)=>{
+
+      // Fetch API
+      
+      try{
+        const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/member_login/',{
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(values)
+        })
+
+        if (response.ok){
+            Alert.alert("成功","您已登入成功");
+            // Get the uuid
+            const message = await response.json();
+            // Check if user has LikeCards key in LocalStorage
+            await checkLocalStorage();
+            // Update the userlike backend
+            await postLikeCardsLocalStorage(message["member_uuid"]);
+            // Remove the likecards storage
+            await removeLikeCardsLocalStorage();
+            navigation.navigate("HomeTab",message['member_uuid'])
+        } else{
+            //const message = await response.json();
+            Alert.alert('錯誤', '此帳密尚未註冊');
+        }
+
+      }catch(err){
+        Alert.alert('錯誤', err.message);
+      }
+      
+      //await patchLikeCardsLocalStorage();
+    }
     
     return (
         <KeyboardAwareScrollView style={{flex:1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false} >
@@ -102,28 +151,23 @@ const Login = ()=>{
             </LoginLogoContainer>
             <LoginFormContainer>
                 <Formik
-                  initialValues={{email: '', password: ''}}
+                  initialValues={{phone: '', password: ''}}
                   validate = {values => {
-                    const errors = {};
-                    if(values.email !== authMail || values.password !== authPassword){
-                      errors.password = "Wrong password or Email";
-                    }
-                    return errors;
                   }}
                   onSubmit={(values)=>{
-                    handleSubmit();
+                    handleSubmit(values);
+                    
                     }}
                 >
                   {({handleChange, handleBlur, handleSubmit, values,errors})=>(<StyledFormArea>
                     <MyTextInput 
-                        label = 'Email Address'
-                        icon = 'mail'
-                        placeholder ='輸入信箱地址或手機號碼'
+                        label = 'Phone Number'
+                        icon = 'device-mobile'
+                        placeholder ='輸入您的手機號碼'
                         placeholderTextColor = {holderwords}
-                        onChangeText = {handleChange('email')}
-                        onBlur = {handleBlur('email')}
-                        value = {values.email}
-                        keyboardType = 'email-address'
+                        onChangeText = {handleChange('phone')}
+                        onBlur = {handleBlur('phone')}
+                        value = {values.phone}
                     />
                     <MyTextInput 
                         label = 'Password'
@@ -133,7 +177,6 @@ const Login = ()=>{
                         onChangeText = {handleChange('password')}
                         onBlur = {handleBlur('password')}
                         value = {values.password}
-                        keyboardType = 'email-address'
                     />
                     {errors.password && (
                       <Text style={styles.errtxt}>{errors.password}</Text>
