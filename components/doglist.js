@@ -11,7 +11,7 @@ const DogList = ({data,type,user,canShowDetail}) => {
         <View>
             <FlatList
                 data = {data}
-                keyExtractor = {item=>item.id}
+                keyExtractor = {item=>item.pet.uuid}
                 renderItem = {renderItem}
                 contentContainerStyle={{ paddingBottom: 70}}
                 refreshControl = {

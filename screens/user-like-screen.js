@@ -16,85 +16,22 @@ const { orange} = Colors;
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
-
-// DUMMY DATA
-const DUMMY_DATA = [
-    {
-        "id": 1,
-        "pet": {
-            "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-            "species": "貓",
-            "species_general": "猫",
-            "name": "Refuse",
-            "age": 25,
-            "weight": 60.0,
-            "vaccined": true,
-            "currentloc": "新莊2",
-            "description": "25",
-            "headimg": "…",
-            "updated_at": "2024-02-27T05:49:27.158796Z",
-            "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-        },
-        "updated_at": "2024-03-02 14:30:08",
-        "status": "機構審查拒絕"
-    },
-    {
-        "id": 2,
-        "pet": {
-            "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-            "species": "貓",
-            "species_general": "猫",
-            "name": "Run",
-            "age": 25,
-            "weight": 60.0,
-            "vaccined": true,
-            "currentloc": "新莊2",
-            "description": "25",
-            "headimg": "…",
-            "updated_at": "2024-02-27T05:49:27.158796Z",
-            "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-        },
-        "updated_at": "2024-03-02 14:30:08",
-        "status": "機構審查(中)",
-    },
-   {
-    "id": 3,
-    "pet": {
-        "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-        "species": "貓",
-        "species_general": "猫",
-        "name": "Pass",
-        "age": 25,
-        "weight": 60.0,
-        "vaccined": true,
-        "currentloc": "新莊2",
-        "description": "25",
-        "headimg": "…",
-        "updated_at": "2024-02-27T05:49:27.158796Z",
-        "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-    },
-    "updated_at": "2024-03-02 14:30:08",
-    "status": '機構審查批准',
-}
-
-]
-
-
-
 const UserLikeScreen = ()=>{
 
+    // variables
+    let uuid = "";
+    let currentdata = [];
+    let currentfilterdata = [];
     // State Variables
     const [isPass, setIsPass] = useState(false);
     const [isFail, setIsFail] = useState(false);
     const [isRun, setIsRun] = useState(false);
     const [data, setData] = useState([]);
     const [filterData, setFilterData] = useState([]);
-
     // Hooks
 
     useEffect(()=>{
-        fetchAPIData();
-        fetchLocalData();
+        fetchData();
     },[])
 
 
@@ -103,25 +40,43 @@ const UserLikeScreen = ()=>{
     },[isPass, isFail, isRun]);
     
 
-
+ 
     // Fetching Data
+
+    const fetchData = async ()=>{
+        // First fetch UUID
+        await fetchUUID();
+        // Then fetch local data
+        await fetchLocalData();
+        // Finally, fetch APIData
+        await fetchAPIData();
+    }
+
+    const fetchUUID = async() =>{
+        const response = await AsyncStorage.getItem("UUID")
+        const data = await JSON.parse(response)
+        uuid = data;
+    }
+
     const fetchAPIData = async()=>{
         // First fetch the submited dog
-        fetch("http://192.168.50.101:8000/api/dogpreview/",{
+        console.log(data);
+        fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_pet_status/" + uuid + "/",{
             method: "GET"
         }).then(res=>{return(res.json());
         }).then(res=>{
-            setData(data.concat(res));
-            setFilterData(data.concat(res));
-            console.log(res);
+            console.log("Adding API data");
+            setData(currentdata.concat(res.results));
+            setFilterData(currentfilterdata.concat(res.results));
         }).catch(err=>{console.log(err);})
     }
     const fetchLocalData = async()=>{
         AsyncStorage.getItem("LikeCards")
         .then(res=>{return(JSON.parse(res))})
         .then(res=>{
-            setData(data.concat(res));
-            setFilterData(data.concat(res));
+            console.log("Adding local data")
+            currentdata = currentdata.concat(res);
+            currentfilterdata = currentfilterdata.concat(res);
         })
     }
     

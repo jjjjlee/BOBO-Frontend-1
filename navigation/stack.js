@@ -34,7 +34,7 @@ const Stack = createStackNavigator();
 export const InitialStack = ()=>{
     const navigation = useNavigation();
     return(
-        <Stack.Navigator screenOptions={navOptions}>
+        <Stack.Navigator screenOptions={navOptions} initialRouteName={"Welcome"}>
             <Stack.Screen name = "Welcome" component ={Welcome} options={{headerShown:false}}/>
             <Stack.Screen name = "Login" component = {Login}/>
             <Stack.Screen name = "PostScreen" component = {PostScreen}/>   

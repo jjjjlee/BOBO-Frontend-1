@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react'
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useState, useEffect, useCallback } from 'react'
+import { Button, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import Swiper from 'react-native-deck-swiper'
 import { Icon } from "react-native-elements";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import TinderDetailScreen from '../screens/tinder-detail-screen';
-
+import { useNavigation } from '@react-navigation/native';
 
 // DUMMY DATA
 const DUMMY_DATA1 =  [
   {
       "id": 1,
       "pet": {
-          "uuid": "s8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+          "uuid": "a8fdc36a-9d33-4e4e-a338-5f426482ebbe",
           "species": "貓",
           "species_general": "猫",
-          "name": "Refuse",
+          "name": "已經沒有狗狗貓貓了QQ",
           "age": 25,
           "weight": 60.0,
           "vaccined": true,
@@ -26,114 +26,22 @@ const DUMMY_DATA1 =  [
       },
       "updated_at": "2024-03-02 14:30:08",
       "status": "機構審查拒絕"
-  },
-  {
-      "id": 2,
-      "pet": {
-          "uuid": "k8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-          "species": "貓",
-          "species_general": "猫",
-          "name": "Run",
-          "age": 25,
-          "weight": 60.0,
-          "vaccined": true,
-          "currentloc": "新莊2",
-          "description": "25",
-          "headimg": "…",
-          "updated_at": "2024-02-27T05:49:27.158796Z",
-          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-      },
-      "updated_at": "2024-03-02 14:30:08",
-      "status": "機構審查(中)",
-  },
- {
-  "id": 3,
-  "pet": {
-      "uuid": "h8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-      "species": "貓",
-      "species_general": "猫",
-      "name": "Pass",
-      "age": 25,
-      "weight": 60.0,
-      "vaccined": true,
-      "currentloc": "新莊2",
-      "description": "25",
-      "headimg": "…",
-      "updated_at": "2024-02-27T05:49:27.158796Z",
-      "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-  },
-  "updated_at": "2024-03-02 14:30:08",
-  "status": '機構審查批准',
-}
+  }
 
 ]
 
-const DUMMY_DATA2 = [
-  {
-      "id": 4,
-      "pet": {
-          "uuid": "g8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-          "species": "貓",
-          "species_general": "猫",
-          "name": "Refuse1",
-          "age": 25,
-          "weight": 60.0,
-          "vaccined": true,
-          "currentloc": "新莊2",
-          "description": "25",
-          "headimg": "…",
-          "updated_at": "2024-02-27T05:49:27.158796Z",
-          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-      },
-      "updated_at": "2024-03-02 14:30:08",
-      "status": "機構審查拒絕"
-  },
-  {
-      "id": 5,
-      "pet": {
-          "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-          "species": "貓",
-          "species_general": "猫",
-          "name": "Run2",
-          "age": 25,
-          "weight": 60.0,
-          "vaccined": true,
-          "currentloc": "新莊2",
-          "description": "25",
-          "headimg": "…",
-          "updated_at": "2024-02-27T05:49:27.158796Z",
-          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-      },
-      "updated_at": "2024-03-02 14:30:08",
-      "status": "機構審查(中)",
-  },
- {
-  "id": 6,
-  "pet": {
-      "uuid": "e8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-      "species": "貓",
-      "species_general": "猫",
-      "name": "Pass3",
-      "age": 25,
-      "weight": 60.0,
-      "vaccined": true,
-      "currentloc": "新莊2",
-      "description": "25",
-      "headimg": "…",
-      "updated_at": "2024-02-27T05:49:27.158796Z",
-      "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
-  },
-  "updated_at": "2024-03-02 14:30:08",
-  "status": '機構審查批准',
-}
-]
 
 
-const Swipes = ({currentIndex,swipesRef})=>{
+
+const Swipes = ({currentIndex,swipesRef,uuid})=>{
+    const navigation = useNavigation();
+    const isEmptyDeck = false;
     [modalVisible,setModalVisible] = useState(false);
     [Data, setData] = useState(DUMMY_DATA1);
-    [tapData, setTapData] = useState(Data[0]);
+    [tapData, setTapData] = useState(DUMMY_DATA1[0]);
     [key, setKey] = useState(0);
+
+    let api = "https://lively-nimbus-415015.de.r.appspot.com/api/pet_tinder/get/1/" +  uuid + "/"
     const safecard =   {
       "id": 3141592654,
       "pet": {
@@ -150,14 +58,32 @@ const Swipes = ({currentIndex,swipesRef})=>{
       },
       "status": ""
   }
+    
 
     // Fethcing data
-    const fetchData = async () =>{
-      fetch("....",{
-        method:"GET",
-      }).then(res=>{return(res.json());
-      }).then(res=>{setData(res);
-      }).catch(err=>{console.log(err);})
+    const fetchData = async ()=>{
+      try{
+        const response  = await fetch(api,{method:"GET"});
+        if(response.ok){
+          console.log("Now Start fetching");
+          const data = await response.json();
+          console.log("Data is set");
+          if(data.results.length === 0 ){
+            console.log("No availabel cards");
+            isEmptyDeck = true;
+          }else{
+            setData(data.results);
+            setTapData(data.results[0]);
+          }
+          api = data.next;
+        }else{
+          console.log("Has http error when getting tinder cards");
+        }
+        
+      }catch(err){
+        console.log("Error when fetching Tinder card : "+err)
+      }
+      
     }
 
     // Functions
@@ -166,14 +92,16 @@ const Swipes = ({currentIndex,swipesRef})=>{
         AsyncStorage.getItem("LikeCards")
         .then(res=>{
           const arr = res? JSON.parse(res) : [];
-          arr.push(safecard);
+          if(arr.length === 0){
+            arr.push(safecard)
+          }
           AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
         })
       }else if(idx<Data.length-1){
         AsyncStorage.getItem("LikeCards")
         .then(res=>{
           const arr = res? JSON.parse(res) : [];
-          if(! containsObject(Data[idx],arr)){
+          if(! containsObject(Data[idx],arr) & !isEmptyDeck){
             arr.push(Data[idx]);
             AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
           }
@@ -186,22 +114,27 @@ const Swipes = ({currentIndex,swipesRef})=>{
     }
 
     const handleSwipeAll = async()=>{
-      //fetchData();
+      if(!isEmptyDeck){
+        //fetchData();
       AsyncStorage.getItem("LikeCards")
-        .then(res=>{
-          const arr = res? JSON.parse(res) : [];
-          if(!containsObject(Data[Data.length-1],arr)){
-            arr.push(Data[Data.length-1]);
-            AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
-            // Then fetch data here and set the data
-            setData(DUMMY_DATA2);
-            setKey(key+0.01);
-          }else{
-            // Then fetch data here and set the data
-            setData(DUMMY_DATA2);
-            setKey(key+0.01);
-          }
-        })
+      .then(res=>{
+        const arr = res? JSON.parse(res) : [];
+        if(!containsObject(Data[Data.length-1],arr)){
+          arr.push(Data[Data.length-1]);
+          AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
+          // Then fetch data here and set the data
+          setData(DUMMY_DATA1);
+          setKey(key+0.01);
+        }else{
+          // Then fetch data here and set the data
+          setData(DUMMY_DATA1);
+          setKey(key+0.01);
+        }
+      })
+      }else{
+        setData(DUMMY_DATA1);
+      }
+
     }
 
     const handleOnTap = (idx)=>{
@@ -221,10 +154,21 @@ const Swipes = ({currentIndex,swipesRef})=>{
   }
     // UseEffect
     useEffect(()=>{
+      // First save safecard
       saveLikeCard(null);
-      console.log("A card is saved")
-    },[])
-    
+      console.log("Safe card is saved")
+      // Then fetch the tinder card api
+      fetchData();
+    },[key])
+
+    // handleAdoption button
+    const handleAdoption = ()=>{
+      if(tapData.status !== "機構審查拒絕" & tapData.status !=="機構審查(中)" & tapData.status !=="機構審查批准"){
+        setModalVisible(false);
+        navigation.navigate("Adoptformik");
+      }
+    };
+
     return(
         <View style={styles.swipes}>
             <Swiper
@@ -282,10 +226,13 @@ const Swipes = ({currentIndex,swipesRef})=>{
             backgroundColor={'white'}
             stackSize= {3}>
             </Swiper>
-            <Modal animationType="slide" transparent={false} visible={modalVisible}>
+            <Modal animationType="slide" transparent={true} visible={modalVisible}>
                 <TinderDetailScreen headimg={tapData.pet.headimg} species={tapData.pet.species} weight={tapData.pet.weight}
-                    vaccined={tapData.pet.vaccined} adoptloc={tapData.pet.adoptloc} description={tapData.pet.description} name = {tapData.pet.name} age = {tapData.pet.age} matching_status={tapData.status}/>
+                    vaccined={tapData.pet.vaccined} adoptloc={tapData.pet.adoptloc} description={tapData.pet.description} name = {tapData.pet.name} age = {tapData.pet.age}  />
                 <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity> 
+                <View style = {styles.action}>
+                  <TouchableOpacity  style={styles.adopt_button} onPress={handleAdoption} ><Text style={styles.adopt_button_text}>{tapData.status === '機構審查批准'? "確定認養" : tapData.status === '機構審查拒絕'? "機構拒絕" : tapData.status === '機構審查(中)'? "審查中": "我要認養"}</Text></TouchableOpacity>
+                </View>  
             </Modal>
         </View>
     )
@@ -455,7 +402,38 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: "600",
         letterSpacing: 0
-    }
+    },
+    adopt_button_text: {
+      flexShrink: 0,
+      textAlign: "left",
+      color: "rgba(255, 255, 255, 1)",
+      fontFamily: "PingFang TC",
+      fontSize: 20,
+      fontWeight: "600",
+      letterSpacing: 1
+  },
+  adopt_button:{
+      flexShrink: 0,
+      backgroundColor: "rgba(237, 116, 34, 1)",
+      shadowRadius: 16,
+      shadowColor: "rgb(0, 0, 0)",
+      shadowOpacity: 0.25,
+      flexDirection: "row",
+      alignItems: "center",
+      columnGap: 10,
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 40
+  },
+  action:{
+    position: "absolute",
+    bottom: 32,
+    left: "35%",
+    
+    flexDirection: "row",
+    alignItems: "flex-start",
+    columnGap: 21
+}
   
   });
 

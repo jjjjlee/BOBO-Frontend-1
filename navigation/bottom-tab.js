@@ -4,11 +4,24 @@ import { Ionicons } from '@expo/vector-icons';
 // Import the tabs and screens
 import TinderScreen from '../screens/tinder-screen';
 import { UserTrackTab } from './tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from 'react';
 
 
 const Tab = createBottomTabNavigator();
 
-export const HomeTab = ()=>{
+export const HomeTab = ({ route })=>{
+  const uuid = route.params;
+
+  const setUUID = async ()=>{
+    AsyncStorage.setItem("UUID", JSON.stringify(uuid)
+    ).then(()=>{console.log("the uuid is set")});
+  }
+
+  useEffect(()=>{
+    setUUID();
+  },[])
+  
   return (
     <Tab.Navigator
       screenOptions= {({route})=>({
@@ -21,7 +34,7 @@ export const HomeTab = ()=>{
         tabBarInactiveTintColor:'grey',
         tabBarIcon : ({focused,color,size})=>{
           let iconName;
-          if (route.name === 'Hometab'){
+          if (route.name === 'TinderScreen'){
             iconName = focused ? 'home' : 'home-outline'
           }
           else if (route.name === 'UserTrack'){
@@ -32,8 +45,8 @@ export const HomeTab = ()=>{
         }
       })}
     >
-      <Tab.Screen name="Hometab" component={TinderScreen} />
-      <Tab.Screen name="UserTrack" component={UserTrackTab} />
+      <Tab.Screen name="TinderScreen" component={TinderScreen} initialParams={{uuid}} />
+      <Tab.Screen name="UserTrack" component={UserTrackTab} initialParams={{uuid}}/>
     </Tab.Navigator>
   );
 }

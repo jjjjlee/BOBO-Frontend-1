@@ -4,7 +4,8 @@ import  { BottomBar } from '../components/tinder-components'
 import Swipes from '../components/tinder-swipes'
 
 
-const TinderScreen = ()=>{
+const TinderScreen = ({route})=>{
+  const uuid = route.params.uuid;
   const [currentIndex, setCurrentIndex] = useState(0);
   // Ref for button-pressed 
   const swipesRef = useRef(null);
@@ -20,6 +21,7 @@ const TinderScreen = ()=>{
   return (
     <View style={styles.container} >
       <Swipes
+        uuid = {uuid}
         swipesRef={swipesRef}
         currentIndex = {currentIndex}/>
       <BottomBar handleLikePress={handleLikePress} handlePassPress={handlePassPress} />
