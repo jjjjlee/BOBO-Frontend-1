@@ -105,39 +105,46 @@ const DUMMY_DATA = [
 
 ];
 
-export const UserTrackTab = ()=>{
+export const UserTrackTab = ({route})=>{
+    const uuid = route.params.uuid;
+
     const initialData = { 
         id : 0,
         track_item_arr : [
             {
                 id:"",
-                imgs_arr:[],
-                update_date:"",
-                update_text:""
+                pettrace_imgs:[],
+                created_at:"",
+                description:""
             }],
-        dog_info:{
+        pet:{
             name:"加載中.....",
             headimg:"",
             age:'',
             species:"",
             weight:"",
-            vaccined:"",
-            adoptloc:"",
-            adoptdate:"",
+            vaccined:false,
             currentloc:"",
-            history_days:"",
-            description: ""
-        }
+            description: "",
+            created_at : "",
+            updated_at: "",
+            institution:""
+        },
+        history_days:""
       }
     
     const [data, setData] = useState([initialData]);
 
     // Function
     const fetchAPI = async ()=>{
-        // Write the fetching method here
-       setTimeout(()=>{
-        setData(DUMMY_DATA);
-       },1000)
+        fetch("https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/member/"+uuid+'/',{
+            method:"GET"})
+            .then(res=>{return(res.json());})
+            .then(res=>{
+                console.log(res)
+                setData(res)
+            })
+            .catch(err=>{console.log(err);})
     };
 
     // Hooks
@@ -147,7 +154,7 @@ export const UserTrackTab = ()=>{
 
   return(
     <Tab.Navigator>
-        {data.map((item,i)=>(<Tab.Screen key= {i} name={item.dog_info.name} component = {UserTrackScreen} initialParams={item} />))}
+        {data.map((item,i)=>(<Tab.Screen key= {i} name={item.pet.name} component = {UserTrackScreen} initialParams={{param1:item, param2 : uuid}} />))}
     </Tab.Navigator>
   );
 }

@@ -10,17 +10,20 @@ const { orange} = Colors;
 
 
 
-const UserTrackScreen = (input_data)=>{
-    const dog_info = input_data.route.params.dog_info;
-    const track_item_arr = input_data.route.params.track_item_arr;
+const UserTrackScreen = ({route})=>{
+    const {param1,param2} = route.params;
+    const dog_info = param1.pet;
+    const track_item_arr = param1.track_item_arr;
+    const history_days = param1.history_days;
+    const uuid = param2.uuid;
     const navigation = useNavigation();
 
     return(
         <View style = {styles.baseframe}>
-            <DoglistItem id = {dog_info.id} name = {dog_info.name} headimg={dog_info.headimg} age = {dog_info.age} species = {dog_info.species} weight={dog_info.weight} vaccined={dog_info.vaccined} adoptloc={dog_info.adoptloc} adoptdate = {dog_info.adoptdate} currentloc={dog_info.currentloc} type={"forPost"} description={dog_info.description} update_status = {""} isadopted={true} />
+            <DoglistItem id = {dog_info.id} name = {dog_info.name} headimg={dog_info.headimg} age = {dog_info.age} species = {dog_info.species} weight={dog_info.weight} vaccined={dog_info.vaccined} adoptloc={dog_info.currentloc} adoptdate = {dog_info.updated_at} currentloc={dog_info.currentloc} type={"forPost"} description={dog_info.description} update_status = {""} isadopted={true} />
             <View style = {styles.tracklist} >
                 <Text style={styles.history_days_text}>
-                    你們已經一起經歷 {<Text style = {{color:orange}}>{dog_info.history_days}</Text>} 天了
+                    你們已經一起經歷 {<Text style = {{color:orange}}>{history_days}</Text>} 天了
                 </Text>
                 <StatusBar style='dark'/>
                 <UserTracklist data = {track_item_arr}/>
