@@ -15,7 +15,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const {holderwords,orange,gray,white} = Colors;
 
 import { useNavigation } from '@react-navigation/native';
-import Adoptformik2 from './adoptiontwo';
      
     
 const Adoptformik = ()=>{
@@ -605,9 +604,6 @@ const Adoptformik = ()=>{
             
 
             </ScrollView>
-            <Modal >
-                <Adoptformik2/>
-            </Modal>
         </SafeAreaView>
         
     )

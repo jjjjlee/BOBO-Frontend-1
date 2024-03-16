@@ -4,7 +4,7 @@ import UserTracklistItem from "./user-tracklist-item";
 
 const UserTracklist = ({data}) => {
     const renderItem =({item}) =>{
-        return <UserTracklistItem id = {item.id} imgs_arr={item.imgs_arr} update_date={item.update_date} update_text={item.update_text}/>
+        return <UserTracklistItem id = {item.id} imgs_arr={item.pettrace_imgs} update_date={item.created_at} update_text={item.description}/>
     }
     return(
         <View style = {{width : "100%",height:"100%"}}>

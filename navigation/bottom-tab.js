@@ -6,7 +6,7 @@ import TinderScreen from '../screens/tinder-screen';
 import { UserTrackTab } from './tabs';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect } from 'react';
-
+import Setting from '../screens/usersetting';
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +39,8 @@ export const HomeTab = ({ route })=>{
           }
           else if (route.name === 'UserTrack'){
             iconName = focused ? 'newspaper' : 'newspaper-outline'
+          }else if (route.name === 'Setting'){
+            iconName = focused ? 'settings' : 'settings-outline'
           }
 
           return <Ionicons name = {iconName} size={size} color = {color}/>
@@ -47,6 +49,7 @@ export const HomeTab = ({ route })=>{
     >
       <Tab.Screen name="TinderScreen" component={TinderScreen} initialParams={{uuid}} />
       <Tab.Screen name="UserTrack" component={UserTrackTab} initialParams={{uuid}}/>
+      <Tab.Screen name="Setting" component={Setting} initialParams = {{uuid}}/>
     </Tab.Navigator>
   );
 }
