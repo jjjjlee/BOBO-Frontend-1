@@ -15,7 +15,7 @@ const UserTrackScreen = ({route})=>{
     const dog_info = param1.pet;
     const track_item_arr = param1.track_item_arr;
     const history_days = param1.history_days;
-    const uuid = param2.uuid;
+    const uuid = param2;
     const navigation = useNavigation();
 
     return(
@@ -28,7 +28,7 @@ const UserTrackScreen = ({route})=>{
                 <StatusBar style='dark'/>
                 <UserTracklist data = {track_item_arr}/>
             </View>
-            <Reporttest/>
+            <Reporttest uuid={uuid} />
         </View>
     )
 

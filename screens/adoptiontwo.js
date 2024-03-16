@@ -15,14 +15,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Adoptformik2 = ()=>{ 
 
+    
+
     const navigation = useNavigation();
 
-    const [text01, setText01] = useState('');       
-    const [text02, setText02] = useState('');       
-    const [text03, setText03] = useState('');      
-    const [text04, setText04] = useState('');       
-    const [text05, setText05] = useState('');       
-    const [text06, setText06] = useState('');  
+    const [family_composition, setText01] = useState('');       
+    const [pet_breed, setText02] = useState('');       
+    const [ care_exp, setText03] = useState('');      
+    const [reason, setText04] = useState('');       
+    const [care_plan, setText05] = useState('');       
+    const [addition, setText06] = useState('');  
 
     const [modalVisible1, setModalVisible1] = useState(false);
     const [modalVisible2, setModalVisible2] = useState(false);
@@ -57,10 +59,10 @@ const Adoptformik2 = ()=>{
 
 
 /////////////////////////////下拉式選單//////////////////////////////////////
-    const [selected01,setSelected01] = useState('');        
-    const [selected02,setSelected02] = useState('');        
-    const [selected03,setSelected03] = useState('');        
-    const [selected04,setSelected04] = useState('');             
+    const [ current_pets,setSelected01] = useState('');        
+    const [monthly_care_budge,setSelected02] = useState('');        
+    const [monthly_salary,setSelected03] = useState('');        
+    const [allergies,setSelected04] = useState('');             
   
  
 
@@ -99,17 +101,17 @@ const Adoptformik2 = ()=>{
 
     const saveData = async () => {
         try {
-            await AsyncStorage.setItem('text01', text01);
-            await AsyncStorage.setItem('text02', text02);
-            await AsyncStorage.setItem('text03', text03);
-            await AsyncStorage.setItem('text04', text04);
-            await AsyncStorage.setItem('text05', text05);
-            await AsyncStorage.setItem('text06', text06);
+            await AsyncStorage.setItem('family_composition', family_composition);
+            await AsyncStorage.setItem('pet_breed', pet_breed);
+            await AsyncStorage.setItem(' care_exp',  care_exp);
+            await AsyncStorage.setItem('reason', reason);
+            await AsyncStorage.setItem('care_plan', care_plan);
+            await AsyncStorage.setItem('addition', addition);
 
-            await AsyncStorage.setItem('selected01', selected01);
-            await AsyncStorage.setItem('selected02', selected02);
-            await AsyncStorage.setItem('selected03', selected03);
-            await AsyncStorage.setItem('selected04', selected04);
+            await AsyncStorage.setItem(' current_pets',  current_pets);
+            await AsyncStorage.setItem('monthly_care_budge', monthly_care_budge);
+            await AsyncStorage.setItem('monthly_salary', monthly_salary);
+            await AsyncStorage.setItem('allergies', allergies);
         } catch (error) {
             console.error('Error saving data: ', error);
         }
@@ -117,63 +119,68 @@ const Adoptformik2 = ()=>{
     
     const retrieveData = async () => {
         try {
-            const value1 = await AsyncStorage.getItem('text01');
+            const value1 = await AsyncStorage.getItem('family_composition');
             setText01(value1 || '');
-            const value2 = await AsyncStorage.getItem('text02');
+            const value2 = await AsyncStorage.getItem('pet_breed');
             setText02(value2 || '');
-            const value3 = await AsyncStorage.getItem('text03');
+            const value3 = await AsyncStorage.getItem(' care_exp');
             setText03(value3 || '');
-            const value4 = await AsyncStorage.getItem('text04');
+            const value4 = await AsyncStorage.getItem('reason');
             setText04(value4 || '');
-            const value5 = await AsyncStorage.getItem('text05');
+            const value5 = await AsyncStorage.getItem('care_plan');
             setText05(value5 || '');
-            const value6 = await AsyncStorage.getItem('text06');
+            const value6 = await AsyncStorage.getItem('addition');
             setText06(value6 || '');
 
-            const selectedValue1 = await AsyncStorage.getItem('selected01');
+            const selectedValue1 = await AsyncStorage.getItem(' current_pets');
             setSelected01(selectedValue1 || '');
-            const selectedValue2 = await AsyncStorage.getItem('selected02');
+            const selectedValue2 = await AsyncStorage.getItem('monthly_care_budge');
             setSelected02(selectedValue2 || '');
-            const selectedValue3 = await AsyncStorage.getItem('selected03');
+            const selectedValue3 = await AsyncStorage.getItem('monthly_salary');
             setSelected03(selectedValue3 || '');
-            const selectedValue4 = await AsyncStorage.getItem('selected04');
+            const selectedValue4 = await AsyncStorage.getItem('allergies');
             setSelected04(selectedValue4 || '');
         } catch (error) {
             console.error('Error retrieving data: ', error);
         }
     };
+    
     const handleComplete = async () => {
-        
-        
+        const data = await AsyncStorage.getItem("UUID");
+        const uid = await JSON.parse(data);
+        console.log(uid);
+          
 
         try {
-            // const requestData = {
-            //     text01,
-            //     text02,
-            //     text03,
-            //     text04,
-            //     text05,
-            //     text06,
-            //     selected01,
-            //     selected02,
-            //     selected03,
-            //     selected04,
+            const requestData = {
+                "family_composition":family_composition,
+                "pet_breed":pet_breed,
+                "care_exp":care_exp,
+                "reason":reason,
+                "care_plan":care_plan,
+                "addition":addition,
+                "current_pets":current_pets,
+                "monthly_care_budge":monthly_care_budge,
+                "monthly_salary":monthly_salary,
+                "allergies":allergies,
                
-            // };
+            };
 
-            // const response = await fetch('api', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //     },
-            //     body: JSON.stringify(requestData),
-            // });
+            const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member-detail/patch/" + uid +"/", 
+            {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(requestData),
+            });
 
-            // if (!response.ok) {
-            //     throw new Error('Failed to submit data');
-            // }
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+              }
 
-            navigation.navigate("Tinder");
+            navigation.navigate("Login");
          } 
          catch (error) {
              console.error('Error submitting data: ', error);
@@ -213,7 +220,7 @@ const Adoptformik2 = ()=>{
             <Text  style={{fontSize:20,left:20,margin:5}}>您的家庭成員組成</Text>
             <View style={{flexDirection:'row',justifyContent: 'center',top:9}}>
             <TouchableOpacity onPress={handleOpenModal1} style={{ padding: 20, backgroundColor: '#fff',width:'80%',borderRadius:20}}>
-                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text01}</Text>
+                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{family_composition}</Text>
             </TouchableOpacity>
             </View>
             <Modal
@@ -230,7 +237,7 @@ const Adoptformik2 = ()=>{
                             multiline={true} 
                             style={{ height:'50%', backgroundColor:gray,textAlignVertical: 'top',padding:5, marginBottom: 20 ,borderRadius:15}}
                             onChangeText={setText01}
-                            value={text01}
+                            value={family_composition}
                             />
                             <TouchableOpacity onPress={handleSaveText1} style={{ padding: 10, backgroundColor:orange, alignItems: 'center', borderRadius: 5 ,}}>
                                 <Text>保存</Text>
@@ -255,7 +262,7 @@ const Adoptformik2 = ()=>{
                                 margin:5
                                 }}
                                 onPress={handleToggleOptions1}>
-                            <Text style={{fontSize:19,color:holderwords}}>  {selected01}  </Text>
+                            <Text style={{fontSize:19,color:holderwords}}>  { current_pets}  </Text>
                             {showOptions1 && (
                             <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                                 {Options1.map((a1, index) => (
@@ -274,7 +281,7 @@ const Adoptformik2 = ()=>{
             <Text  style={{fontSize:20,left:20,margin:5}}>您家中寵物類型(現在)</Text>
             <View style={{flexDirection:'row',justifyContent: 'center',top:9}}>
             <TouchableOpacity onPress={handleOpenModal2} style={{ padding: 20, backgroundColor: '#fff',width:'80%',borderRadius:20}}>
-                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text02}</Text>
+                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{pet_breed}</Text>
             </TouchableOpacity>
             </View>
             <Modal
@@ -291,7 +298,7 @@ const Adoptformik2 = ()=>{
                             multiline={true} 
                             style={{ height:'40%', backgroundColor:gray,textAlignVertical: 'top',padding:5, marginBottom: 20 ,borderRadius:15}}
                             onChangeText={setText02}
-                            value={text02}
+                            value={pet_breed}
                             />
                             <TouchableOpacity onPress={handleSaveText2} style={{ padding: 10, backgroundColor:orange, alignItems: 'center', borderRadius: 5}}>
                                 <Text>保存</Text>
@@ -306,7 +313,7 @@ const Adoptformik2 = ()=>{
             <Text  style={{fontSize:20,left:20,margin:5}}>補充您的寵物飼養經驗</Text>
             <View style={{flexDirection:'row',justifyContent: 'center',top:9,height:100}}>
             <TouchableOpacity onPress={handleOpenModal3} style={{ padding: 20, backgroundColor: '#fff',width:'80%',borderRadius:20}}>
-                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text03}</Text>
+                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{ care_exp}</Text>
             </TouchableOpacity>
             </View>
             <Modal
@@ -323,7 +330,7 @@ const Adoptformik2 = ()=>{
                             multiline={true} 
                             style={{ height:'50%', backgroundColor:gray,textAlignVertical: 'top',padding:5, marginBottom: 20 ,borderRadius:15}}
                             onChangeText={setText03}
-                            value={text03}
+                            value={ care_exp}
                             />
                             <TouchableOpacity onPress={handleSaveText3} style={{ padding: 10, backgroundColor:orange, alignItems: 'center', borderRadius: 5}}>
                                 <Text>保存</Text>
@@ -338,7 +345,7 @@ const Adoptformik2 = ()=>{
             <Text  style={{fontSize:20,left:20,margin:5}}>您領養寵物的原因</Text>
             <View style={{flexDirection:'row',justifyContent: 'center',top:9,height:100}}>
             <TouchableOpacity onPress={handleOpenModal4} style={{ padding: 20, backgroundColor: '#fff',width:'80%',borderRadius:20}}>
-                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text04}</Text>
+                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{reason}</Text>
             </TouchableOpacity>
             </View>
             <Modal
@@ -355,7 +362,7 @@ const Adoptformik2 = ()=>{
                             multiline={true} 
                             style={{ height:'50%', backgroundColor:gray,textAlignVertical: 'top',padding:5, marginBottom: 20 ,borderRadius:15}}
                             onChangeText={setText04}
-                            value={text04}
+                            value={reason}
                             />
                             <TouchableOpacity onPress={handleSaveText4} style={{ padding: 10, backgroundColor:orange, alignItems: 'center', borderRadius: 5}}>
                                 <Text>保存</Text>
@@ -370,7 +377,7 @@ const Adoptformik2 = ()=>{
             <Text  style={{fontSize:20,left:20,margin:5}}>您的寵物飼養、照顧計畫</Text>
             <View style={{flexDirection:'row',justifyContent: 'center',top:9,height:100}}>
             <TouchableOpacity onPress={handleOpenModal5} style={{ padding: 20, backgroundColor: '#fff',width:'80%',borderRadius:20}}>
-                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text05}</Text>
+                <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{care_plan}</Text>
             </TouchableOpacity>
             </View>
             <Modal
@@ -387,7 +394,7 @@ const Adoptformik2 = ()=>{
                             multiline={true} 
                             style={{ height:'50%', backgroundColor:gray,textAlignVertical: 'top',padding:5, marginBottom: 20 ,borderRadius:15}}
                             onChangeText={setText05}
-                            value={text05}
+                            value={care_plan}
                             />
                             <TouchableOpacity onPress={handleSaveText5} style={{ padding: 10, backgroundColor:orange, alignItems: 'center', borderRadius: 5}}>
                                 <Text>保存</Text>
@@ -412,7 +419,7 @@ const Adoptformik2 = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions2}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected02}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {monthly_care_budge}  </Text>
                         {showOptions2 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options2.map((a2, index) => (
@@ -440,7 +447,7 @@ const Adoptformik2 = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions3}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected03}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {monthly_salary}  </Text>
                         {showOptions3 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options3.map((a3, index) => (
@@ -469,7 +476,7 @@ const Adoptformik2 = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions4}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected04}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {allergies}  </Text>
                         {showOptions4 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options4.map((a4, index) => (
@@ -487,7 +494,7 @@ const Adoptformik2 = ()=>{
                 <Text  style={{fontSize:20,left:20,margin:5}}>您有其他想要補充或是提問的事情嗎？</Text>
                     <View style={{flexDirection:'row',justifyContent: 'center',top:9,height:100}}>
                         <TouchableOpacity onPress={handleOpenModal6} style={{ padding: 20, backgroundColor: '#fff',width:'80%',borderRadius:20}}>
-                            <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{text06}</Text>
+                            <Text style={{fontSize:16,textAlign:'left',color:holderwords}}>{addition}</Text>
                         </TouchableOpacity>
                     </View>
                 <Modal
@@ -504,7 +511,7 @@ const Adoptformik2 = ()=>{
                             multiline={true} 
                             style={{ height:'50%', backgroundColor:gray,textAlignVertical: 'top',padding:5, marginBottom: 20 ,borderRadius:15}}
                             onChangeText={setText06}
-                            value={text06}
+                            value={addition}
                             />
                             <TouchableOpacity onPress={handleSaveText6} style={{ padding: 10, backgroundColor:orange, alignItems: 'center', borderRadius: 5}}>
                                 <Text>保存</Text>

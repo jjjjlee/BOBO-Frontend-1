@@ -1,8 +1,9 @@
 import React,{useState,useEffect} from 'react';
-import { Text, View , Button,TouchableOpacity,  keyboardType,Image, TextInput,Modal,KeyboardAvoidingView} from 'react-native';
+import { Text, View , Button,TouchableOpacity,  keyboardType,Image, TextInput,Modal,Alert} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useNavigation } from '@react-navigation/native';
 // formik
 import { Formik } from 'formik';
 // Styled components
@@ -18,7 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
      
     
 const Setting = ()=>{
-
+    const navigation = useNavigation();
     const [text1, setText1] = useState('請介紹您自己讓機構更認識您!');
     const [modalVisible1, setModalVisible1] = useState(false);
     const handleOpenModal1 = () => {setModalVisible1(true);};
@@ -119,12 +120,12 @@ useEffect(() => {
 
 
 const [name, setname] = useState('');
-const [id, setid] = useState('');
+const [email, setid] = useState('');
 const [Houseaddress, setHouseaddress] = useState('');
 const [Correspondenceaddress, setCorrespondenceaddress] = useState('');
 const [Phonenumbers, setPhonenumbers] = useState('');
 const [initialFormValues, setInitialFormValues] = useState({
-    name: '',Houseaddress:'', Correspondenceaddress:'',Phonenumber:'',id:''
+    name: '',Houseaddress:'', Correspondenceaddress:'',Phonenumbers:'',email:''
 });
 
 const saveData = async (key, value) => {
@@ -154,10 +155,10 @@ const saveData = async (key, value) => {
         setname(savedName);
         setInitialFormValues({ ...initialFormValues, name: savedName });
       }
-      const saveid = await retrieveData('id');
+      const saveid = await retrieveData('email');
       if (saveid) {
         setid(saveid);
-        setInitialFormValues({ ...initialFormValues, id: saveid });
+        setInitialFormValues({ ...initialFormValues, email: saveid });
       }
       const saveHouseaddress = await retrieveData('Houseaddress');
       if (saveHouseaddress) {
@@ -178,13 +179,58 @@ const saveData = async (key, value) => {
     fetchData();
   }, []); // Empty dependency array means this effect runs once after the initial render
 
+
+
+  let memberid = "";
+    const fetchUUID = async() =>{
+        const response = await AsyncStorage.getItem("UUID")
+        const data = await JSON.parse(response)
+        console.log('memeberid is get',data)
+        memberid = data;
+    }
+
+    useEffect(()=>{
+        fetchUUID();
+    },[])
+  const handleComplete =async()=>{
+    
+    
+    try{
+      const data ={
+        "name":name,
+        "currentloc":Correspondenceaddress,
+        "phone":Phonenumbers,
+        "email":email,
+        "uuid":memberid,
+
+      };
+      const response = await 
+      fetch('https://lively-nimbus-415015.de.r.appspot.com/api/member_sign_up/', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+        },
+      body: JSON.stringify(data),
+  });
+  
+  if (response.ok) {
+
+    Alert.alert('成功', '儲存成功');
+  }
+  navigation.goBack(); 
+    }
+    catch (error) {
+      Alert.alert('錯誤', '請注意您的email是否正確');
+  }
+  };
+
   const handleNameChange = (value) => {
     setname(value);
     saveData('name', value);
   };
   const handleidChange = (value) => {
     setid(value);
-    saveData('id', value);
+    saveData('email', value);
   };
   const handleHouseaddressChange = (value) => {
     setHouseaddress(value);
@@ -203,7 +249,7 @@ const saveData = async (key, value) => {
   const handleSubmit = () => {
     // Handle form submission here
     console.log('Form submitted with name:', name);
-    console.log('Form submitted with id:', id);
+    console.log('Form submitted with email:', email);
     console.log('Form submitted with Houseaddress:',Houseaddress);
     console.log('Form submitted with Correspondenceaddress:', Correspondenceaddress);
     console.log('Form submitted with Phonenumbers:',Phonenumbers);
@@ -213,8 +259,22 @@ const saveData = async (key, value) => {
     return (
         <KeyboardAwareScrollView style={{flex:1 }} contentContainerStyle={{ flexGrow: 1,height:'120%'}} keyboardShouldPersistTaps="handled">
 
-            <View style={{flex:1.0,backgroundColor: 'white'}}>
-                <Lefttextorange>吳執行長</Lefttextorange>    
+        <View style={{flex:1.5,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+                
+                <TouchableOpacity  onPress={()=>navigation.goBack()}>
+                    <Text style={{fontSize:20,left:15,color:'#fff'}}>取消</Text>
+                </TouchableOpacity>
+                                                                           
+                                                                                                            {/* 上面橘色框框 */}
+                
+                    <Text style={{fontSize:25,color:'#fff'}}>  使用者基本資料</Text>
+                
+
+                
+                <TouchableOpacity onPress={(handleComplete)} >
+                    <Text style={{fontSize:20,right:15,color:'#fff'}}>儲存</Text>
+                </TouchableOpacity>
+                
             </View>
 
             <View style={{ height: 10 }}></View>
@@ -297,11 +357,11 @@ const saveData = async (key, value) => {
                         
                         </TouchableOpacity>
                          <TouchableOpacity onPress={handleSubmit} style={{ backgroundColor: '#fff',  flexDirection: 'row', justifyContent:'center', alignItems: 'center',height:60, width: '80%'}}>
-                        <Text style={{ fontSize: 18,left:10  }}>身分證</Text>
+                        <Text style={{ fontSize: 18,left:10  }}>信箱</Text>
                         <TextInput
                             onChangeText={handleidChange}
-                            value={id}
-                            placeholder="請輸入您的身分證"
+                            value={email}
+                            placeholder="請輸入您的信箱"
                             style={{ flex: 1, fontSize: 17, color: holderwords ,textAlign:'right',right:10}}
                         />
                         </TouchableOpacity>

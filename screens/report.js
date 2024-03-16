@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Text, View , TouchableOpacity, Image,Modal,TextInput, Platform ,TouchableWithoutFeedback, Keyboard } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -8,13 +8,13 @@ import * as ImagePicker from 'expo-image-picker';
 import {
     Colors,
 } from './../components/styles'
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 //colors
 const {holderwords,orange,white} = Colors;
 
-const Reporttest = ()=>{
-
+const Reporttest = ({uuid})=>{
+    const petid =uuid;
     const handlePressOutside = () => {
         Keyboard.dismiss(); 
       };
@@ -38,18 +38,36 @@ const Reporttest = ()=>{
       });
   
       if (!result.canceled) {
-        const newImages = result.assets.filter(asset => {
-          const today = new Date();
-          const assetDate = new Date(asset.creationTime);
-          const diffTime = Math.abs(today - assetDate);
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          return diffDays <= 30;
-        }).map(asset => asset.uri);
-    
+        const newImages = result.assets.map(asset => asset.uri);
         setImages([...images, ...newImages]);
+    
+        
+       
       }
     };
-    
+
+    const uploadImage = async (uri) => {
+      try {
+          const formData = new FormData();
+          formData.append('uploaded_images', {
+              uri,
+              type: 'image/jpeg', 
+              name: 'image.jpg',
+          });
+          const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/post/', {
+              method: 'POST',
+              body: formData,
+              headers: {
+                  'Content-Type': 'multipart/form-data',
+              },
+          });
+          const data = await response.json();
+          console.log('Image uploaded:', data);
+      } catch (error) {
+          console.error('Error uploading image: ', error);
+          Alert.alert('Error', 'Failed to upload image.');
+      }
+  };
 
     const [text, setText] = useState('毛孩有甚麼異常狀況嗎'); 
     const [text2, setText2] = useState('毛孩有甚麼異常狀況嗎'); 
@@ -58,39 +76,68 @@ const Reporttest = ()=>{
     const [modalVisible, setModalVisible] = useState(false);
     const handleOpenModal = () => {setModalVisible(true);};
     const handleCloseModal = () => {setModalVisible(false);};
-    const handleSaveText = async() => {
-        try {
-            const response = await fetch('https://api.example.com/saveData', {
+
+    let memberid = "";
+    const fetchUUID = async() =>{
+        const response = await AsyncStorage.getItem("UUID")
+        const data = await JSON.parse(response)
+        console.log('memeberid is get',data)
+        memberid = data;
+    }
+
+    useEffect(()=>{
+        fetchUUID();
+    },[])
+    const handleSaveText = async () => {
+      
+      try {
+        const text = {
+          "description":text,
+          "pet":petid,
+          "member":memberid,
+        }
+          if (images && images.length > 0) {
+              for (const image of images) {
+                  await uploadImage(image);
+              }
+          }
+          const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/post/', {
               method: 'POST',
               headers: {
-                'Content-Type': 'application/json',
+                  'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ data: text }), //
-            });
-            const data = await response.json();
-            console.log('Save response:', data);
-            handleCloseModal();
-          } catch (error) {
-            console.error('Error saving data:', error);
-          }
-        }; 
+              body: JSON.stringify(text),
+          });
+          const data = await response.json();
+          console.log('上傳成功~', data,memberid);
+          handleCloseModal();
+      } catch (error) {
+          console.error('上傳失敗!請再試一次', error);
+      }
+  };
     const [modalVisible2, setModalVisible2] = useState(false);
     const handleOpenModal2 = () => {setModalVisible2(true);};
     const handleCloseModal2 = () => {setModalVisible2(false);};
     const handleSaveText2 =  async() => {
+        const back ={
+        member:memberid,
+        pet:petid,
+        pet_description:text2,
+        reason:text3
+      }
         try {
-            const response = await fetch('https://api.example.com/saveData2', {
+            const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/refund/post', {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
               },
-              body: JSON.stringify({ data: text2 }), 
+              body: JSON.stringify(back), 
             });
             const data = await response.json();
-            console.log('Save response:', data);
+            console.log('上傳成功', data);
             handleCloseModal2();
           } catch (error) {
-            console.error('Error saving data:', error);
+            console.error('上傳失敗!請再試一次', petid,memberid );
           }
     };   //API
 
