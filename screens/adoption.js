@@ -58,40 +58,40 @@ const Adoptformik = ()=>{
         const asset = result.assets[0];
         setImages([asset.uri]);
         await saveImages();
+       
     }
   };
-
-
 /////////////////////////////下拉式選單//////////////////////////////////////
-    const [selected1,setSelected1] = useState('');        
-    const [selected2,setSelected2] = useState('');        
-    const [selected3,setSelected3] = useState('');        
-    const [selected4,setSelected4] = useState('');             
-    const [selected5,setSelected5] = useState('');    
-    const [selected6,setSelected6] = useState('');    
-    const [selected7,setSelected7] = useState('');    
-    const [selected8,setSelected8] = useState('');      
-    const [selected11,setSelected11] = useState(''); 
-    const [selected10,setSelected10] = useState('');   
+    const [birth,setSelected1] = useState('');        
+    const [living_area,setSelected2] = useState('');        
+    const [industry,setSelected3] = useState('');        
+    const [ job_title,setSelected4] = useState('');             
+    const [working_shift,setSelected5] = useState('');    
+    const [position,setSelected6] = useState('');    
+    const [housing_situation,setSelected7] = useState('');    
+    const [number_family_membe,setSelected8] = useState('');      
+    const [numownership_exp,setSelected11] = useState(''); 
+    const [other_pets,setSelected10] = useState('');   
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
       retrieveData();
       retrieveImages();
     }, []);
+    
 
     const saveData = async () => {
       try {
-          await AsyncStorage.setItem('selected1', selected1);
-          await AsyncStorage.setItem('selected2', selected2);
-          await AsyncStorage.setItem('selected3', selected3);
-          await AsyncStorage.setItem('selected4', selected4);
-          await AsyncStorage.setItem('selected5', selected5);
-          await AsyncStorage.setItem('selected6', selected6);
-          await AsyncStorage.setItem('selected7', selected7);
-          await AsyncStorage.setItem('selected8', selected8);
-          await AsyncStorage.setItem('selected11', selected11);
-          await AsyncStorage.setItem('selected10', selected10);
+          await AsyncStorage.setItem('birth', birth);
+          await AsyncStorage.setItem('living_area', living_area);
+          await AsyncStorage.setItem('industry', industry);
+          await AsyncStorage.setItem(' job_title',  job_title);
+          await AsyncStorage.setItem('working_shift', working_shift);
+          await AsyncStorage.setItem('position', position);
+          await AsyncStorage.setItem('housing_situation', housing_situation);
+          await AsyncStorage.setItem('number_family_membe', number_family_membe);
+          await AsyncStorage.setItem('numownership_exp', numownership_exp);
+          await AsyncStorage.setItem('other_pets', other_pets);
 
           
       } catch (error) {
@@ -99,18 +99,20 @@ const Adoptformik = ()=>{
       }
     };
 
+
+    
     const retrieveData = async () => {
       try {
-          const value1 = await AsyncStorage.getItem('selected1');
-          const value2 = await AsyncStorage.getItem('selected2');
-          const value3 = await AsyncStorage.getItem('selected3');
-          const value4 = await AsyncStorage.getItem('selected4');
-          const value5 = await AsyncStorage.getItem('selected5');
-          const value6 = await AsyncStorage.getItem('selected6');
-          const value7 = await AsyncStorage.getItem('selected7');
-          const value8 = await AsyncStorage.getItem('selected8');
-          const value11 = await AsyncStorage.getItem('selected11');
-          const value10 = await AsyncStorage.getItem('selected10');
+          const value1 = await AsyncStorage.getItem('birth');
+          const value2 = await AsyncStorage.getItem('living_area');
+          const value3 = await AsyncStorage.getItem('industry');
+          const value4 = await AsyncStorage.getItem(' job_title');
+          const value5 = await AsyncStorage.getItem('working_shift');
+          const value6 = await AsyncStorage.getItem('position');
+          const value7 = await AsyncStorage.getItem('housing_situation');
+          const value8 = await AsyncStorage.getItem('number_family_membe');
+          const value11 = await AsyncStorage.getItem('numownership_exp');
+          const value10 = await AsyncStorage.getItem('other_pets');
           
 
           if (value1 !== null) {
@@ -151,61 +153,64 @@ const Adoptformik = ()=>{
         };
 
         const handleComplete = async () => {
-           setIsLoading(true);
+            const data = await AsyncStorage.getItem("UUID")
+            const uuid = await JSON.parse(data)
+            console.log(uuid);
            try {
-          //   if (image) {
-          //     await uploadImage(image);
-          //   }
+            // if (Image) {
+            //   await uploadImage(Image);
+            // }
               
-          //     const requestData = {
-          //         selected1,
-          //         selected2,
-          //         selected3,
-          //         selected4,
-          //         selected5,
-          //         selected6,
-          //         selected7,
-          //         selected8,
-          //         selected11,
-          //         selected10,
+              const requestData = {
+                "age":birth,
+                "living_area":living_area,
+                "industry":industry,
+                "job_title":job_title,
+                "working_shift":working_shift,
+                "position":position,
+                "housing_condition":housing_situation,
+                "number_family_member":number_family_membe,
+                "numownership_exp":numownership_exp,
+                "other_pets":other_pets,
                  
-          //     };
+              };
   
               
-          //     const response = await 
-          //         fetch('api', {
-          //         method: 'POST',
-          //         headers: {
-          //           },
-          //         body: JSON.stringify(requestData),
-          //     });
+              const response = await 
+                  fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member-detail/patch/"+ uuid +"/", {
+                  method: 'PATCH',
+                  headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                  body: JSON.stringify(requestData),
+              });
   
-          //     if (!response.ok) {
-          //         throw new Error('Failed to submit data');
-          //     }
+              if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+              }
   
                
-          //     setIsLoading(false);
-
-               // navigation.navigate("Adoptformik2");
-
+               navigation.navigate("Adoptformik2");
               } 
               catch (error) {
               console.error('Error submitting data: ', error);
-              setIsLoading(false);
-              Alert.alert('Error', 'Failed to submit data. Please try again later.');
+
+              
           }
       };
 
       const uploadImage = async (uri) => {
+
         try {
+            
             const formData = new FormData();
             formData.append('image', {
                 uri,
                 type: 'image/jpeg', // 这里需要根据实际情况设置图片类型
                 name: 'image.jpg',
             });
-            const response = await fetch('YOUR_UPLOAD_ENDPOINT', {
+            const response = await fetch(apiUrl, {
                 method: 'POST',
                 body: formData,
                 headers: {
@@ -216,19 +221,18 @@ const Adoptformik = ()=>{
             console.log('Image uploaded:', data);
         } catch (error) {
             console.error('Error uploading image: ', error);
-            Alert.alert('Error', 'Failed to upload image.');
         }
     };
 
 
-    const [showOptions1, setShowOptions1] = useState(false);
-    const [showOptions2, setShowOptions2] = useState(false);
-    const [showOptions3, setShowOptions3] = useState(false);
-    const [showOptions4, setShowOptions4] = useState(false);
-    const [showOptions5, setShowOptions5] = useState(false);
-    const [showOptions6, setShowOptions6] = useState(false);
-    const [showOptions7, setShowOptions7] = useState(false);
-    const [showOptions8, setShowOptions8] = useState(false);
+    const [showOptions1,  setShowOptions1 ] = useState(false);
+    const [showOptions2,  setShowOptions2 ] = useState(false);
+    const [showOptions3,  setShowOptions3 ] = useState(false);
+    const [showOptions4,  setShowOptions4 ] = useState(false);
+    const [showOptions5,  setShowOptions5 ] = useState(false);
+    const [showOptions6,  setShowOptions6 ] = useState(false);
+    const [showOptions7,  setShowOptions7 ] = useState(false);
+    const [showOptions8,  setShowOptions8 ] = useState(false);
     const [showOptions11, setShowOptions11] = useState(false);
     const [showOptions10, setShowOptions10] = useState(false);
 
@@ -275,7 +279,7 @@ const Adoptformik = ()=>{
 
             <View style={{flex:1,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                 
-                <TouchableOpacity onPress={()=>{}}>
+                <TouchableOpacity  onPress={()=>navigation.goBack()}>
                     <Text style={{fontSize:20,left:15,color:'#fff'}}>取消</Text>
                 </TouchableOpacity>
                                                                            
@@ -323,12 +327,12 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions1}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected1}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {birth}  </Text>
                         {showOptions1 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
-                            {Options1.map((a1, index) => (
+                            {Options1.map((a1, index1) => (
                                  <View style={{marginBottom:10}}>
-                                <TouchableOpacity key={index} onPress={() => handleChange1(a1)}>
+                                <TouchableOpacity key={index1} onPress={() => handleChange1(a1)}>
                                     <Text style={{ fontSize: 20 ,textAlign:'center'}}>  {a1}  </Text>
                                 </TouchableOpacity>
                                 </View>
@@ -351,7 +355,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions2}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected2}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {living_area}  </Text>
                         {showOptions2 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options2.map((a2, index) => (
@@ -379,7 +383,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions3}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected3}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {industry}  </Text>
                         {showOptions3 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options3.map((a3, index) => (
@@ -407,7 +411,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions4}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected4}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  { job_title}  </Text>
                         {showOptions4 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options4.map((a4, index) => (
@@ -435,7 +439,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions5}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected5}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {working_shift}  </Text>
                         {showOptions5 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options5.map((a5, index) => (
@@ -463,7 +467,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions6}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected6}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {position}  </Text>
                         {showOptions6 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options6.map((a6, index) => (
@@ -491,7 +495,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions7}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected7}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {housing_situation}  </Text>
                         {showOptions7 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options7.map((a7, index) => (
@@ -519,7 +523,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions8}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected8}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {number_family_membe}  </Text>
                         {showOptions8 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options8.map((a8, index) => (
@@ -547,7 +551,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions10}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected10}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {other_pets}  </Text>
                         {showOptions10 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options10.map((a10, index) => (
@@ -575,7 +579,7 @@ const Adoptformik = ()=>{
                             margin:5
                             }}
                             onPress={handleToggleOptions11}>
-                        <Text style={{fontSize:19,color:holderwords}}>  {selected11}  </Text>
+                        <Text style={{fontSize:19,color:holderwords}}>  {numownership_exp}  </Text>
                         {showOptions11 && (
                         <View style={{ position: 'absolute', backgroundColor: '#fff', borderRadius: 20, padding: 10,width:'106%',}}>
                             {Options11.map((a11, index) => (
@@ -599,7 +603,7 @@ const Adoptformik = ()=>{
 
 
 
-                                
+
             </View>
             
 

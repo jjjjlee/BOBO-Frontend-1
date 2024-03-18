@@ -27,7 +27,7 @@ const UserTrackScreen = ({route})=>{
                 <StatusBar style='dark'/>
                 <UserTracklist data = {track_item_arr}/>
             </View>
-            <Reporttest uuid = {uuid}/>
+            <Reporttest uuid={uuid} />
         </View>
     )
 
