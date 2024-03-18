@@ -20,7 +20,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/bobo-logo2.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.heartbeaz.BOBOFrontend"

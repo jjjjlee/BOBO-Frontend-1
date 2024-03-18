@@ -141,8 +141,10 @@ export const UserTrackTab = ({route})=>{
             method:"GET"})
             .then(res=>{return(res.json());})
             .then(res=>{
-                console.log(res)
-                setData(res)
+                if(res.length>0){
+                    setData(res)
+                }
+                
             })
             .catch(err=>{console.log(err);})
     };
@@ -154,7 +156,7 @@ export const UserTrackTab = ({route})=>{
 
   return(
     <Tab.Navigator>
-        {data.map((item,i)=>(<Tab.Screen key= {i} name={item.pet.name} component = {UserTrackScreen} initialParams={{param1:item, param2 : uuid}} />))}
+        {data.map((item,i)=>(<Tab.Screen key= {i} name={item.pet.name} component = {UserTrackScreen} initialParams={{param1:item, param2 : item.pet.uuid}} />))}
     </Tab.Navigator>
   );
 }

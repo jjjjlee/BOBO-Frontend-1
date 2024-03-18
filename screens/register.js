@@ -155,7 +155,7 @@ const Register = ({route})=>{
                 </Formik>
                 
                 <LoginButtonContainer>
-                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop:20}}>
+                    {/* <View style={{flexDirection: 'row', alignItems: 'center', marginTop:20}}>
                         <View style={{flex: 1, height: 2, backgroundColor:'orange'}} />
                         <View>
                             <Text style={{textAlign: 'center', paddingHorizontal:8,color:'orange'}}>或使用其他方式註冊</Text>
@@ -167,7 +167,7 @@ const Register = ({route})=>{
 
                         <CircleButton onPress={()=>{}} logoName = "logo-apple" color = "orange"/>
                         <CircleButton onPress={()=>{}} logoName = "logo-facebook" color = "orange"/>
-                    </View>
+                    </View> */}
                 </LoginButtonContainer>
             </LoginFormContainer>
         </LoginContainer>

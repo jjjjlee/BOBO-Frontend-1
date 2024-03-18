@@ -130,7 +130,7 @@ const Login = ()=>{
             navigation.navigate("HomeTab",message['member_uuid'])
         } else{
             //const message = await response.json();
-            Alert.alert('錯誤', '此帳密尚未註冊');
+            Alert.alert('錯誤', '密碼錯誤或是帳號尚未註冊');
         }
 
       }catch(err){
@@ -190,7 +190,7 @@ const Login = ()=>{
                   </StyledFormArea>)}
                 </Formik>
                 <LoginButtonContainer>
-                    <View style={{flexDirection: 'row', alignItems: 'center', marginTop:20}}>
+                    {/* <View style={{flexDirection: 'row', alignItems: 'center', marginTop:20}}>
                         <View style={{flex: 1, height: 2, backgroundColor:orange}} />
                         <View>
                             <Text style={{textAlign: 'center', paddingHorizontal:8,color:orange}}>或使用其他方式登入</Text>
@@ -201,7 +201,7 @@ const Login = ()=>{
                         <CircleButton onPress={()=>{}} logoName = "logo-google" color = "orange"/>
                         <CircleButton onPress={()=>{}} logoName = "logo-apple" color = "orange"/>
                         <CircleButton onPress={()=>{}} logoName = "logo-facebook" color = "orange"/>
-                    </View>
+                    </View> */}
                 </LoginButtonContainer>
             </LoginFormContainer>
         </LoginContainer>
