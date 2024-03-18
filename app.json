@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/bobo-logo2.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,33 +20,26 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/bobo-logo2.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.heartbeaz.BOBOFrontend"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "plugins": [
+    "extra": {
+      "eas": {
+        "projectId": "a1a4c9b6-56a2-46f0-9e21-5834baa9a296"
+      }
+    },
+    "plugins":[
       [
         "expo-build-properties",
         {
-          "android": {
-            "compileSdkVersion": 31,
-            "targetSdkVersion": 31,
-            "buildToolsVersion": "31.0.0"
-          },
-          "ios": {
-            "deploymentTarget": "13.4"
-          }
+          "android":{"compileSdkVersion": 31,"targetSdkVersion": 31,"buildToolsVersion": "31.0.0"},
+          "ios":{"deploymentTarget": "13.4"}
         }
       ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "1467ef6f-8c08-4f89-aa2c-efbeacb20277"
-      }
-    }
+    ]
   }
 }
