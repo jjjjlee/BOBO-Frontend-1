@@ -15,9 +15,8 @@ const UserTrackScreen = ({route})=>{
     const dog_info = param1.pet;
     const track_item_arr = param1.track_item_arr;
     const history_days = param1.history_days;
-    const uuid = param2.uuid;
+    const uuid = param2;
     const navigation = useNavigation();
-
     return(
         <View style = {styles.baseframe}>
             <DoglistItem id = {dog_info.id} name = {dog_info.name} headimg={dog_info.headimg} age = {dog_info.age} species = {dog_info.species} weight={dog_info.weight} vaccined={dog_info.vaccined} adoptloc={dog_info.currentloc} adoptdate = {dog_info.updated_at} currentloc={dog_info.currentloc} type={"forPost"} description={dog_info.description} update_status = {""} isadopted={true} />
@@ -28,7 +27,7 @@ const UserTrackScreen = ({route})=>{
                 <StatusBar style='dark'/>
                 <UserTracklist data = {track_item_arr}/>
             </View>
-            <Reporttest/>
+            <Reporttest uuid = {uuid}/>
         </View>
     )
 
