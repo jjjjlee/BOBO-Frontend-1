@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "BOBO-Frontend",
-    "slug": "bobo-app",
+    "slug": "BOBO-Frontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -19,11 +19,11 @@
       "bundleIdentifier": "com.BOBO.MemberAPP"
     },
     "android": {
-      "package": "com.boboapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.heartbeaz.BOBOFrontend"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -45,9 +45,8 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "023bb6c0-3db6-41c4-85c7-548e8fdafccc"
+        "projectId": "1467ef6f-8c08-4f89-aa2c-efbeacb20277"
       }
-    },
-    "owner": "evolab"
+    }
   }
 }
