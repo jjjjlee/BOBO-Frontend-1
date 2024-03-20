@@ -19,12 +19,11 @@
       "bundleIdentifier": "com.BOBO.MemberAPP"
     },
     "android": {
+      "package": "com.boboapp",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "package": "com.heartbeaz.boboapp",
-      "versionCode": 1
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -34,9 +33,9 @@
         "expo-build-properties",
         {
           "android": {
-            "compileSdkVersion": 31,
-            "targetSdkVersion": 31,
-            "buildToolsVersion": "31.0.0"
+            "compileSdkVersion": 33,
+            "targetSdkVersion": 33,
+            "buildToolsVersion": "33.0.0"
           },
           "ios": {
             "deploymentTarget": "13.4"
