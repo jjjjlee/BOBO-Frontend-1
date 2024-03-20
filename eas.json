@@ -7,8 +7,10 @@
       "developmentClient": true,
       "distribution": "internal"
     },
-    "preview": {
-      "android":{
+    "demo": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
         "buildType": "apk"
       }
     },
