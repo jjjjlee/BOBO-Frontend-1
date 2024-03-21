@@ -46,15 +46,15 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
       "id": 3141592654,
       "pet": {
           "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-          "species": "貓",
-          "species_general": "猫",
+          "species": "熱心的狗狗",
+          "species_general": "",
           "name": "我是志工狗狗",
           "age": 1,
           "weight": 60.0,
           "vaccined": true,
           "currentloc": "汪汪星球",
           "description": "快去認識更多我的夥伴吧",
-          "headimg": "…",
+          "headimg": "https://storage.googleapis.com/bobo_backend_0001_formal/images/fruits/220px-Golden_Retriever_Buddy_0311.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bobo-987%40lively-nimbus-415015.iam.gserviceaccount.com%2F20240321%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20240321T151933Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=2140401f0d21a8bf76648c3239ce901fdfb663a3e4f62eef9f7090a84c530478c6384843fb2a4e35356ef3fae4d3af601c6e9624f40cbff685da35ac811f996c131cb1efaafd377ebebfcd94cb5b2128a549a47fef7e6b78fece15fabd1ad963148688b77f4bfa130b461af64681da0733e07e0ba43ea7bd9e48bcd84dff9cad8ef78773d08419a2b04c0eb5c781f640b5c7ec22fcd17bf41191147d28919da1c92b5cf0a7643909da562b51e473914012d5e9653b2bd285a5327f1824913dfc3a58550cb6a46e43ab0ed0c2de14feadbe6576a3c829fb470d160d33a3200c382c812a6178305651b5cbdd4bbd16fb544ff01d5fb070a36b7dcc2c6143adca5b",
       },
       "status": ""
   }

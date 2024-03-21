@@ -1,7 +1,7 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState,useEffect, Alert} from 'react';
 import { Text, View , TouchableOpacity, Image,Modal,TextInput, Platform ,TouchableWithoutFeedback, Keyboard } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+import moment from 'moment';
 
 
 // Styled components
@@ -21,7 +21,7 @@ const Reporttest = ({uuid})=>{
 
     const [images, setImages] = useState([]);
   
-    const handlePress = async () => {
+    const handlePress = async (uri) => {
       if (Platform.OS !== 'web') {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
         if (status !== 'granted') {
@@ -38,14 +38,20 @@ const Reporttest = ({uuid})=>{
       });
   
       if (!result.canceled) {
+
         const newImages = result.assets.map(asset => asset.uri);
         setImages([...images, ...newImages]);
-    
-        
-       
+        const { uri, creationTime } = result;
+        const photoCreationTime = moment(creationTime);
+        const currentTime = moment();
+        const monthAgo = moment().subtract(1, 'month');
+  
+        if (photoCreationTime.isBefore(monthAgo)) {
+          Alert.alert('照片時間超過一個月', '請選擇其他照片');
+          return;
       }
     };
-
+    }
     const uploadImage = async (uri) => {
       try {
           const formData = new FormData();
@@ -96,10 +102,13 @@ const Reporttest = ({uuid})=>{
           "pet":petid,
           "member":memberid,
         }
-          if (images && images.length > 0) {
+          if (images && images.length > 1) {
               for (const image of images) {
                   await uploadImage(image);
               }
+          }
+          else{
+            Alert.Alert('請上傳照片')
           }
           const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/post/', {
               method: 'POST',
@@ -143,7 +152,7 @@ const Reporttest = ({uuid})=>{
 
     return (
         <View style={{position:"absolute",height:'6%',width:'110%',top:"75%"}}>
-                <TouchableOpacity onPress={handleOpenModal} style={{position:"absolute", backgroundColor:orange,width:'24%',height:'100%',top:'0%',left:'37%',borderRadius:30}}>
+                <TouchableOpacity onPress={handleOpenModal} style={{position:"absolute", backgroundColor:orange,width:'24%',height:'100%',bottom:30,left:'37%',borderRadius:30}}>
                     <Text style={{fontSize:16,textAlign:'center',color:white,marginTop:"10%"}}>回報</Text>
                 </TouchableOpacity>
       
@@ -157,7 +166,7 @@ const Reporttest = ({uuid})=>{
                     
                   
                     <View style={{ flex: 1, justifyContent: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)'}}>
-                        <View style={{ width:'100%', height:'10%',backgroundColor:orange,flexDirection:'row',justifyContent:'center',flexDirection:'row',borderTopLeftRadius:30,borderTopRightRadius:30,top:'30%'}}
+                        <View style={{ width:'100%', height:'10%',backgroundColor:orange,flexDirection:'row',justifyContent:'center',flexDirection:'row',borderTopLeftRadius:30,borderTopRightRadius:30,top:'33%'}}
                             >
                                                                                       
                                                                                     
@@ -201,7 +210,7 @@ const Reporttest = ({uuid})=>{
                             
                             <View style={{ width: '100%', height: 1, borderBottomWidth: 1, borderBottomColor: '#787878', borderStyle: 'dashed' ,top:'6%'}} />
 
-                            <Text style={{top:'9%',fontSize:16,color:holderwords,left:'35%'}}>飼養上遇到問題嗎</Text>
+                            <Text style={{top:'9%',fontSize:16,color:holderwords,left:'30%'}}>飼養上遇到問題嗎</Text>
                             <TouchableOpacity onPress={handleOpenModal2} style={{ padding: 10, backgroundColor:'#787878', left:'73%',alignItems: 'center', borderRadius: 20 ,width:100,top:'3%'}}>
                                 <Text style={{color:white}}>我要諮詢</Text>
                             </TouchableOpacity>
@@ -260,14 +269,10 @@ const Reporttest = ({uuid})=>{
                                 <Text style={{color:white}}>送出</Text>
                             </TouchableOpacity>
                             </View>
-                            
-
                         </View>
-                        
                     </View>
                     </TouchableWithoutFeedback>
                 </Modal>
-                
         </View>
 
         

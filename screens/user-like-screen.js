@@ -66,8 +66,14 @@ const UserLikeScreen = ()=>{
         }).then(res=>{return(res.json());
         }).then(res=>{
             console.log("Adding API data");
-            setData(currentdata.concat(res.results));
-            setFilterData(currentfilterdata.concat(res.results));
+            currentdata = currentdata.concat(res.results);
+            currentfilterdata = currentfilterdata.concat(res.results);
+            if(currentdata.length >1){
+                currentdata.shift();
+                currentfilterdata.shift();
+            }
+            setData(currentdata);
+            setFilterData(currentfilterdata);
         }).catch(err=>{console.log(err);})
     }
     const fetchLocalData = async()=>{
