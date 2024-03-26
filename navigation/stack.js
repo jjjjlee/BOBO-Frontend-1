@@ -36,9 +36,9 @@ export const InitialStack = ()=>{
     return(
         <Stack.Navigator screenOptions={navOptions} initialRouteName={"Welcome"}>
             <Stack.Screen name = "Welcome" component ={Welcome} options={{headerShown:false}}/>
-            <Stack.Screen name = "Login" component = {Login}/>
+            <Stack.Screen name = "Login" component = {Login} options={{headerLeft:()=>{}}}/>
             <Stack.Screen name = "PostScreen" component = {PostScreen}/>   
-            <Stack.Screen name = 'Register' component={Register}/>         
+            <Stack.Screen name = 'Register' component={Register} options={{headerLeft:()=>{}}}/>         
             <Stack.Screen name = 'Setting' component={Setting}/>
             <Stack.Screen name = 'Adoptformik' component={Adoptformik}/>
             <Stack.Screen name = 'Report' component={Report}/>
