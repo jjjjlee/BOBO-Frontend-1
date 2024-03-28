@@ -16,7 +16,8 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.BOBO.MemberAPP"
+      "bundleIdentifier": "com.BOBO.MemberAPP",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {

@@ -28,7 +28,7 @@ const UserTrackScreen = ({route})=>{
                 <UserTracklist data = {track_item_arr}/>
             </View>
             {dog_info.name === "我是志工狗狗"?
-                <View style={{position:"absolute",height:'6%',width:'110%',top:"75%"}}>
+                <View style={{position:"absolute",height:'6%',width:'110%',top:"65%"}}>
                     <View style={styles.nav_button} onPress={navigation.navigate("TinderScreen")}>
                         <Text style={{fontSize:16,textAlign:'center',color:"white",marginTop:"7%"}}>快去左邊尋找你的毛寶貝!</Text>
                     </View>

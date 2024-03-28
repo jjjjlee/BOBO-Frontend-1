@@ -20,7 +20,7 @@ export const TinderNavOption = (nav)=>{
             <Ionicons name = "cloud-outline" size = {32} color = "white" />
         ),
         headerRight: () => (
-            <Ionicons name = "heart" size = {32} color = "#ED7422" onPress = {() =>nav.navigate("UserLike")}/>
+            <Ionicons style = {{marginTop:-20}} name = "heart" size = {32} color = "#ED7422" onPress = {() =>nav.navigate("UserLike")}/>
         ),
         headerTitle:()=><View style = {{left:-42,top:-3,transform: [{scale:0.025}]}}><Image  resizeMode="contain" source={require('./../assets/bobo_logo3.png')}/></View>
         }
