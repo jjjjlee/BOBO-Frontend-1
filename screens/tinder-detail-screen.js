@@ -39,7 +39,7 @@ const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adopt
                 <View style={styles.header_content}>
                     <View style={styles.header_text}>
                         <Text style={styles.name_text}>{name}</Text>
-                        <Text style={styles.age_text}>{age}</Text>
+                        <Text style={styles.age_text}>{age}歲</Text>
                     </View>
                 </View>
             </View>

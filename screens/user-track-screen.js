@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, TextInput} from "react-native"
+import {StyleSheet, View, Text, TextInput, TouchableOpacity} from "react-native"
 import { StatusBar } from 'expo-status-bar';
 import { useNavigation } from "@react-navigation/native";
 import {Colors} from './../components/styles'
@@ -27,7 +27,14 @@ const UserTrackScreen = ({route})=>{
                 <StatusBar style='dark'/>
                 <UserTracklist data = {track_item_arr}/>
             </View>
-            <Reporttest uuid={uuid} />
+            {dog_info.name === "我是志工狗狗"?
+                <View style={{position:"absolute",height:'6%',width:'110%',top:"75%"}}>
+                    <View style={styles.nav_button} onPress={navigation.navigate("TinderScreen")}>
+                        <Text style={{fontSize:16,textAlign:'center',color:"white",marginTop:"7%"}}>快去左邊尋找你的毛寶貝!</Text>
+                    </View>
+                </View>:
+                <Reporttest uuid={uuid} />
+                }
         </View>
     )
 
@@ -74,6 +81,14 @@ const styles = StyleSheet.create({
         fontWeight: "400",
         letterSpacing: 0.8,
         marginTop:35
+    },
+    nav_button:{
+        position:"absolute",
+        backgroundColor:orange,
+        width:'50%',
+        height:'100%',
+        left:'23%',
+        borderRadius:30
     }
 })
 

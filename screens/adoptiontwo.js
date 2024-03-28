@@ -180,7 +180,7 @@ const Adoptformik2 = ()=>{
                 throw new Error(errorMessage);
               }
 
-            navigation.navigate("Login");
+            navigation.navigate("HomeTab");
          } 
          catch (error) {
              console.error('Error submitting data: ', error);

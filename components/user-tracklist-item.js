@@ -8,7 +8,7 @@ const UserTracklistItem = ({id,imgs_arr,update_date,update_text})=>{
             <View style={styles.date_frame}>
                     <Svg style={styles.ellipse} width="11" height="215" viewBox="0 0 11 12" fill="none"  >
                         <Circle cx="5.5" cy="6" r="5.5" fill="#292929"/>
-                        <Line x1="5.5" y1="6" x2="5.5" y2="1000" stroke="#292929" strokeWidth="3"/>
+                        <Line x1="5.5" y1="6" x2="5.5" y2="1200" stroke="#292929" strokeWidth="3"/>
                     </Svg>
                     <Text style={styles.date_text}>{update_date}</Text>
             </View>
@@ -29,12 +29,11 @@ const styles = StyleSheet.create({
         alignSelf: "stretch",
         flexShrink: 0,
         alignItems: "flex-start",
-        rowGap: 8,
-
+        rowGap: 8
     },
     date_frame:{
         flexShrink: 0,
-        width: 99,
+        width: 150,
         flexDirection: "row",
         alignItems: "center",
         columnGap: 8

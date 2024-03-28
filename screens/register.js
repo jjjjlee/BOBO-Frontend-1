@@ -47,9 +47,8 @@ const Register = ({route})=>{
     
     const RegisterSchema = Yup.object().shape({
       password: Yup.string()
-        .min(10, '太短!')
-        .required('Required')
-        .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{10,}$/,"密碼須超過10個字母, 且須包含大小寫和特殊字元"),
+        .min(10, '密碼須超過10個字母!')
+        .required('Required'),
       passwordagain: Yup.string()
         .min(10)
         .oneOf([Yup.ref('password')], "輸入錯誤")

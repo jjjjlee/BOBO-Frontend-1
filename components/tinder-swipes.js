@@ -54,7 +54,7 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
           "vaccined": true,
           "currentloc": "汪汪星球",
           "description": "快去認識更多我的夥伴吧",
-          "headimg": "https://storage.googleapis.com/bobo_backend_0001_formal/images/fruits/220px-Golden_Retriever_Buddy_0311.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bobo-987%40lively-nimbus-415015.iam.gserviceaccount.com%2F20240321%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20240321T151933Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=2140401f0d21a8bf76648c3239ce901fdfb663a3e4f62eef9f7090a84c530478c6384843fb2a4e35356ef3fae4d3af601c6e9624f40cbff685da35ac811f996c131cb1efaafd377ebebfcd94cb5b2128a549a47fef7e6b78fece15fabd1ad963148688b77f4bfa130b461af64681da0733e07e0ba43ea7bd9e48bcd84dff9cad8ef78773d08419a2b04c0eb5c781f640b5c7ec22fcd17bf41191147d28919da1c92b5cf0a7643909da562b51e473914012d5e9653b2bd285a5327f1824913dfc3a58550cb6a46e43ab0ed0c2de14feadbe6576a3c829fb470d160d33a3200c382c812a6178305651b5cbdd4bbd16fb544ff01d5fb070a36b7dcc2c6143adca5b",
+          "headimg": "https://storage.googleapis.com/bobo_backend_0001_formal/images/fruits/11234.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bobo-987%40lively-nimbus-415015.iam.gserviceaccount.com%2F20240328%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20240328T121548Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=b0c3004de7aa6c87cba65faf26827389035556ebf5cc8c0c384815a4a9c72c0be47278438812d1af4313e5c38d334006c2874cbc6428ffeaf294f3d8e42c35bb21033ab50a53fe5d73522afe3fadd0e07379f377adcf2fbc8465636ba6019ff306fa0a8d2bc14429bd78c00affd3e2f18b3ceb3724f59da4cea6fe1fa5244d00e898cf3ecd9d9d412315da4eca5ba0f848b22eab88f8f4b53f8267f1fd436c749c1a553911f778d94321ed33d146fe27ef30b7482e0643b0d87028542e3555f0c02565831358bd5339a5271d98f1df755946f8206d659a790a8aa745f431960a557d1b87925b29077282ad9e790e0de0866ef70859848ef10eed8675d73e3273",
       },
       "status": ""
   }
@@ -183,7 +183,7 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
                             <View style={styles.title_frame}>
                                 <View style={styles.title}>
                                         <Text style={styles.title_name}>{card.pet.name}</Text>
-                                        <Text style={styles.title_age}>{card.pet.age}</Text>
+                                        <Text style={styles.title_age}>{card.pet.age}歲</Text>
                                 </View>
                             </View>
 
@@ -228,7 +228,7 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
             </Swiper>
             <Modal animationType="slide" transparent={true} visible={modalVisible}>
                 <TinderDetailScreen headimg={tapData.pet.headimg} species={tapData.pet.species} weight={tapData.pet.weight}
-                    vaccined={tapData.pet.vaccined} adoptloc={tapData.pet.adoptloc} description={tapData.pet.description} name = {tapData.pet.name} age = {tapData.pet.age}  />
+                    vaccined={tapData.pet.vaccined} adoptloc={tapData.pet.currentloc} description={tapData.pet.description} name = {tapData.pet.name} age = {tapData.pet.age}  />
                 <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity> 
                 <View style = {styles.action}>
                   <TouchableOpacity  style={styles.adopt_button} onPress={handleAdoption} ><Text style={styles.adopt_button_text}>{tapData.status === '機構審查批准'? "確定認養" : tapData.status === '機構審查拒絕'? "機構拒絕" : tapData.status === '機構審查(中)'? "審查中": "我要認養"}</Text></TouchableOpacity>
@@ -394,7 +394,7 @@ const styles = StyleSheet.create({
     goback_frame:{
       position:"absolute", 
       top:55, 
-      right:5,
+      right:5
     },
     goback_text:{
         color: "#808080",
