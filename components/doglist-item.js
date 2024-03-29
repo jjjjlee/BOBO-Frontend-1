@@ -91,7 +91,7 @@ const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,de
             </View>
             <Modal animationType="slide" transparent={false} visible={modalVisible}>
                 <TinderDetailScreen headimg={headimg} species={species} weight={weight}
-                    vaccined={vaccined?"已施打疫苗":"未施打疫苗"} adoptloc={adoptloc} description={description} name = {name} age = {age} matching_status = {matching_status}/>
+                    vaccined={vaccined?"已施打疫苗":"未施打疫苗"} adoptloc={currentloc} description={description} name = {name} age = {age} matching_status = {matching_status}/>
                 <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity>
                 <View style = {styles.action}>
                   <TouchableOpacity  style={styles.adopt_button} onPress={handleAdoption} ><Text style={styles.adopt_button_text}>{matching_status === '機構審查批准'? "確定認養" : matching_status === '機構審查拒絕'? "機構拒絕" : matching_status === '機構審查(中)'? "審查中": "我要認養"}</Text></TouchableOpacity>
