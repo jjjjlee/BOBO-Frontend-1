@@ -11,18 +11,18 @@ const DUMMY_DATA1 =  [
   {
       "id": 1,
       "pet": {
-          "uuid": "a8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-          "species": "貓",
-          "species_general": "猫",
-          "name": "已經沒有狗狗貓貓了QQ",
-          "age": 25,
+          "uuid": "123",
+          "species": "熱心的狗狗",
+          "species_general": "狗",
+          "name": "唉呦!滑光啦",
+          "age": 1,
           "weight": 60.0,
           "vaccined": true,
-          "currentloc": "新莊2",
-          "description": "25",
-          "headimg": "…",
-          "updated_at": "2024-02-27T05:49:27.158796Z",
-          "institution": "f37829c5-a662-4319-92c7-22aa8643bd7c"
+          "currentloc": "汪汪星球",
+          "description": "看來要去汪汪星球招募更多夥伴了",
+          "headimg": "https://storage.googleapis.com/bobo_backend_0001_formal/images/fruits/11234.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bobo-987%40lively-nimbus-415015.iam.gserviceaccount.com%2F20240328%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20240328T121548Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=b0c3004de7aa6c87cba65faf26827389035556ebf5cc8c0c384815a4a9c72c0be47278438812d1af4313e5c38d334006c2874cbc6428ffeaf294f3d8e42c35bb21033ab50a53fe5d73522afe3fadd0e07379f377adcf2fbc8465636ba6019ff306fa0a8d2bc14429bd78c00affd3e2f18b3ceb3724f59da4cea6fe1fa5244d00e898cf3ecd9d9d412315da4eca5ba0f848b22eab88f8f4b53f8267f1fd436c749c1a553911f778d94321ed33d146fe27ef30b7482e0643b0d87028542e3555f0c02565831358bd5339a5271d98f1df755946f8206d659a790a8aa745f431960a557d1b87925b29077282ad9e790e0de0866ef70859848ef10eed8675d73e3273",
+          "updated_at": "2024-0202",
+          "institution": "123"
       },
       "updated_at": "2024-03-02 14:30:08",
       "status": "機構審查拒絕"
@@ -35,7 +35,7 @@ const DUMMY_DATA1 =  [
 
 const Swipes = ({currentIndex,swipesRef,uuid})=>{
     const navigation = useNavigation();
-    const isEmptyDeck = false;
+    let isEmptyDeck = true;
     [modalVisible,setModalVisible] = useState(false);
     [Data, setData] = useState(DUMMY_DATA1);
     [tapData, setTapData] = useState(DUMMY_DATA1[0]);
@@ -72,6 +72,7 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
             console.log("No availabel cards");
             isEmptyDeck = true;
           }else{
+            isEmptyDeck = false;
             setData(data.results);
             setTapData(data.results[0]);
           }
@@ -122,17 +123,20 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
         if(!containsObject(Data[Data.length-1],arr)){
           arr.push(Data[Data.length-1]);
           AsyncStorage.setItem("LikeCards",JSON.stringify(arr));
-          // Then fetch data here and set the data
+          // The setData here is to avoid render error before the fetching is done.
           setData(DUMMY_DATA1);
+          // Triggering reender and fetching data
           setKey(key+0.01);
         }else{
-          // Then fetch data here and set the data
+          // The setData here is to avoid render error before the fetching is done.
           setData(DUMMY_DATA1);
+          // Triggering reender and fetching data
           setKey(key+0.01);
         }
       })
       }else{
         setData(DUMMY_DATA1);
+        setKey(key+0.01);
       }
 
     }
