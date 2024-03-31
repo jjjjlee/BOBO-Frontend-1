@@ -153,16 +153,16 @@ const Adoptformik2 = ()=>{
 
         try {
             const requestData = {
-                "family_composition":family_composition,
-                "pet_breed":pet_breed,
-                "care_exp":care_exp,
-                "reason":reason,
-                "care_plan":care_plan,
-                "addition":addition,
-                "current_pets":current_pets,
-                "monthly_care_budge":monthly_care_budge,
-                "monthly_salary":monthly_salary,
-                "allergies":allergies,
+                "family_composition":family_composition|| '未填寫',
+                "pet_breed":pet_breed|| '未填寫',
+                "care_exp":care_exp|| '未填寫',
+                "reason":reason|| '未填寫',
+                "care_plan":care_plan|| '未填寫',
+                "addition":addition|| '未填寫',
+                "current_pets":current_pets|| '未填寫',
+                "monthly_care_budge":monthly_care_budge|| '未填寫',
+                "monthly_salary":monthly_salary|| '未填寫',
+                "allergies":allergies|| '未填寫',
                
             };
 
@@ -180,7 +180,7 @@ const Adoptformik2 = ()=>{
                 throw new Error(errorMessage);
               }
 
-            navigation.navigate("HomeTab");
+            navigation.navigate("TinderScreen");
          } 
          catch (error) {
              console.error('Error submitting data: ', error);

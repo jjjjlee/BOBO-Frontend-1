@@ -257,9 +257,9 @@ const saveData = async (key, value) => {
 
 
     return (
-        <KeyboardAwareScrollView style={{flex:1 }} contentContainerStyle={{ flexGrow: 1,height:'120%'}} keyboardShouldPersistTaps="handled">
+        <KeyboardAwareScrollView style={{flex:1 }} contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false}>
 
-        <View style={{flex:1.5,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+        <View style={{height:100,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                 
                 <TouchableOpacity  onPress={()=>navigation.goBack()}>
                     <Text style={{fontSize:20,left:15,color:'#fff'}}>取消</Text>
@@ -281,7 +281,7 @@ const saveData = async (key, value) => {
             <Text  style={{fontSize:20,left:20,color:orange}}>您的照片</Text>
             <View style={{ height: 10 }}></View>
 
-            <View style={{ flex: 1.4, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
                 {images.map((uri, index) => (
                     <TouchableOpacity key={index} onPress={handlePress}>
                         <Image source={{ uri }} style={{ width: 120, height: 120, margin: 5, padding: 10, borderRadius: 50 }} />

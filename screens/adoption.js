@@ -162,16 +162,16 @@ const Adoptformik = ()=>{
             // }
               
               const requestData = {
-                "age":birth,
-                "living_area":living_area,
-                "industry":industry,
-                "job_title":job_title,
-                "working_shift":working_shift,
-                "position":position,
-                "housing_condition":housing_situation,
-                "number_family_member":number_family_membe,
-                "numownership_exp":numownership_exp,
-                "other_pets":other_pets,
+                "age": birth || '未填寫', // 如果birth未填寫，則賦予空字符串
+                "living_area": living_area || '未填寫',
+                "industry": industry || '未填寫',
+                "job_title": job_title || '未填寫',
+                "working_shift": working_shift || '未填寫',
+                "position": position || '未填寫',
+                "housing_condition": housing_situation || '未填寫',
+                "number_family_member": number_family_membe || '未填寫',
+                "numownership_exp": numownership_exp || '未填寫',
+                "other_pets": other_pets || '未填寫',
                  
               };
   
@@ -238,7 +238,7 @@ const Adoptformik = ()=>{
 
     
     const Options1    = ['20歲以下','20~25','26~30','31~35','36~40','41~45','46~50','51~55','56~60','61~65'];
-    const Options2    = ['台北市','新北市','基隆市','桃園市','桃園縣','新竹市','新竹縣','苗栗縣','台中市','彰化縣','南投縣','雲林縣','嘉義縣','嘉義市','屏東縣','宜蘭縣','花蓮縣','台東縣','離島',];
+    const Options2    = ['台北市','新北市','基隆市','桃園市','桃園縣','新竹市','新竹縣','苗栗縣','台中市','彰化縣','南投縣','雲林縣','嘉義縣','嘉義市','台南市','高雄市','屏東縣','宜蘭縣','花蓮縣','台東縣','離島',];
     const Options3    = ['營運/幕僚','人力資源','行銷/廣告/公關','財務/會計/金融','業務/銷售','行政/總務/客服','產品/專案管理','技術研發','軟體開發/MIS','生產製造/品管/環衛','採購/倉儲/物流','設計/創意','文字/傳媒','門市營業/餐飲服務','專業人員','其他'];
     const Options4    = ['企業經營人/負責人','高階主管','初中階主管','一般職員','專業人員/自由工作者','學生','其他'];
     const Options5    = ['日班','晚班','大夜班','輪班or不定時'];
