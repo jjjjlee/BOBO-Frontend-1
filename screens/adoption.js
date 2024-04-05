@@ -17,10 +17,11 @@ const {holderwords,orange,gray,white} = Colors;
 import { useNavigation } from '@react-navigation/native';
      
     
-const Adoptformik = ()=>{
+const Adoptformik = ({route})=>{
   const navigation = useNavigation();
   const [images, setImages] = useState([]);
-  
+  const {petuuid} = route.params;
+  console.log(petuuid);
   const saveImages = async () => {
     try {
         await AsyncStorage.setItem('images', JSON.stringify(images));

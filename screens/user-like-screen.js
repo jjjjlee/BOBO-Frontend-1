@@ -53,6 +53,7 @@ const UserLikeScreen = ()=>{
     }
 
     const fetchUUID = async() =>{
+        // Fetch member UUID
         const response = await AsyncStorage.getItem("UUID")
         const data = await JSON.parse(response)
         uuid = data;
@@ -60,7 +61,7 @@ const UserLikeScreen = ()=>{
 
     const fetchAPIData = async()=>{
         // First fetch the submited dog
-        console.log(data);
+        //console.log(data);
         fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_pet_status/" + uuid + "/",{
             method: "GET"
         }).then(res=>{return(res.json());
