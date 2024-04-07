@@ -6,62 +6,51 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import TinderDetailScreen from '../screens/tinder-detail-screen';
 import { useNavigation } from '@react-navigation/native';
 
-// DUMMY DATA
-const DUMMY_DATA1 =  [
-  {
-      "id": 1,
-      "pet": {
-          "uuid": "123",
-          "species": "熱心的狗狗",
-          "species_general": "狗",
-          "name": "唉呦!滑光啦",
-          "age": 1,
-          "weight": 60.0,
-          "vaccined": true,
-          "currentloc": "汪汪星球",
-          "description": "看來要去汪汪星球招募更多夥伴了",
-          "headimg": "https://storage.googleapis.com/bobo_backend_0001_formal/images/fruits/11234.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bobo-987%40lively-nimbus-415015.iam.gserviceaccount.com%2F20240330%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20240330T150853Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=a7187daa9882f3461617b5e29db715eb33a3325a1ad41ac39c09b27fb7a90576031c0f7e481b4c5fa6f814a8afcc8f80e313305c4624135b797909120ff3ef390c7b6c11d339741f8344e9d15c88eb3aa937907a5c1072734a246d1e9cd20c4cff79da9d4e89607c9d7e0f8c6d3cc53b8b38c5d260c6cb7c52772f97f85342c870e4fd814312f09d78b16c62ec89337bfce4fd845878315006a7696a88a469a73dbf2a3519cf326046d5e92371cd2888335bb73617d6115d9f93dca0cfc23e50f71702c297c2ff2c722ff87b278c5046d6e1d32892396cf77edabb0f0c21587db8b6d051e6dfd38a392e0914c73b06dff137ee7438a925b41abe2e990100172c",
-          "updated_at": "2024-0202",
-          "institution": "123"
-      },
-      "updated_at": "2024-03-02 14:30:08",
-      "status": "機構審查拒絕"
-  }
-
-]
-
-
-
 
 const Swipes = ({currentIndex,swipesRef,uuid})=>{
+
+    [exampleHeadImageUrl, setExampleHeadImageUrl] = useState("");
+    const DUMMY_DATA1 =  [
+      {
+          "id": 1,
+          "pet": {
+              "uuid": "123",
+              "species": "熱心的狗狗",
+              "species_general": "狗",
+              "name": "唉呦!滑光啦",
+              "age": 1,
+              "weight": 60.0,
+              "vaccined": true,
+              "currentloc": "汪汪星球",
+              "description": "看來要去汪汪星球招募更多夥伴了",
+              "headimg": exampleHeadImageUrl,
+              "updated_at": "2024-0202",
+              "institution": "123"
+          },
+          "updated_at": "2024-03-02 14:30:08",
+          "status": "機構審查拒絕"
+      }
+
+    ]
     const navigation = useNavigation();
-    let isEmptyDeck = true;
+    [isEmptyDeck, setIsEmptyDeck] = useState(true);
     [modalVisible,setModalVisible] = useState(false);
     [Data, setData] = useState(DUMMY_DATA1);
     [tapData, setTapData] = useState(DUMMY_DATA1[0]);
     [key, setKey] = useState(0);
 
-    let api = "https://lively-nimbus-415015.de.r.appspot.com/api/pet_tinder/get/1/" +  uuid + "/"
-    const safecard =   {
-      "id": 3141592654,
-      "pet": {
-          "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
-          "species": "熱心的狗狗",
-          "species_general": "",
-          "name": "我是志工狗狗",
-          "age": 1,
-          "weight": 60.0,
-          "vaccined": true,
-          "currentloc": "汪汪星球",
-          "description": "快去認識更多我的夥伴吧",
-          "headimg": "https://storage.googleapis.com/bobo_backend_0001_formal/images/fruits/11234.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bobo-987%40lively-nimbus-415015.iam.gserviceaccount.com%2F20240330%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20240330T150125Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=c31690f0f1eed08c77779880a91034df6b7b305457c0c99b89e9f32b6e01e010dc0cfda9398deff90679212cdcc57bfa36a356b5543af35ed694b5687fce505925784db890f63f176868800c900d010970b34ef20d6bd075e378d4e53cf7aae014d34556dc43c1bec783213f275b9fd4bd4bc86ec1a158593f477f39383fe9e953f2005424259fa753c9f9da12155c6b16d29294367820547736bacbaf8335c7bd447409ca2aa5b66d6a80d5c1a7d4ecbe216f56574c747fb04cad6dd17ea438476e32d3562d0564b08f4ea5aee43eda4b0e0db9f12ab74d51a9ec5d47e16b1d3f22b1cd919dfd27d014f91aea85cdecb2389b675583897b65c5502424d3f754",
-      },
-      "status": ""
-  }
+    let api = "https://lively-nimbus-415015.de.r.appspot.com/api/pet_tinder/get/1/" +  uuid + "/" 
     
+    // Initialization
+    const initialize = async ()=>{
+      await fetchExampleHeadImg();
+      await fetchData();
+      await saveLikeCard(null);
+    }
 
     // Fethcing data
     const fetchData = async ()=>{
+      console.log("2")
       try{
         const response  = await fetch(api,{method:"GET"});
         if(response.ok){
@@ -69,10 +58,15 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
           const data = await response.json();
           console.log("Data is set");
           if(data.results.length === 0 ){
-            console.log("No availabel cards");
-            isEmptyDeck = true;
+            console.log("No available cards");
+            let lastcard = DUMMY_DATA1[0];
+            lastcard.pet.headimg = exampleHeadImageUrl;
+            setData([lastcard]);
+            setTapData(lastcard);
+            setKey(1);
+            setIsEmptyDeck(true);
           }else{
-            isEmptyDeck = false;
+            setIsEmptyDeck(false);
             setData(data.results);
             setTapData(data.results[0]);
           }
@@ -87,9 +81,40 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
       
     }
 
+    const fetchExampleHeadImg = async ()=>{
+      console.log("1")
+      try{
+        const res = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/example/example-pet-headimg/",{method:"GET"});
+        if(res.ok){
+          const data = await res.json();
+          setExampleHeadImageUrl(data.image);
+        }else{
+          console.log("Http error when fetching exampleHeadImageUrl");
+        }
+      }catch(err){
+        console.log("Local Error when fetching exampleHeadImageUrl: "+err)
+      }
+    }
     // Functions
     const saveLikeCard = async(idx)=>{    
+      console.log("3")
       if(idx === null){
+        const safecard =  {
+          "id": 3141592654,
+          "pet": {
+              "uuid": "d8fdc36a-9d33-4e4e-a338-5f426482ebbe",
+              "species": "熱心的狗狗",
+              "species_general": "",
+              "name": "我是志工狗狗",
+              "age": 1,
+              "weight": 60.0,
+              "vaccined": true,
+              "currentloc": "汪汪星球",
+              "description": "快去認識更多我的夥伴吧",
+              "headimg": exampleHeadImageUrl,
+          },
+          "status": ""
+        }
         AsyncStorage.getItem("LikeCards")
         .then(res=>{
           const arr = res? JSON.parse(res) : [];
@@ -158,18 +183,14 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
   }
     // UseEffect
     useEffect(()=>{
-      // First save safecard
-      saveLikeCard(null);
-      console.log("Safe card is saved")
-      // Then fetch the tinder card api
-      fetchData();
+      initialize();
     },[key])
 
     // handleAdoption button
     const handleAdoption = ()=>{
       if(tapData.status !== "機構審查拒絕" & tapData.status !=="機構審查(中)" & tapData.status !=="機構審查批准"){
         setModalVisible(false);
-        navigation.navigate("Adoptformik");
+        navigation.navigate("Adoptformik");//,{ petuuid: tapData.pet.uuid}
       }
     };
 

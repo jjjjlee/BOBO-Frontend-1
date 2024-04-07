@@ -17,11 +17,11 @@ const {holderwords,orange,gray,white} = Colors;
 import { useNavigation } from '@react-navigation/native';
      
     
-const Adoptformik = ({route})=>{
+const Adoptformik = ()=>{
   const navigation = useNavigation();
   const [images, setImages] = useState([]);
-  const {petuuid} = route.params;
-  console.log(petuuid);
+  //const {petuuid} = route.params;
+  //console.log("petuuid:",petuuid);
   const saveImages = async () => {
     try {
         await AsyncStorage.setItem('images', JSON.stringify(images));
@@ -152,15 +152,16 @@ const Adoptformik = ({route})=>{
             console.error('Error retrieving data: ', error);
           }
         };
-
+        
         const handleComplete = async () => {
             const data = await AsyncStorage.getItem("UUID")
             const uuid = await JSON.parse(data)
-            console.log(uuid);
+            console.log("memberuuid:",uuid);
+            ;
            try {
-            // if (Image) {
-            //   await uploadImage(Image);
-            // }
+             if (Image) {
+               await uploadImage(Image);
+             }
               
               const requestData = {
                 "age": birth || '未填寫', // 如果birth未填寫，則賦予空字符串
@@ -191,7 +192,7 @@ const Adoptformik = ({route})=>{
                 throw new Error(errorMessage);
               }
   
-               
+              
                navigation.navigate("Adoptformik2");
               } 
               catch (error) {
@@ -211,13 +212,15 @@ const Adoptformik = ({route})=>{
                 type: 'image/jpeg', // 这里需要根据实际情况设置图片类型
                 name: 'image.jpg',
             });
-            const response = await fetch(apiUrl, {
+            /*
+            const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member-detail/patch/"+ uuid +"/" + petuuid + "/", {
                 method: 'POST',
                 body: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
+            */
             const data = await response.json();
             console.log('Image uploaded:', data);
         } catch (error) {

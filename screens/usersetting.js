@@ -259,7 +259,7 @@ const saveData = async (key, value) => {
     return (
         <KeyboardAwareScrollView style={{flex:1 }} contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false}>
 
-        <View style={{height:100,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+        <View style={{height:60,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                 
                 <TouchableOpacity  onPress={()=>navigation.goBack()}>
                     <Text style={{fontSize:20,left:15,color:'#fff'}}>取消</Text>

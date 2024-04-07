@@ -17,93 +17,6 @@ export const PostTab = ()=>{
 
 // The data input should be an array of adopted dogs info
 // Need to write a fetching method in this tab
-const DUMMY_DATA = [
-  { 
-    id : 1,
-    track_item_arr : [
-        {
-            id:"1",
-            imgs_arr:[
-                "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-                "http://192.168.1.100:8000/media/dogs/Jackrussel.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg"
-            ],
-            update_date:"2019-4-4",
-            update_text:"Hello this is the first text."
-        },
-        {
-            id:"2",
-            imgs_arr:[
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg"
-            ],
-            update_date:"2019-3-4",
-            update_text:"我是影分身之數柴犬"
-        }
-    ],
-    dog_info:{
-        name:"Alan",
-        headimg:"http://192.168.1.100:8000/media/dogs/golden-retriever1_OzehIoc.jpg",
-        age:'2',
-        species:"黃金獵犬",
-        weight:"60",
-        vaccined:"已施打疫苗",
-        adoptloc:"高雄市三民區",
-        adoptdate:"2020-10-20",
-        currentloc:"台北市中山區",
-        history_days:"60",
-        description: "我是一隻笨笨狗"
-    }
-  
-  },
-  { 
-    id : 2,
-    track_item_arr : [
-        {
-            id:"1",
-            imgs_arr:[
-                "http://192.168.1.100:8000/media/dogs/%E9%82%8A%E7%89%A7.jpg",
-                "http://192.168.1.100:8000/media/dogs/Jackrussel.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg"
-            ],
-            update_date:"2020-2-8",
-            update_text:"Hello this is the first text."
-        },
-        {
-            id:"2",
-            imgs_arr:[
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg",
-                "http://192.168.1.100:8000/media/dogs/images.jpg"
-            ],
-            update_date:"2020-1-8",
-            update_text:"我是影分身之數柴犬"
-        }
-    ],
-    dog_info:{
-        name:"Evan",
-        headimg:"http://192.168.1.100:8000/media/dogs/golden-retriever.jpg",
-        age:'5',
-        species:"黃金獵犬",
-        weight:"50",
-        vaccined:"已施打疫苗",
-        adoptloc:"高雄市前鎮區",
-        adoptdate:"2015-1-20",
-        currentloc:"台北市信義區",
-        history_days:"30",
-        description: "我是一隻笨笨狗"
-    }
-  
-  }
-
-];
 
 export const UserTrackTab = ({route})=>{
     const uuid = route.params.uuid;
@@ -123,14 +36,14 @@ export const UserTrackTab = ({route})=>{
                 description:"領養屬於你的毛孩，在這邊跟他留下屬於你們的故事吧!"
             }],
         pet:{
-            name:"我是志工狗狗",
-            headimg:"https://storage.googleapis.com/bobo_backend_0001_formal/images/fruits/11234.jpg?X-Goog-Algorithm=GOOG4-RSA-SHA256&X-Goog-Credential=bobo-987%40lively-nimbus-415015.iam.gserviceaccount.com%2F20240330%2Fauto%2Fstorage%2Fgoog4_request&X-Goog-Date=20240330T150125Z&X-Goog-Expires=86400&X-Goog-SignedHeaders=host&X-Goog-Signature=c31690f0f1eed08c77779880a91034df6b7b305457c0c99b89e9f32b6e01e010dc0cfda9398deff90679212cdcc57bfa36a356b5543af35ed694b5687fce505925784db890f63f176868800c900d010970b34ef20d6bd075e378d4e53cf7aae014d34556dc43c1bec783213f275b9fd4bd4bc86ec1a158593f477f39383fe9e953f2005424259fa753c9f9da12155c6b16d29294367820547736bacbaf8335c7bd447409ca2aa5b66d6a80d5c1a7d4ecbe216f56574c747fb04cad6dd17ea438476e32d3562d0564b08f4ea5aee43eda4b0e0db9f12ab74d51a9ec5d47e16b1d3f22b1cd919dfd27d014f91aea85cdecb2389b675583897b65c5502424d3f754",
-            age:'1',
-            species:"熱心的狗狗",
+            name:"加載中",
+            headimg:"123",
+            age:'...',
+            species:"加載中",
             weight:60.0,
             vaccined:true,
-            currentloc:"汪汪星球",
-            description: "你還沒有認養的寵物，快去尋找屬於你的小毛怪吧",
+            currentloc:"加載中",
+            description: "加載中",
             created_at : "",
             updated_at: "",
             institution:""
@@ -139,8 +52,7 @@ export const UserTrackTab = ({route})=>{
       }
     
     const [data, setData] = useState([initialData]);
-
-    // Function
+    // Fetching Data
     const fetchAPI = async ()=>{
         fetch("https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/member/"+uuid+'/',{
             method:"GET"})
@@ -153,9 +65,58 @@ export const UserTrackTab = ({route})=>{
             .catch(err=>{console.log(err);})
     };
 
+    const fetchExampleImg = async ()=>{
+        try{
+          const res = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/example/",{method:"GET"});
+          if(res.ok){
+            const obj_arr = await res.json();
+            // Extract Images
+            img_arr = obj_arr.map((item,i)=>{return item.image})
+            const headimg = img_arr[0];
+            const trackimg_arr = img_arr.slice(1);
+            // Reform initial data
+            const demo = {
+              id : -1,
+                track_item_arr : [
+                    {
+                        id:"",
+                        pettrace_imgs: trackimg_arr,
+                        created_at:"",
+                        description:"領養屬於你的毛孩，在這邊跟他留下屬於你們的故事吧!"
+                    }],
+                pet:{
+                    name:"我是志工狗狗",
+                    headimg:headimg,
+                    age:'1',
+                    species:"熱心的狗狗",
+                    weight:60.0,
+                    vaccined:true,
+                    currentloc:"汪汪星球",
+                    description: "你還沒有認養的寵物，快去尋找你的小毛怪吧",
+                    created_at : "",
+                    updated_at: "",
+                    institution:""
+                },
+                history_days:"0"
+            }
+            // Set demo data
+            setData([demo]);
+          }else{
+            console.log("Http error when fetching exampleImageUrl");
+          }
+        }catch(err){
+          console.log("Local Error when fetching exampleImageUrl: "+err)
+        }
+      }
+    
+    // Functions
+    const initialize = async ()=>{
+      await fetchExampleImg();
+      await fetchAPI(); 
+    }
     // Hooks
     useEffect(()=>{
-        fetchAPI();
+        initialize();
     },[])
 
   return(
