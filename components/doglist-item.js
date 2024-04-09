@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
     import { useState } from "react";
-    import { StyleSheet, Text, TouchableOpacity, ImageBackground, View, Modal} from "react-native";
+    import { StyleSheet, Text, TouchableOpacity, ImageBackground, View, Modal, Linking, Alert} from "react-native";
     import { Icon } from "react-native-elements";
     import TinderDetailScreen from "../screens/tinder-detail-screen";
     import { TextInput } from "react-native-gesture-handler";
@@ -23,7 +23,52 @@ import { useNavigation } from "@react-navigation/native";
                 navigation.navigate("Adoptformik");
             }
           };
-
+        
+        // fetch簽名API
+        const handleSignup = async ()=>{
+            try{
+                Alert.alert('處理中','請稍等約10秒鐘...')
+                const formData = new FormData();
+                formData.append("member_email", email);
+                const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/kdan/sign-link/', {
+                    method: 'POST',
+                    body: formData,
+                    redirect: "follow",
+                });
+                if(response.ok){
+                    const data = await response.json();
+                    const sign_url = data['sign_link'];
+                    console.log(data['sign_link'])
+                    const supported = await Linking.canOpenURL(sign_url);
+                    if(supported){
+                        await Linking.openURL(sign_url);
+                    }else{
+                        console.error('Cannot open URL:', sign_url);
+                    }
+                }else{
+                    const data = await response.json();
+                    console.log(data)
+                    // Refresh token
+                    const res1 = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/kdan/refresh-token/",{
+                        method:'GET'
+                    });
+                    // Post again
+                    const res2 = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/post/', {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                    if(res2.ok){
+                        const data = await response.json();
+                        console.log(data)
+                    }else{console.log("Unexpected HTTP error when fetcing Kdan API")}
+                }
+            }catch(e){
+                console.log('Local Error when handleSingup', e);
+            }
+        }
         return(
             <TouchableOpacity style = {styles.card} onPress = {()=>{handleOnPress();}}>
                 <View style = {styles.baseframe}>
@@ -116,7 +161,7 @@ import { useNavigation } from "@react-navigation/native";
                                     <TouchableOpacity style = {styles.deleteButton} onPress={()=>{setModalSignVisible(false)}}>
                                         <Text style={styles.buttonText}>取消</Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={styles.confirmButton} onPress = {()=>{}}>
+                                    <TouchableOpacity style={styles.confirmButton} onPress = {()=>{handleSignup();}}>
                                         <Text style={styles.buttonText}>去簽名</Text>
                                     </TouchableOpacity>
                                 </View>

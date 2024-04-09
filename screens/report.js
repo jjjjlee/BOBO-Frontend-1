@@ -4,8 +4,6 @@ import * as ImagePicker from 'expo-image-picker';
 import moment from 'moment';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-
-
 // Styled components
 import {
     Colors,
@@ -16,8 +14,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const {holderwords,orange,white} = Colors;
 
 const Reporttest = ({uuid})=>{
+    // Variables
     const petid =uuid;
+    // State variables
+    const [memberid, setMemberid] = useState("");
     const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+    const [images, setImages] = useState([]);
+    const [text,  setText] = useState('毛孩有甚麼異常狀況嗎'); 
+    const [text2, setText2] = useState('毛孩有甚麼異常狀況嗎'); 
+    const [text3, setText3] = useState('請簡述您的退養原因'); 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible2, setModalVisible2] = useState(false);
+
+    // Initialization
     useEffect(() => {
         const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
           setKeyboardVisible(true);
@@ -25,12 +34,20 @@ const Reporttest = ({uuid})=>{
         const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
           setKeyboardVisible(false);
         });
-    
+        // This is a cleanup function returned by the effect. 
+        // It removes the event listeners when the component unmounts to avoid memory leaks. 
+        // This cleanup function runs when the component unmounts or when the effect dependencies change.
         return () => {
           keyboardDidShowListener.remove();
           keyboardDidHideListener.remove();
         };
       }, []);
+
+    useEffect(()=>{
+        fetchUUID();
+    },[]);
+
+    // Funtcions
     const handlePressOutside = () => {
         
         if (isKeyboardVisible) {
@@ -40,9 +57,19 @@ const Reporttest = ({uuid})=>{
           handleCloseModal2(); 
         }
       };
+    const handleOpenModal2 = () => {setModalVisible2(true);};
+    const handleCloseModal2 = () => {setModalVisible2(false);};
+    const handleOpenModal = () => {setModalVisible(true);};
+    const handleCloseModal = () => {setModalVisible(false);};
 
-    const [images, setImages] = useState([]);
-  
+    // Async Functions
+    const fetchUUID = async() =>{
+        const response = await AsyncStorage.getItem("UUID")
+        const data = await JSON.parse(response)
+        console.log('memeberid is get',data)
+        setMemberid(data);
+    }
+    // Add photo function
     const handlePress = async (uri) => {
       if (Platform.OS !== 'web') {
         const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -76,14 +103,27 @@ const Reporttest = ({uuid})=>{
       }
     };
     }
-    const uploadImage = async (uri) => {
+    // The final fetching function
+    const handleSaveText = async () => {
+      // 按下完成執行的function
       try {
+        if (images && images.length > 0) {
           const formData = new FormData();
-          formData.append('uploaded_images', {
+          // Add images
+          for (var x = 0; x < images.length; x++) {
+            let uri = images[x];
+            formData.append("uploaded_images",{
               uri,
               type: 'image/jpeg', 
               name: 'image.jpg',
-          });
+            });
+        }
+          // Add text
+          formData.append("description",text);
+          formData.append("pet",petid);
+          formData.append("member",memberid)
+          // Add deadline
+          formData.append("deadline","2030-01-01")
           const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/post/', {
               method: 'POST',
               body: formData,
@@ -92,83 +132,33 @@ const Reporttest = ({uuid})=>{
               },
           });
           const data = await response.json();
-          console.log('Image uploaded:', data);
-      } catch (error) {
-          console.error('Error uploading image: ', error);
-          Alert.alert('Error', 'Failed to upload image.');
-      }
-  };
-
-    const [text,  setText] = useState('毛孩有甚麼異常狀況嗎'); 
-    const [text2, setText2] = useState('毛孩有甚麼異常狀況嗎'); 
-    const [text3, setText3] = useState('請簡述您的退養原因'); 
-
-    const [modalVisible, setModalVisible] = useState(false);
-    const handleOpenModal = () => {setModalVisible(true);};
-    const handleCloseModal = () => {setModalVisible(false);};
-
-    let memberid = "";
-    const fetchUUID = async() =>{
-        const response = await AsyncStorage.getItem("UUID")
-        const data = await JSON.parse(response)
-        console.log('memeberid is get',data)
-        memberid = data;
-    }
-
-    useEffect(()=>{
-        fetchUUID();
-    },[])
-    const handleSaveText = async () => {
-      
-      try {
-        const text = {
-          "description":text,
-          "pet":petid,
-          "member":memberid,
-        }
-          if (images && images.length > 0) {
-              for (const image of images) {
-                  await uploadImage(image);
-              }
-          }
-          else{
-            Alert.alert('錯誤','請上傳照片!')
-          }
-          const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/post/', {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(text),
-          });
-          const data = await response.json();
-          console.log('上傳成功~', data,memberid);
+          console.log('回傳訊息:', data);
           handleCloseModal();
+        }
+        else{
+          Alert.alert('錯誤','請上傳照片!')
+        }
+        
       } catch (error) {
-          console.error('上傳失敗!請再試一次', error);
+        console.error('上傳失敗!請再試一次', error);
       }
-  };
+    };
+    // Replace photo function
+    const handleReplaceImage = async (index) => {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [15, 15],
+        quality: 1,
+      });
 
-  const handleReplaceImage = async (index) => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [15, 15],
-      quality: 1,
-    });
-
-    if (!result.canceled) {
-      const newImageUri = result.assets[0].uri;
-      const updatedImages = [...images];
-      updatedImages[index] = newImageUri;
-      setImages(updatedImages);
-    }
-  };
-
-
-    const [modalVisible2, setModalVisible2] = useState(false);
-    const handleOpenModal2 = () => {setModalVisible2(true);};
-    const handleCloseModal2 = () => {setModalVisible2(false);};
+      if (!result.canceled) {
+        const newImageUri = result.assets[0].uri;
+        const updatedImages = [...images];
+        updatedImages[index] = newImageUri;
+        setImages(updatedImages);
+      }
+    };
     const handleSaveText2 =  async() => {
         const back ={
         member:memberid,
@@ -190,7 +180,7 @@ const Reporttest = ({uuid})=>{
           } catch (error) {
             console.error('上傳失敗!請再試一次', petid,memberid );
           }
-    };   //API
+    }; 
 
     return (
         <View style={{position:"absolute",height:'6%',width:'110%',top:"75%"}}>
@@ -215,11 +205,11 @@ const Reporttest = ({uuid})=>{
                     <View style={{backgroundColor:white,height:'40%',borderRadius:20,flexDirection:'row', alignItems: 'center',top:5}}>
                         
                         <View style={{ flexDirection: 'row' , flexWrap: 'wrap',height:80,width:'100%',bottom:'27%',left:'1.5%'}}>
-                                {images.slice(0, 8).map((uri, index) => (
-                                <TouchableOpacity key={index} onPress={() => handleReplaceImage(index)} style={{ margin: 5 }}>
-                                <Image source={{ uri }} style={{ width: 80, height: 80, borderRadius: 10 }} />
-                              </TouchableOpacity>
-                                ))}
+                            {images.slice(0, 8).map((uri, index) => (
+                            <TouchableOpacity key={index} onPress={() => handleReplaceImage(index)} style={{ margin: 5 }}>
+                            <Image source={{ uri }} style={{ width: 80, height: 80, borderRadius: 10 }} />
+                          </TouchableOpacity>
+                            ))}
                             {images.length < 8 && (
                             <TouchableOpacity style={{ flexDirection: 'row' }} onPress={handlePress}>
                                 <Image
@@ -227,8 +217,8 @@ const Reporttest = ({uuid})=>{
                                 </Image>
                             </TouchableOpacity>
                             )}
+                        </View>
                     </View>
-                </View>
                     
                     <Text style={{top:'2%',fontSize:16}}>文字描述</Text>
 
