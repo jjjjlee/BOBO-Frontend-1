@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
     import TinderDetailScreen from "../screens/tinder-detail-screen";
     import { TextInput } from "react-native-gesture-handler";
 
-    const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,description,adoptloc,adoptdate,likecount,type,user,update_status,canShowDetail,matching_status})=>{
+    const DoglistItem = ({id,name,headimg, age,species,weight,vaccined,currentloc,description,adoptloc,adoptdate,likecount,type,user,update_status,canShowDetail,matching_status,petuuid})=>{
         const navigation = useNavigation()
         const [modalVisible, setModalVisible] = useState(false)
         const [modalSignVisible, setModalSignVisible] = useState(false)
@@ -20,7 +20,7 @@ import { useNavigation } from "@react-navigation/native";
                 setModalSignVisible(true);
             }else if(matching_status !== "機構審查拒絕" & matching_status !=="機構審查(中)"){
                 setModalVisible(false);
-                navigation.navigate("Adoptformik");
+                navigation.navigate("Adoptformik",{petuuid:petuuid});
             }
           };
         

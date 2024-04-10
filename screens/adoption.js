@@ -17,23 +17,25 @@ const {holderwords,orange,gray,white} = Colors;
 import { useNavigation } from '@react-navigation/native';
      
     
-const Adoptformik = ()=>{
+const Adoptformik = ({route})=>{
   const navigation = useNavigation();
-  const [images, setImages] = useState([]);
-  //const {petuuid} = route.params;
-  //console.log("petuuid:",petuuid);
-  const saveImages = async () => {
+  const [image, setImage] = useState([]);
+  const {petuuid} = route.params;
+  console.log("petuuid:",petuuid);
+  
+  const saveImage = async () => {
     try {
-        await AsyncStorage.setItem('images', JSON.stringify(images));
+        await AsyncStorage.setItem('image', JSON.stringify(image));
     } catch (error) {
-        console.error('Error saving images: ', error);
+        console.error('Error saving image: ', error);
     }
   };
-  const retrieveImages = async () => {
+  const retrieveImage = async () => {
     try {
-        const storedImages = await AsyncStorage.getItem('images');
-        if (storedImages !== null) {
-            setImages(JSON.parse(storedImages));
+        const storedImage = await AsyncStorage.getItem('image');
+        
+        if (storedImage) {
+            setImage(JSON.parse(storedImage));
         }
     } catch (error) {
         console.error('Error retrieving images: ', error);
@@ -57,8 +59,8 @@ const Adoptformik = ()=>{
 
     if (!result.canceled) {
         const asset = result.assets[0];
-        setImages([asset.uri]);
-        await saveImages();
+        setImage([asset.uri]);
+        await saveImage();
        
     }
   };
@@ -77,7 +79,7 @@ const Adoptformik = ()=>{
 
     useEffect(() => {
       retrieveData();
-      retrieveImages();
+      retrieveImage();
     }, []);
     
 
@@ -155,14 +157,11 @@ const Adoptformik = ()=>{
         
         const handleComplete = async () => {
             const data = await AsyncStorage.getItem("UUID")
+            
             const uuid = await JSON.parse(data)
-            console.log("memberuuid:",uuid);
+            //const uuid ='cc9267775a134beb8bf04cf4476f5fdf';
             ;
-           try {
-             if (Image) {
-               await uploadImage(Image);
-             }
-              
+           try {    
               const requestData = {
                 "age": birth || '未填寫', // 如果birth未填寫，則賦予空字符串
                 "living_area": living_area || '未填寫',
@@ -193,7 +192,7 @@ const Adoptformik = ()=>{
               }
   
               
-               navigation.navigate("Adoptformik2");
+               navigation.navigate("Adoptformik2",{'petuuid':petuuid});
               } 
               catch (error) {
               console.error('Error submitting data: ', error);
@@ -209,18 +208,16 @@ const Adoptformik = ()=>{
             const formData = new FormData();
             formData.append('image', {
                 uri,
-                type: 'image/jpeg', // 这里需要根据实际情况设置图片类型
+                type: 'image/jpeg', 
                 name: 'image.jpg',
             });
-            /*
-            const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member-detail/patch/"+ uuid +"/" + petuuid + "/", {
-                method: 'POST',
+            const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member-detail/patch/"+ uuid +"/", {
+                method: 'PATCH',
                 body: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            */
             const data = await response.json();
             console.log('Image uploaded:', data);
         } catch (error) {
@@ -303,13 +300,13 @@ const Adoptformik = ()=>{
             <View style={{ height: 10 }}></View>
 
             <View style={{ flex: 0.7, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                {images.map((uri, index) => (
+                {image.map((uri, index) => (
                     <TouchableOpacity key={index} onPress={handlePress}>
                         <Image source={{ uri }} style={{ width: 100, height: 100, margin: 5, padding: 10, borderRadius: 40 ,margin:'20'}} />
                     </TouchableOpacity>
                 ))}
   
-                {images.length === 0 &&
+                {image.length === 0 &&
                     <TouchableOpacity onPress={handlePress}>
                         <Image source={require('./../assets/add.png')} style={{ height: 100, width: 100 }} />
                     </TouchableOpacity>

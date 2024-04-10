@@ -54,16 +54,45 @@ export const UserTrackTab = ({route})=>{
     const [data, setData] = useState([initialData]);
     // Fetching Data
     const fetchAPI = async ()=>{
-        fetch("https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/member/"+uuid+'/',{
-            method:"GET"})
-            .then(res=>{return(res.json());})
-            .then(res=>{
-                if(res.length > 0){
-                    setData(res)
-                }
+      try{
+        const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_pet_status/"+uuid+"/5/",{
+          method: "GET"})
+        if(response.ok){
+          // First get all the adoption dog information
+          const data = await response.json();
+          let petarr = data.results.map(item =>{
+            const {id,status,updated_at, ...rest} = item;
+            return rest});
+          //console.log(petarr);
+          // Next, add track_item_arr to the petarr
+          const res = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/pet-track-record/member/"+uuid+'/',{method:"GET"})
+          if(res.ok){
+            const data = await res.json();
+            let trackarr = data;
+            
+            const mappedArr = petarr.map(obj1=>{
+              // Find the corresponding object in trackarr
+              const obj2 = trackarr.find(obj => obj.pet.uuid === obj1.pet.uuid);
+              // Create a new object with the track_item_arr key
+              return{
+                ...obj1,
+                track_item_arr : obj2 ? obj2.track_item_arr : [],
+                history_days : obj2 ? obj2.history_days: 0,
+              }
             })
-            .catch(err=>{console.log(err);})
-    };
+
+            //console.log(mappedArr)
+            setData(mappedArr)
+          }else{
+            console.log("HTTP error when fetching initial track data")
+          }
+        }else{
+          console.log("HTTP error when fetching initial track data")
+        }
+      }catch(err){
+        console.log("Local error when fetching initial track data")
+      }
+    }
 
     const fetchExampleImg = async ()=>{
         try{

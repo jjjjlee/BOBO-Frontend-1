@@ -4,17 +4,8 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useNavigation } from '@react-navigation/native';
-// formik
-import { Formik } from 'formik';
-// Styled components
-import {
-    Colors,
-    Lefttextorange,
-
-} from './../components/styles'
-//colors
+import {Colors} from './../components/styles'
 const {holderwords, orange,white,gray} = Colors;
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
      
     
@@ -28,7 +19,7 @@ const Setting = ()=>{
     
     const [selectedFrequency, setSelectedFrequency] = useState('每月一次');
     const [showOptions, setShowOptions] = useState(false);
-    const FrequencyOptions = ['每周一次', '每月一次', '每半年一次', '永不提醒'];
+    const FrequencyOptions = ['一個月一次','兩個月一次','三個月一次', '永不提醒'];
 
     const handleToggleOptions = () => {
         setShowOptions(!showOptions);
@@ -255,14 +246,36 @@ const saveData = async (key, value) => {
     console.log('Form submitted with Phonenumbers:',Phonenumbers);
   };
 
-
+  const handleLogout = () => {
+    
+    Alert.alert(
+        '登出確認',
+        '您是否确定要登出?',
+        [
+            {
+                text: '取消',
+                onPress: () => console.log('取消登出'),
+                style: 'cancel',
+            },
+            {
+                text: '確定',
+                onPress: () => {
+                    console.log('登出');
+                    
+                    navigation.navigate('Login');
+                },
+            },
+        ],
+        { cancelable: true } 
+    );
+};
     return (
         <KeyboardAwareScrollView style={{flex:1 }} contentContainerStyle={{ flexGrow: 1}} keyboardShouldPersistTaps={"never"} showsVerticalScrollIndicator={false}>
 
-        <View style={{height:60,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+        <View style={{height:70,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                 
-                <TouchableOpacity  onPress={()=>navigation.goBack()}>
-                    <Text style={{fontSize:20,left:15,color:'#fff'}}>取消</Text>
+                <TouchableOpacity  onPress={(handleLogout)}>
+                    <Text style={{fontSize:20,left:15,color:'#fff'}}>登出</Text>
                 </TouchableOpacity>
                                                                            
                                                                                                             {/* 上面橘色框框 */}

@@ -67,8 +67,9 @@ const UserLikeScreen = ()=>{
         }).then(res=>{return(res.json());
         }).then(res=>{
             console.log("Adding API data");
-            currentdata = currentdata.concat(res.results);
-            currentfilterdata = currentfilterdata.concat(res.results);
+            const newArray = res.results.filter(item => item.status !== '已認養');
+            currentdata = currentdata.concat(newArray);
+            currentfilterdata = currentfilterdata.concat(newArray);
             if(currentdata.length >1){
                 currentdata.shift();
                 currentfilterdata.shift();
@@ -77,6 +78,7 @@ const UserLikeScreen = ()=>{
             setFilterData(currentfilterdata);
         }).catch(err=>{console.log(err);})
     }
+    
     const fetchLocalData = async()=>{
         AsyncStorage.getItem("LikeCards")
         .then(res=>{return(JSON.parse(res))})

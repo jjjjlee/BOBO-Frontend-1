@@ -95,6 +95,7 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
         console.log("Local Error when fetching exampleHeadImageUrl: "+err)
       }
     }
+
     // Functions
     const saveLikeCard = async(idx)=>{    
       console.log("3")
@@ -255,9 +256,6 @@ const Swipes = ({currentIndex,swipesRef,uuid})=>{
                 <TinderDetailScreen headimg={tapData.pet.headimg} species={tapData.pet.species} weight={tapData.pet.weight}
                     vaccined={tapData.pet.vaccined} adoptloc={tapData.pet.currentloc} description={tapData.pet.description} name = {tapData.pet.name} age = {tapData.pet.age}  />
                 <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity> 
-                <View style = {styles.action}>
-                  <TouchableOpacity  style={styles.adopt_button} onPress={handleAdoption} ><Text style={styles.adopt_button_text}>{tapData.status === '機構審查批准'? "確定認養" : tapData.status === '機構審查拒絕'? "機構拒絕" : tapData.status === '機構審查(中)'? "審查中": "我要認養"}</Text></TouchableOpacity>
-                </View>  
             </Modal>
         </View>
     )

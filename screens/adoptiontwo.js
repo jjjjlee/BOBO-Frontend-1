@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react';
-import { Text, View , TouchableOpacity, SafeAreaView,ScrollView,Modal,TextInput,KeyboardAvoidingView} from 'react-native';
+import { Text, View , TouchableOpacity, SafeAreaView,ScrollView,Modal,TextInput,KeyboardAvoidingView,Alert} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // Styled components
@@ -13,12 +13,8 @@ const {holderwords,orange,gray,white} = Colors;
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const Adoptformik2 = ()=>{ 
-
-    
-
+const Adoptformik2 = ({route})=>{ 
     const navigation = useNavigation();
-
     const [family_composition, setText01] = useState('');       
     const [pet_breed, setText02] = useState('');       
     const [ care_exp, setText03] = useState('');      
@@ -144,28 +140,31 @@ const Adoptformik2 = ()=>{
             console.error('Error retrieving data: ', error);
         }
     };
-    
+    const {petuuid} = route.params;
     const handleComplete = async () => {
         const data = await AsyncStorage.getItem("UUID");
         const uid = await JSON.parse(data);
-        console.log(uid);
+    
           
 
         try {
             const requestData = {
                 "family_composition":family_composition|| '未填寫',
                 "pet_breed":pet_breed|| '未填寫',
-                "care_exp":care_exp|| '未填寫',
+                "ownership_exp":care_exp|| '未填寫',
                 "reason":reason|| '未填寫',
                 "care_plan":care_plan|| '未填寫',
                 "addition":addition|| '未填寫',
                 "current_pets":current_pets|| '未填寫',
-                "monthly_care_budge":monthly_care_budge|| '未填寫',
+                "monthly_care_budget":monthly_care_budge|| '未填寫',
                 "monthly_salary":monthly_salary|| '未填寫',
                 "allergies":allergies|| '未填寫',
                
             };
 
+            const data ={
+                "status":'1',
+            }
             const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member-detail/patch/" + uid +"/", 
             {
                 method: 'PATCH',
@@ -174,17 +173,30 @@ const Adoptformik2 = ()=>{
                 },
                 body: JSON.stringify(requestData),
             });
+            console.log(uid,petuuid);
+            const response2 = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_pet_status/patch/" + uid +"/"+ petuuid +"/",
+            {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+                body: JSON.stringify(data),
+            });
 
             if (!response.ok) {
                 const errorMessage = await response.text();
                 throw new Error(errorMessage);
               }
-
+            if (!response2.ok) {
+                const errorMessage = await response.text();
+                throw new Error(errorMessage);
+              }
+              Alert.alert('','感謝您認真填寫表單，請等待送養機構審核(約3~5天)，如有通過審核將會於系統提醒，還請留意，謝謝!')
             navigation.navigate("TinderScreen");
          } 
          catch (error) {
              console.error('Error submitting data: ', error);
-           Alert.alert('Error', 'Failed to submit data. Please try again later.');
+           Alert.alert('Error', '請聯繫客服');
          }
     };
 
@@ -193,9 +205,9 @@ const Adoptformik2 = ()=>{
 
     return(
         <SafeAreaView style={{ flex: 1 }} behavior="padding">
-            <ScrollView contentContainerStyle={{ flexGrow: 1, height: '180%',flexDirection:'column',justifyContent:'space-between'}} style={{flex:1}}>
+            <ScrollView contentContainerStyle={{ flexGrow: 1, height: '170%',flexDirection:'column',justifyContent:'space-between'}} style={{flex:1}}>
 
-            <View style={{flex:1,backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+            <View style={{height:"7%",backgroundColor:orange,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
                 
                 <TouchableOpacity onPress={()=>navigation.navigate("Adoptformik")}>
                     <Text style={{fontSize:20,left:15,color:'#fff'}}>上一頁</Text>
@@ -209,6 +221,7 @@ const Adoptformik2 = ()=>{
                 
                 <TouchableOpacity onPress={handleComplete} >
                     <Text style={{fontSize:20,right:15,color:'#fff'}}>完成</Text>
+                    
                 </TouchableOpacity>
                 
             </View>
