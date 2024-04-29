@@ -17,7 +17,8 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.BOBO.MemberAPP",
-      "buildNumber": "7"
+      "buildNumber": "10",
+      "icon" : "./assets/bobo-logo2.png"
     },
     "android": {
       "adaptiveIcon": {

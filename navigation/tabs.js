@@ -82,9 +82,11 @@ export const UserTrackTab = ({route})=>{
             })
 
             //console.log(mappedArr)
-            setData(mappedArr)
+            if(mappedArr.length !== 0){
+              setData(mappedArr)
+            }
           }else{
-            console.log("HTTP error when fetching initial track data")
+            console.log("HTTP error when fetching initial track data1")
           }
         }else{
           console.log("HTTP error when fetching initial track data")

@@ -70,16 +70,72 @@ const UserLikeScreen = ()=>{
             const newArray = res.results.filter(item => item.status !== '已認養');
             currentdata = currentdata.concat(newArray);
             currentfilterdata = currentfilterdata.concat(newArray);
+            /*
             if(currentdata.length >1){
                 currentdata.shift();
                 currentfilterdata.shift();
             }
+            */
             setData(currentdata);
             setFilterData(currentfilterdata);
         }).catch(err=>{console.log(err);})
     }
     
+    const removeLikeCardsLocalStorage = async () => {
+        await AsyncStorage.removeItem("LikeCards");
+        console.log("Clear the LikeCards Storage!");
+        return true
+      }
+
+    const postData = async (return_obj)=>{
+        // Convert to JSON
+        const return_json = JSON.stringify(return_obj);
+        //console.log(return_json);
+        // Post API
+        if(return_obj.pet_uuid_list.length > 0){
+          try{
+            const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_pet_status/post/",{
+              method: "POST",
+              headers: {'Content-Type': 'application/json'},
+              body : return_json
+            })
+            if(response.ok){
+              console.log("Successfully posted")
+            }else{
+              const message = await response.json();
+              console.log("Post failed:"+ message);
+            }
+          }catch(err){
+            console.log(err);
+          }
+        }else{
+          console.log("No LikeCards need to update")
+        }
+      }
+
     const fetchLocalData = async()=>{
+        const data = await AsyncStorage.getItem("LikeCards");
+        console.log(uuid)
+        let return_obj = {
+            "member_uuid" : uuid,
+            "status" : "0",
+            "pet_uuid_list" :[]
+          }
+        if(data !== null){
+            let data_arr = JSON.parse(data);
+            let obj = data_arr[0];
+            // Remove the safecard
+            if(obj.pet.name === "我是志工狗狗"){
+                data_arr.shift();
+            }
+            // Create array in the return_obj
+            for(let i=0; i<data_arr.length; i++){
+                return_obj.pet_uuid_list.push(data_arr[i].pet.uuid);
+            }
+            await postData(return_obj);
+            await removeLikeCardsLocalStorage()
+        }
+        /*
         AsyncStorage.getItem("LikeCards")
         .then(res=>{return(JSON.parse(res))})
         .then(res=>{
@@ -87,6 +143,7 @@ const UserLikeScreen = ()=>{
             currentdata = currentdata.concat(res);
             currentfilterdata = currentfilterdata.concat(res);
         })
+        */
     }
     
     // Handle button click style
