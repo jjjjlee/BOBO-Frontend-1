@@ -35,8 +35,9 @@ const Welcome = ()=>{
                 <WelcomeTitleSmall>讓每個毛孩，都有個永續的未來</WelcomeTitleSmall>
             </WelcomeTextContainer>
             <WelcomeButtonContainer>
-                <LongThinButton onPress={()=>{}} title="註冊新帳號" backgroundColor = {orange}/>
-                <LongThinButton onPress={()=>navigation.navigate("PostScreen")} title="我已經有帳號" backgroundColor = {transparent}/>
+                <LongThinButton onPress={()=>navigation.navigate("Register")} title="註冊新帳號" backgroundColor = {orange}/>
+                <LongThinButton onPress={()=>navigation.navigate("Login")} title="我已經有帳號" backgroundColor = {transparent}/>
+
             </WelcomeButtonContainer>
         </ImageBackground>
     );
