@@ -11,8 +11,19 @@ import { useNavigation } from "@react-navigation/native";
         const [modalSignVisible, setModalSignVisible] = useState(false)
         const [email, setEmail] = useState('');
         const handleOnPress = ()=>{
-            if(user !== "institute" & type === "forPost" & canShowDetail){
+            if((type === "forPost" & canShowDetail)){
                 setModalVisible(true)
+            }else if(type === "forAdopt" & canShowDetail){
+                navigation.navigate("CandidateTab",{pet_uuid:petuuid,detail_data:{
+                    name : name,
+                    age : age,
+                    headimg : headimg,
+                    species : species,
+                    weight : weight,
+                    vaccined : vaccined,
+                    adoptloc : currentloc,
+                    description : description
+                }})
             }
         }
         const handleAdoption = ()=>{
@@ -125,9 +136,9 @@ import { useNavigation } from "@react-navigation/native";
                                     <Icon name = "heart" type = "ionicon" size = {20} color="orange"/>
                                     <Text style={styles.likecounttext}>{likecount} 人</Text>
                                 </View>
-                                <TouchableOpacity style={styles.candidateframe}>
+                                <View style={styles.candidateframe}>
                                     <Text style={styles.candidatetext}>查看候選人</Text>
-                                </TouchableOpacity>
+                                </View>
                             </View>:null
                         }
                         {(type === "forPost") & (user === "institute")  ? 
@@ -141,11 +152,8 @@ import { useNavigation } from "@react-navigation/native";
                 </View>
                 <Modal animationType="slide" transparent={false} visible={modalVisible}>
                     <TinderDetailScreen headimg={headimg} species={species} weight={weight}
-                        vaccined={vaccined?"已施打疫苗":"未施打疫苗"} adoptloc={currentloc} description={description} name = {name} age = {age} matching_status = {matching_status}/>
+                        vaccined={vaccined?"已施打疫苗":"未施打疫苗"} adoptloc={currentloc} description={description} name = {name} age = {age} matching_status = {matching_status} route = {null}/>
                     <TouchableOpacity style = {styles.goback_frame} onPress={()=>setModalVisible(false)}><Text style={styles.goback_text}>返回 &gt;</Text></TouchableOpacity>
-                    <View style = {styles.action}>
-                      <TouchableOpacity  style={styles.adopt_button} onPress={handleAdoption} ><Text style={styles.adopt_button_text}>{matching_status === '機構審查批准'? "確定認養" : matching_status === '機構審查拒絕'? "機構拒絕" : matching_status === '機構審查(中)'? "審查中": "我要認養"}</Text></TouchableOpacity>
-                    </View>  
                     <Modal animationType="fade" transparent={true} visible={modalSignVisible} onRequestClose={() => setModalSignVisible(false)}>
                         <View style={styles.modalBackground}>
                             <View style={styles.functionWindow}>
@@ -291,7 +299,7 @@ import { useNavigation } from "@react-navigation/native";
         baseframe: {
             alignSelf: "stretch",
             flexShrink: 0,
-            height: 101,
+            height: 120,
             flexDirection: "row",
             alignItems: "center",
             columnGap: 12
@@ -359,7 +367,7 @@ import { useNavigation } from "@react-navigation/native";
         },
         adoptbottomframe: {
             alignSelf:'flex-end',
-            marginTop: 8,
+            marginTop: 20,
             flexShrink: 0,
             flexDirection: "row",
             alignItems: "center",

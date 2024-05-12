@@ -2,44 +2,59 @@ import React, { useState } from 'react';
 import { View, ImageBackground, Text, StyleSheet, TouchableOpacity, Modal } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adoptloc, description})=>{
+const TinderDetailScreen = ({name, age, headimg, species,weight, vaccined, adoptloc, description,route})=>{
+    let features = {}
+    if(route === null){
+        features = {
+            name : name,
+            age : age,
+            headimg : headimg,
+            species : species,
+            weight : weight,
+            vaccined : vaccined,
+            adoptloc : adoptloc,
+            description : description
+        }
+    }else{
+       features = route.params
+    }
 
     return(
         <View style = {styles.baseframe}>
             <View style={styles.content}>
-                <ImageBackground style = {styles.image} source={{uri:headimg}}/>
+                <ImageBackground style = {styles.image} source={{uri:features.headimg}}/>
 
                 <View style = {styles.title}>
                     <Text style={styles.title_text}>基本資訊</Text>
                     <View style = {styles.title_content}>
                         <View style = {styles.tags}>
                             <View style={styles.tag}>
-                                <Text style={styles.tag_text}>{species}</Text>
+                                <Text style={styles.tag_text}>{features.species}</Text>
                             </View>
                             <View style={styles.tag}>
-                                <Text style={styles.tag_text}>{weight}</Text>
+                                <Text style={styles.tag_text}>{features.weight}</Text>
                             </View>
                             <View style={styles.tag}>
-                                <Text style={styles.tag_text}> {vaccined?"已注射疫苗":"未注射疫苗"}</Text>
+                                <Text style={styles.tag_text}> {features.vaccined?"已注射疫苗":"未注射疫苗"}</Text>
                             </View>
                         </View>
                         <View style = {styles.location_frame}>
                             <Icon name = "location" type='ionicon'/>
-                            <Text style = {styles.location_text}>{adoptloc}</Text>
+                            <Text style = {styles.location_text}>{features.adoptloc}</Text>
                         </View>
                     </View>
                 </View>
 
                 <View style={styles.description_frame}>
                     <Text style = {styles.description_title}>關於我</Text>
-                    <Text style = {styles.description_text}>{description}</Text>
+                    <Text style = {styles.description_text}>{features.description}</Text>
                 </View>
             </View>
             <View style={styles.header_frame}>
                 <View style={styles.header_content}>
                     <View style={styles.header_text}>
-                        <Text style={styles.name_text}>{name}</Text>
-                        <Text style={styles.age_text}>{age}歲</Text>
+                        <Text style={styles.name_text}>{features.name}</Text>
+                        <Text style={styles.age_text}>{features.age}歲</Text>
                     </View>
                 </View>
             </View>

@@ -42,94 +42,22 @@ const Login = ()=>{
     const navigation = useNavigation();
     
     // API function
-
-    const postData = async (return_obj)=>{
-      // Convert to JSON
-      const return_json = JSON.stringify(return_obj);
-      console.log(return_json);
-      // Post API
-      if(return_obj.pet_uuid_list.length > 0){
-        try{
-          const response = await fetch("https://lively-nimbus-415015.de.r.appspot.com/api/member_pet_status/post/",{
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body : return_json
-          })
-          if(response.ok){
-            console.log("Successfully posted")
-          }else{
-            const message = await response.json();
-            console.log("Post failed:"+ message);
-          }
-        }catch(err){
-          console.log(err);
-        }
-      }else{
-        console.log("No LikeCards need to update")
-      }
-    }
-
-    const removeLikeCardsLocalStorage = async () => {
-      await AsyncStorage.removeItem("LikeCards");
-      console.log("Clear the LikeCards Storage!");
-      return true
-    }
-
-    const postLikeCardsLocalStorage = async (member_uuid)=>{
-      const data = await AsyncStorage.getItem("LikeCards")
-      let return_obj = {
-        "member_uuid" : member_uuid,
-        "status" : "0",
-        "pet_uuid_list" :[]
-      }
-      let data_arr = JSON.parse(data);
-      // Remove the safecard
-      if(data_arr.length !== 0){
-        data_arr.shift();
-      }
-      // Create array in the return_obj
-      for(let i=0; i<data_arr.length; i++){
-        return_obj.pet_uuid_list.push(data_arr[i].pet.uuid);
-      }
-      await postData(return_obj);
-      return true;
-    }
-    
-    const checkLocalStorage = async () =>{
-      // Check if LikeCards return a null item
-      const response = await AsyncStorage.getItem("LikeCards");
-      if(!response){
-        AsyncStorage.setItem("LikeCards", JSON.stringify([])
-        ).then(()=>{console.log("Create a new LikeCard storage!")});
-      }else{
-        return true;
-      }
-    }
-
     const handleSubmit = async (values)=>{
 
       // Fetch API
       
       try{
-        const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/member_login/',{
+        const response = await fetch('https://lively-nimbus-415015.de.r.appspot.com/api/institution_login/',{
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(values)
         })
-
         if (response.ok){
             Alert.alert("成功","您已登入成功");
             // Get the uuid
             const message = await response.json();
-            // Check if user has LikeCards key in LocalStorage
-            await checkLocalStorage();
-            // Update the userlike backend
-            await postLikeCardsLocalStorage(message["member_uuid"]);
-            // Remove the likecards storage
-            await removeLikeCardsLocalStorage();
-            navigation.navigate("HomeTab",message['member_uuid'])
+            navigation.navigate("MainScreen", {uuid:message['institution_uuid']});
         } else{
-            //const message = await response.json();
             Alert.alert('錯誤', '密碼錯誤或是帳號尚未註冊');
         }
 
