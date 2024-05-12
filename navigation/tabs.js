@@ -3,16 +3,30 @@ import PostScreen from "../screens/postscreen";
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import UserTrackScreen from "../screens/user-track-screen";
 import { useEffect, useState } from "react";
+import AddScreen from "../screens/add-screen";
+import CandidateScreen from "../screens/candidatescreen";
+import TinderDetailScreen from "../screens/tinder-detail-screen";
 
 const Tab = createMaterialTopTabNavigator();
 
-export const PostTab = ()=>{
+export const PostTab = ({route})=>{
+    const {inst_uuid} = route.params;
     return (
         <Tab.Navigator>
-          <Tab.Screen name="已刊登" component={PostScreen} />
-          <Tab.Screen name="未刊登" component={PostScreen} />
+          <Tab.Screen name="已刊登" component={PostScreen} initialParams={{inst_uuid:inst_uuid}}/>
+          <Tab.Screen name="未刊登" component={AddScreen} initialParams={{inst_uuid:inst_uuid}}/>
         </Tab.Navigator>
       );
+}
+
+export const CandidateTab = ({route})=>{
+  const {pet_uuid,detail_data} = route.params;
+  return(
+    <Tab.Navigator>
+      <Tab.Screen name="狗資訊" component={TinderDetailScreen} initialParams={detail_data}/>
+      <Tab.Screen name="候選人" component={CandidateScreen} initialParams={{pet_uuid:pet_uuid}}/>
+  </Tab.Navigator>
+  );
 }
 
 // The data input should be an array of adopted dogs info

@@ -96,7 +96,7 @@ const DUMMY_DATA = [
 ]
 
 
-const PostScreen = ({route})=>{
+const AddScreen = ({route})=>{
 
     const {inst_uuid} = route.params;
     const [data, setData] = useState([]);
@@ -104,7 +104,7 @@ const PostScreen = ({route})=>{
     const [search, setSearch] = useState('');
     const navigation = useNavigation();
 
-    let api = "https://lively-nimbus-415015.de.r.appspot.com/api/institution_pet_status/"+inst_uuid+"/1/";
+    let api = "https://lively-nimbus-415015.de.r.appspot.com/api/institution_pet_status/"+inst_uuid+"/0/";
     // useEffect hooks
     useEffect(()=>{
         fetchData();
@@ -112,8 +112,8 @@ const PostScreen = ({route})=>{
 
     // functions
     const fetchData = async()=>{
-        console.log('Fetch Data')
         const currdata = data;
+        console.log('Fetch Data')
         const response = await fetch(api,{
             method: 'GET'
         })
@@ -162,7 +162,7 @@ const PostScreen = ({route})=>{
             
             />
             <StatusBar style='dark'/>
-            <DogList data = {filterData} type = "forAdopt" user={"institute"} canShowDetail = {true} callback = {fetchData} searchtxt={search}/>
+            <DogList data = {filterData} type = "forPost" user={"institute"} canShowDetail={true} callback = {fetchData} searchtxt={search}/>
         </View>
     )
 }
@@ -183,4 +183,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PostScreen;
+export default AddScreen;
